@@ -1,0 +1,48 @@
+{% extends 'saler/base.html' %}
+{% load static %}
+{% block saler_head %}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+<link rel="stylesheet" href="{% static 'saler/css/home_style.css' %}">
+<title>LOKOLiNGO </title>
+
+{% endblock saler_head %}
+{% block saler_body %}
+<!--  -->
+	{% endblock saler_body %}
+
+	{% block saler_js %}
+	<script type="text/javascript">
+		if (document.body.offsetWidth <= 1024) {
+			document.getElementsByClassName('sdasdasd')[1].style.display = 'none';
+			document.getElementsByClassName('sdasdasd')[0].className = 'col-md-12 p-0';
+		}
+		if (document.body.offsetWidth <= 800) {
+			document.getElementById('prods_view').style.display = "none";
+		}
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('.add_to_cart').click(function () {
+			var catid = this.id.toString();
+			$.ajax(
+				{
+					type: "GET",
+					url: "/tutor/add_to_cart",
+					data: {
+						prod_id: catid
+					},
+					success: function (data) {
+						$('#cart_no').text(data);
+						document.getElementById('wallet').style.left = '40px';
+					}
+				})
+		});
+	</script>
+
+
+	{% endblock saler_js %}
