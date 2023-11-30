@@ -14,7 +14,7 @@ SITE_ID = 1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io', 'bd34-102-215-77-162.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io', 'bd34-102-215-77-162.ngrok-free.app','lokolingo.vivatechy.com']
 
 
 # Application definition

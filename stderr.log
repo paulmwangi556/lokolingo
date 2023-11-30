@@ -1,0 +1,68 @@
+Traceback (most recent call last):
+  File "/home/vivatech/lokolingo/loko/passenger_wsgi.py", line 4, in <module>
+    from driploft.wsgi import application
+  File "/home/vivatech/lokolingo/loko/driploft/wsgi.py", line 3, in <module>
+    from django.core.wsgi import get_wsgi_application
+ModuleNotFoundError: No module named 'django'
+Traceback (most recent call last):
+  File "/home/vivatech/lokolingo/loko/passenger_wsgi.py", line 4, in <module>
+    from driploft.wsgi import application
+  File "/home/vivatech/lokolingo/loko/driploft/wsgi.py", line 3, in <module>
+    from django.core.wsgi import get_wsgi_application
+ModuleNotFoundError: No module named 'django'
+[UID:2773][2501795] Child process with pid: 2501810 was killed by signal: 15, core dump: 0
+Traceback (most recent call last):
+  File "/home/vivatech/lokolingo/loko/passenger_wsgi.py", line 4, in <module>
+    from driploft.wsgi import application
+  File "/home/vivatech/lokolingo/loko/driploft/wsgi.py", line 3, in <module>
+    from django.core.wsgi import get_wsgi_application
+ModuleNotFoundError: No module named 'django'
+[UID:2773][2501795] Child process with pid: 2501953 was killed by signal: 15, core dump: 0
+Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Bad Request: /favicon.ico
+Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
+Bad Request: /favicon.ico
