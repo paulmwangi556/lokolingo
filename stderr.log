@@ -1,68 +1,91 @@
-Traceback (most recent call last):
-  File "/home/vivatech/lokolingo/loko/passenger_wsgi.py", line 4, in <module>
-    from driploft.wsgi import application
-  File "/home/vivatech/lokolingo/loko/driploft/wsgi.py", line 3, in <module>
-    from django.core.wsgi import get_wsgi_application
-ModuleNotFoundError: No module named 'django'
-Traceback (most recent call last):
-  File "/home/vivatech/lokolingo/loko/passenger_wsgi.py", line 4, in <module>
-    from driploft.wsgi import application
-  File "/home/vivatech/lokolingo/loko/driploft/wsgi.py", line 3, in <module>
-    from django.core.wsgi import get_wsgi_application
-ModuleNotFoundError: No module named 'django'
-[UID:2773][2501795] Child process with pid: 2501810 was killed by signal: 15, core dump: 0
-Traceback (most recent call last):
-  File "/home/vivatech/lokolingo/loko/passenger_wsgi.py", line 4, in <module>
-    from driploft.wsgi import application
-  File "/home/vivatech/lokolingo/loko/driploft/wsgi.py", line 3, in <module>
-    from django.core.wsgi import get_wsgi_application
-ModuleNotFoundError: No module named 'django'
-[UID:2773][2501795] Child process with pid: 2501953 was killed by signal: 15, core dump: 0
-Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Traceback (most recent call last):
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
-    response = self.process_request(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
-    host = request.get_host()
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
-django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Bad Request: /
-Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Traceback (most recent call last):
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
-    response = self.process_request(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
-    host = request.get_host()
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
-django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Bad Request: /favicon.ico
-Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Traceback (most recent call last):
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
-    response = self.process_request(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
-    host = request.get_host()
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
-django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Bad Request: /
-Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Traceback (most recent call last):
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/utils/deprecation.py", line 133, in __call__
-    response = self.process_request(request)
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/middleware/common.py", line 48, in process_request
-    host = request.get_host()
-  File "/home/vivatech/virtualenv/lokolingo/loko/3.8/lib/python3.8/site-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
-django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'lokolingo.vivatechy.com'. You may need to add 'lokolingo.vivatechy.com' to ALLOWED_HOSTS.
-Bad Request: /favicon.ico
+Not Found: /static/main/css/bootstrap.min.css
+Not Found: /static/main/js/main.js
+Not Found: /static/main/js/bootstrap.min.js
+Not Found: /static/main/css/signup.css
+Not Found: /static/main/css/style.css
+Not Found: /static/saler/font-awesome/css/font-awesome.min.css
+Not Found: /static/main/css/bootstrap.min.css
+Not Found: /static/main/css/style.css
+Not Found: /static/main/css/signup.css
+Not Found: /static/saler/font-awesome/css/font-awesome.min.css
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /static/main/js/main.js
+Not Found: /static/main/js/bootstrap.min.js
+Not Found: /static/main/css/bootstrap.min.css
+Not Found: /static/main/css/style.css
+Not Found: /static/saler/font-awesome/css/font-awesome.min.css
+Not Found: /static/main/js/main.js
+Not Found: /static/main/js/bootstrap.min.js
+Not Found: /static/main/images/no-product-found.png
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /static/main/js/main.js
+Not Found: /static/main/js/bootstrap.min.js
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /files/products/images/ig_dp_qa3ydAw.jpg
+Not Found: /files/products/images/ig_dp_BdYaSfl.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /files/products/images/ig_dp_uxUV1r7.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /static/main/images/favicon.png
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /static/main/images/wrapper_logo.png
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /favicon.ico
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Programming
+Programming
+Business
+Maths
+Programming
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+[UID:2773][1599329] packetLen < 0
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /main/static/main/images/logo.jpg
+Not Found: /Public/home/js/check.js
+Not Found: /Public/home/js/check.js
+Not Found: /static/admin/javascript/hetong.js
+Not Found: /static/admin/javascript/hetong.js
