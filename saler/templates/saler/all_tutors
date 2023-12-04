@@ -1,0 +1,15 @@
+<div class="p-1 prod1212">
+			<a href="{% url 'saler_home' %}product/{{i.product_id}}" style="text-decoration: none; color: #231f20">
+				<div class="thumb-wrapper">
+					<div class="img-box">
+						<img src="{{i.image1.url}}" class="img-responsive img-fluid" alt="">
+					</div>
+					<div class="thumb-content">
+						<small>{{i.product_name}}</small>
+						<p class="item-price"><span><i aria-hidden="true">Kshs. </i>{{i.price}}</span></p>
+
+						<a id="{{i.product_id}}" class="btn btn-primary add_to_cart mt-0">Add to Cart</a>
+					</div>
+				</div>
+			</a>
+		</div>

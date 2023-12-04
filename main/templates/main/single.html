@@ -196,27 +196,18 @@ $.fn.preload = function() {
 						<div id="gallery">
 							<div class="preview-pic tab-content">
 							  <div class="tab-pane active" style="height: 80px; width: auto; display: flex; "><img src="{{product.image1.url}}"  alt="" id="main-img" style="max-height: 100%; max-width:100%; width: auto; margin: auto; border-radius: 50%;" /></div>
-							
 							</div>
-							
 						</div>					
 					</div>
 					<div class="details col-md-5" style="border-left: solid 1px #e2eaef; border-right: solid 1px #e2eaef;">
-						
             <h6 class="product-title">{{product.prod_seller}}</h6>
-
             <b class="product-title">{{product.product_name}}</b>
-            
-
 						<p class="product-description"> {{product.desc}} </p>
-
-            
 						<span class="price"><p>
             <span class="item_price">
                 <span><i aria-hidden="true">Kshs. </i></span>
                   {{product.price}} 
             </span> <span style="font-weight: lighter; font-size: small; color: black;">/hr</span>
-              
             </span> 
             {% if sizes %}
 						<h5 class="sizes">sizes:
@@ -224,8 +215,6 @@ $.fn.preload = function() {
 							<span class="size" data-toggle="tooltip" title="small">{{me.size}}</span>
 							{% endfor %}
 						</h5>
-
-
 						<div class="action">
               <div>
                     <a p_id="{{product.product_id}}" class="btn btn-primary oprbtn" id="ord{{product.product_id}}">Book Now</a>
@@ -244,7 +233,6 @@ $.fn.preload = function() {
                           <h6>Select any Size for Add to  Wishlist</h6>
                           {% for me in sizes %}
                           <a prod_id="{{product.product_id}}" class="btn btn-danger pt-1 pb-1 pr-2 pl-2 add_to_cart">{{me.size}}</a>
-                          
                           {% endfor %}
                         </div>
                   </div>
@@ -259,7 +247,6 @@ $.fn.preload = function() {
                   <a prod_id="{{product.product_id}}" class="btn btn-danger pt-1 pb-1 pr-2 pl-2 add_to_cart"><i class="fa fa-cart-plus" aria-hidden="true"></i></a>
               </div>
               <p style="margin-top: 10px;" class="product-description">Skills: {{product.subcategory}}  </p>
-             
             {% endif %}				
 					</div>
           <div class="col-md-3">
@@ -290,14 +277,7 @@ $.fn.preload = function() {
 		</div>
     
 
-
-
-
-
-
     <!-- PROFILE DIV -->
-
-      
 
 
     <!-- END DIV -->

@@ -129,6 +129,7 @@
 	<h2>All <b>{{catg}}</b> Products</h2>
 	<div class="row pt-1">
 		{% for i in product %}
+		<!-- all items -->
 		<div class="p-1 prod1212">
 			<a href="{% url 'saler_home' %}product/{{i.product_id}}" style="text-decoration: none; color: #231f20">
 				<div class="thumb-wrapper">
@@ -137,13 +138,14 @@
 					</div>
 					<div class="thumb-content">
 						<small>{{i.product_name}}</small>
-						<p class="item-price"><span><i aria-hidden="true">Kshs. </i>{{i.price}}</span></p>
+						<p class="item-price"><span><i aria-hidden="true">Kshgnhghs. </i>{{i.price}}</span></p>
 
 						<a id="{{i.product_id}}" class="btn btn-primary add_to_cart mt-0">Add to Cart</a>
 					</div>
 				</div>
 			</a>
 		</div>
+		<!-- all ite -->
 		{% endfor %}
 	</div>
 </div>
