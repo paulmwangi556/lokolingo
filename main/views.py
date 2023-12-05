@@ -181,6 +181,7 @@ def search(request):
 cart_item_local = []
 
 def dummy_cart(request):
+	
 	if request.method == 'GET':
 		prod_list = request.GET['prod_list']
 		prod_list = prod_list.split(',')
