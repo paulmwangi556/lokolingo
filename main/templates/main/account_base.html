@@ -2,14 +2,15 @@
 {% block main_head %}
 {% load static %}
 <title>{{title}} || LOKOLiNGO</title>
-<link rel="stylesheet" type="text/css" href="{% static 'main/css/signup.css' %}">
+
+
 {% endblock main_head %}
 {% block main_body %}
 <div class="container-fluid">
     <div class="row pt-1">
         <div class="col-md-4">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
         </div>
         <div class="col-md-4">
             <div class="card widget-flat">
@@ -26,6 +27,7 @@
                     <div class="alert alert-{{message.tags}}">{{ message }}</div>
                     {% endfor %}
                     {% endif %}
+                 
                     {% block body_account %}
                     {% endblock body_account %}
                 </div>
@@ -36,6 +38,8 @@
         </div>
     </div>
 </div>
+
+
 
 {% endblock main_body %}
 
