@@ -91,28 +91,29 @@
                     {{u_form.last_name|as_crispy_field}}
                 </div>
                 <div class="form-group col-md-3">
-                   
+                    <!-- {{address_form.mobile|as_crispy_field}} -->
                 </div>
                 <div class="form-group col-md-3">
-                  
+                    {{address_form.alternate_mobile|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-9">
-                  
+                    {{address_form.address|as_crispy_field}}
                 </div>
                 <div class="form-group col-md-3">
-                
+                    {{address_form.landmark|as_crispy_field}}
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                   
+                    {{address_form.locality|as_crispy_field}}
                 </div>
                 <div class="form-group col-md-3">
-                   
+                    {{address_form.city|as_crispy_field}}
                 </div>
                 <div class="form-group col-md-3">
-                  
+                    {{address_form.area|as_crispy_field}}
                 </div>
 
             </div>

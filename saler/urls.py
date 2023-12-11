@@ -6,6 +6,7 @@ urlpatterns = [
 		path('home/', views.index, name = 'saler_home'),
         # path('withdrawal/', views.withdrawal, name = 'withdrawal'),
         path('tutor_signup/', views.tutor_signup, name="tutor_signup"),
+		path('tutor_login/', views.tutor_login, name="tutor_login"),
     	path('account_settings/', views.account_settings, name="saler_account_settings"),
     	path('add_product/', views.add_product, name="add_product"),
     	path('view_products/', views.view_products, name="view_products"),
@@ -18,5 +19,4 @@ urlpatterns = [
     	path("products/<str:catg>", views.view_all, name="saler_products_view_all"),
     	path("product/<int:prod_id>", views.productView, name="SalerProductView"),
     	path("checkout/", views.checkout, name = "checkout")
-
 	]

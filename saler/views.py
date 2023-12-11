@@ -9,7 +9,9 @@ from django.contrib.auth.decorators import login_required
 from math import ceil
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login, authenticate, logout
 #This is view of Index Page of Seller in which we Display Whole Sale Products
 @login_required
 def index(request):
@@ -365,77 +367,122 @@ def view_products(request):
 # Signup for Seller
 def tutor_signup(request):
 	if request.user.is_authenticated:
-		return redirect('home')
+		return redirect('account_settings')
 	else:
 		if request.method == 'POST':
-			form = SalerRegisterForm(request.POST)
-			if form.is_valid():
-				form.save();
-				username = form.cleaned_data.get('username')
-				shop = form.cleaned_data.get('shop')
-				gst = form.cleaned_data.get('gst')
-				usr = User.objects.filter(username=username).first()
-				usr.is_staff=True
-				usr.save()
-				if username.isdigit():
-					SalerDetail(user=usr,mobile=username,gst_Number=gst).save()
-				else:
+			username = request.POST.get("username")
+			email= request.POST.get("email")
+			firstname= request.POST.get("firstname")
+			lastname= request.POST.get("lastname")
+			password=request.POST.get("password")
+			print(username)
+			if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+				messages.error(request, 'User with this username or email already exists.')
+				return redirect('signup')  # Redirect back to the signup page
+
+			hashed_password = make_password(password)
+			user = User.objects.create(username=username, email=email, password=hashed_password,first_name=firstname, last_name=lastname, )
+			user.save()
+			messages.success(request, 'Account created successfully!')
+			print(messages)
+			usr = User.objects.filter(username=username).first()
+			usr.is_staff=True
+			gst=00
+			usr.save()
+			if username.isdigit():
+				SalerDetail(user=usr,mobile=username,gst_Number=gst).save()
+			else:
 					usr.email = username
 					usr.save()
 					SalerDetail(user=usr,gst_Number=gst).save()
-				messages.success(request, f'Account is Created for {username}')
-				return redirect('login')
-		else:
-			form = SalerRegisterForm()
-	return render(request, 'saler/tutor_signup.html', {'form':form, 'title':'Become a Tutor'})
+			messages.success(request, f'Account is Created for {username}')
+			return redirect('signup')
+		
+			# form = SalerRegisterForm(request.POST)
+			# if form.is_valid():
+			# 	form.save();
+			# 	username = form.cleaned_data.get('username')
+			# 	# shop = form.cleaned_data.get('shop')
+			# 	gst = form.cleaned_data.get('gst')
+			# 	usr = User.objects.filter(username=username).first()
+			# 	usr.is_staff=True
+			# 	usr.save()
+			# 	if username.isdigit():
+			# 		SalerDetail(user=usr,mobile=username,gst_Number=gst).save()
+			# 	else:
+			# 		usr.email = username
+			# 		usr.save()
+			# 		SalerDetail(user=usr,gst_Number=gst).save()
+			# 	messages.success(request, f'Account is Created for {username}')
+			# 	return redirect('login')
+	# 	else:
+	# 		form = SalerRegisterForm()
+	# return render(request, 'saler/tutor_signup.html', {'form':form, 'title':'Become a Tutor'})
+	return render(request, 'saler/tutor_signup.html')
 
+
+def tutor_login(request):
+	username = request.POST.get('username')
+	password =request.POST.get('password')
+	user = authenticate(request,username=username,password=password)
+	if user:
+		login(request, user)
+		messages.success(request,f'Hi {username.title()}, welcome back!')
+		print("Authenticated")
+		return redirect('saler_account_settings')
+	
+	messages.error(request,f'Invalid username or password')
+	print("Not Authenticated")
+	return redirect("tutor_signup")
+   
 # Seller Account Settings
 @login_required
 def account_settings(request):
-	if request.user.is_superuser or request.user.is_staff:
-		if request.method == 'POST':
-			#User Details Update
-			s_form = UpdateSalerDetailForm(request.POST, request.FILES, instance=request.user.salerdetail)
-			u_form = UserUpdateForm(request.POST, instance=request.user)
-			if s_form.is_valid() and u_form.is_valid():
-				s_form.save()
-				u_form.save()
-				messages.success(request, f'Your Account has been Updated!')
-				return redirect("saler_account_settings")
+	# if request.user.is_superuser or request.user.is_staff:
+	# 	if request.method == 'POST':
+	# 		#User Details Update
+	# 		s_form = UpdateSalerDetailForm(request.POST, request.FILES, instance=request.user.salerdetail)
+	# 		u_form = UserUpdateForm(request.POST, instance=request.user)
+	# 		if s_form.is_valid() and u_form.is_valid():
+	# 			s_form.save()
+	# 			u_form.save()
+	# 			messages.success(request, f'Your Account has been Updated!')
+	# 			return redirect("saler_account_settings")
 
-			#Change Password
-			pass_change_form = PasswordChangeForm(request.user, request.POST)
-			if pass_change_form.is_valid():
-				user = pass_change_form.save()
-				update_session_auth_hash(request, user)  # Important!
-				messages.success(request, 'Your password was successfully updated!')
-				return redirect('saler_account_settings')
-			else:
-				messages.error(request, 'Please correct the error below.')
+	# 		#Change Password
+	# 		pass_change_form = PasswordChangeForm(request.user, request.POST)
+	# 		if pass_change_form.is_valid():
+	# 			user = pass_change_form.save()
+	# 			update_session_auth_hash(request, user)  # Important!
+	# 			messages.success(request, 'Your password was successfully updated!')
+	# 			return redirect('saler_account_settings')
+	# 		else:
+	# 			messages.error(request, 'Please correct the error below.')
 
-			#Account Settings
-			acc_form = UpdateSalerAccountDetailForm(request.POST, request.FILES, instance=request.user.salerdetail)
-			if acc_form.is_valid():
-				acc_form.save()
-				messages.success(request, f'Account Settings has been Updated!')
-				return redirect("saler_account_settings")
+	# 		#Account Settings
+	# 		acc_form = UpdateSalerAccountDetailForm(request.POST, request.FILES, instance=request.user.salerdetail)
+	# 		if acc_form.is_valid():
+	# 			acc_form.save()
+	# 			messages.success(request, f'Account Settings has been Updated!')
+	# 			return redirect("saler_account_settings")
 
-		else:
-			s_form = UpdateSalerDetailForm(instance=request.user.salerdetail)
-			u_form = UserUpdateForm(instance=request.user)
-			acc_form = UpdateSalerAccountDetailForm(instance=request.user.salerdetail)
-			pass_change_form = PasswordChangeForm(request.user)
-		detl = {
-			'u_form':u_form,
-			's_form':s_form,
-			'pass_change_form':pass_change_form,
-			'acc_form':acc_form,
-			'cart_element_no' : len([p for p in MyCart.objects.all() if p.user == request.user]),
-			'title':'User Account Settings',
-			}
-		return render(request, 'saler/account_settings.html', detl)
-	else:
-		return redirect("/")
+	# 	else:
+	# 		s_form = UpdateSalerDetailForm(instance=request.user.salerdetail)
+	# 		u_form = UserUpdateForm(instance=request.user)
+	# 		acc_form = UpdateSalerAccountDetailForm(instance=request.user.salerdetail)
+	# 		pass_change_form = PasswordChangeForm(request.user)
+	# 	detl = {
+	# 		'u_form':u_form,
+	# 		's_form':s_form,
+	# 		'pass_change_form':pass_change_form,
+	# 		'acc_form':acc_form,
+	# 		'cart_element_no' : len([p for p in MyCart.objects.all() if p.user == request.user]),
+	# 		'title':'User Account Settings',
+	# 		}
+	# 	return render(request, 'saler/account_settings.html', detl)
+	# else:
+	# 	return redirect("/")
+	return render(request, 'saler/account_settings.html')
 
 # This is a part of admin view in which all ordered products will display with address
 def admin2(request):

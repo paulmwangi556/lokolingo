@@ -4,346 +4,335 @@
 
 {% block body_account %}
 <style>
-  @import url(
-"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: "Poppins", sans-serif;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
 
-button:hover{
-background-color:transparent !important ;
-}
+  button:hover {
+    background-color: transparent !important;
+  }
 
 
-.header {
-width: 100%;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 8px;
-margin-bottom: 3rem;
-}
+  .header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 3rem;
+  }
 
-.heading {
-color: black;
-}
+  .heading {
+    color: black;
+  }
 
-.title {
-font-weight: 400;
-letter-spacing: 1.5px;
-}
+  .title {
+    font-weight: 400;
+    letter-spacing: 1.5px;
+  }
 
-.auth-container {
-height: 700px;
-width: 500px;
-background-color: white;
-box-shadow: 8px 8px 20px rgb(128, 128, 128);
-position: relative;
-overflow: hidden;
-margin: auto;
-}
+  .auth-container {
+    height: 700px;
+    width: 500px;
+    background-color: white;
+    box-shadow: 8px 8px 20px rgb(128, 128, 128);
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+  }
 
-.slider-btn {
-height: 60px;
-width: 300px;
-margin: 20px auto;
-box-shadow: 10px 10px 30px rgb(254, 215, 188);
-border-radius: 50px;
-display: flex;
-justify-content: space-around;
-align-items: center;
-}
+  .slider-btn {
+    height: 60px;
+    width: 300px;
+    margin: 20px auto;
+    box-shadow: 10px 10px 30px rgb(254, 215, 188);
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 
-.login-btn,
-.signup-btn {
-font-size: 22px;
-border: none;
-outline: none;
-background-color: transparent;
-position: relative;
-cursor: pointer;
-}
+  .login-btn,
+  .signup-btn {
+    font-size: 22px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+  }
 
-.slider {
-height: 60px;
-width: 150px;
-border-radius: 50px;
-background-image: linear-gradient(to right,
-    rgb(255, 195, 110),
-    rgb(255, 146, 91));
-position: absolute;
-top: 20px;
-left: 100px;
-transition: all 0.5s ease-in-out;
-}
+  .slider {
+    height: 60px;
+    width: 150px;
+    border-radius: 50px;
+    background-image: linear-gradient(to right,
+        rgb(255, 195, 110),
+        rgb(255, 146, 91));
+    position: absolute;
+    top: 20px;
+    left: 100px;
+    transition: all 0.5s ease-in-out;
+  }
 
-.moveslider {
-left: 250px;
-}
+  .moveslider {
+    left: 250px;
+  }
 
-.form-section {
-height: 500px;
-width: 1000px;
-padding: 20px 0;
-display: flex;
-position: relative;
-transition: all 0.5s ease-in-out;
-left: 0px;
-}
+  .form-section {
+    height: 500px;
+    width: 1000px;
+    padding: 20px 0;
+    display: flex;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+    left: 0px;
+  }
 
-.form-section-move {
-left: -500px;
-}
+  .form-section-move {
+    left: -500px;
+  }
 
-.login-box,
-.signup-box {
-height: 100%;
-width: 500px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: 0px 40px;
-margin-top: 3rem;
-}
+  .login-box,
+  .signup-box {
+    height: 100%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 40px;
+    margin-top: 3rem;
+  }
 
-.login-box {
-gap: 50px;
-}
+  .login-box {
+    gap: 50px;
+  }
 
-.signup-box {
-gap: 30px;
-}
+  .signup-box {
+    gap: 30px;
+  }
 
-.ele {
-height: 60px;
-width: 400px;
-outline: none;
-border: none;
-color: rgb(77, 77, 77);
-background-color: rgb(240, 240, 240);
-border-radius: 50px;
-padding-left: 30px;
-font-size: 18px;
-}
+  .ele {
+    height: 60px;
+    width: 400px;
+    outline: none;
+    border: none;
+    color: rgb(77, 77, 77);
+    background-color: rgb(240, 240, 240);
+    border-radius: 50px;
+    padding-left: 30px;
+    font-size: 18px;
+  }
 
-.clkbtn {
-height: 60px;
-width: 150px;
-border-radius: 50px;
-background-image: linear-gradient(to right,
-    rgb(255, 195, 110),
-    rgb(255, 146, 91));
-font-size: 22px;
-border: none;
-cursor: pointer;
-}
+  .clkbtn {
+    height: 60px;
+    width: 150px;
+    border-radius: 50px;
+    background-image: linear-gradient(to right,
+        rgb(255, 195, 110),
+        rgb(255, 146, 91));
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+  }
 
-/* For Responsiveness of the page */
+  /* For Responsiveness of the page */
 
-@media screen and (max-width: 650px) {
-.auth-container {
-  height: 600px;
-  width: 300px;
-}
+  @media screen and (max-width: 650px) {
+    .auth-container {
+      height: 600px;
+      width: 300px;
+    }
 
-.title {
-  font-size: 15px;
-}
+    .title {
+      font-size: 15px;
+    }
 
-.slider-btn {
-  height: 50px;
-  width: 200px;
-  margin: 20px auto;
-}
+    .slider-btn {
+      height: 50px;
+      width: 200px;
+      margin: 20px auto;
+    }
 
-.login-btn,
-.signup-btn {
-  font-size: 19px;
-}
+    .login-btn,
+    .signup-btn {
+      font-size: 19px;
+    }
 
-.slider {
-  height: 50px;
-  width: 100px;
-  left: 50px;
-}
+    .slider {
+      height: 50px;
+      width: 100px;
+      left: 50px;
+    }
 
-.moveslider {
-  left: 150px;
-}
+    .moveslider {
+      left: 150px;
+    }
 
-.form-section {
-  height: 500px;
-  width: 600px;
-}
+    .form-section {
+      height: 500px;
+      width: 600px;
+    }
 
-.form-section-move {
-  left: -300px;
-}
+    .form-section-move {
+      left: -300px;
+    }
 
-.login-box,
-.signup-box {
-  height: 100%;
-  width: 300px;
-}
+    .login-box,
+    .signup-box {
+      height: 100%;
+      width: 300px;
+    }
 
-.ele {
-  height: 50px;
-  width: 250px;
-  font-size: 15px;
-}
+    .ele {
+      height: 50px;
+      width: 250px;
+      font-size: 15px;
+    }
 
-.clkbtn {
-  height: 50px;
-  width: 130px;
-  font-size: 19px;
-}
-}
+    .clkbtn {
+      height: 50px;
+      width: 130px;
+      font-size: 19px;
+    }
+  }
 
-@media screen and (max-width: 320px) {
-.auth-container {
-  height: 600px;
-  width: 250px;
-}
+  @media screen and (max-width: 320px) {
+    .auth-container {
+      height: 600px;
+      width: 250px;
+    }
 
-.heading {
-  font-size: 30px;
-}
+    .heading {
+      font-size: 30px;
+    }
 
-.title {
-  font-size: 10px;
-}
+    .title {
+      font-size: 10px;
+    }
 
-.slider-btn {
-  height: 50px;
-  width: 200px;
-  margin: 20px auto;
-}
+    .slider-btn {
+      height: 50px;
+      width: 200px;
+      margin: 20px auto;
+    }
 
-.login,
-.signup {
-  font-size: 19px;
-}
+    .login,
+    .signup {
+      font-size: 19px;
+    }
 
-.slider {
-  height: 50px;
-  width: 100px;
-  left: 27px;
-}
+    .slider {
+      height: 50px;
+      width: 100px;
+      left: 27px;
+    }
 
-.moveslider {
-  left: 127px;
-}
+    .moveslider {
+      left: 127px;
+    }
 
-.form-section {
-  height: 500px;
-  width: 500px;
-}
+    .form-section {
+      height: 500px;
+      width: 500px;
+    }
 
-.form-section-move {
-  left: -250px;
-}
+    .form-section-move {
+      left: -250px;
+    }
 
-.login-box,
-.signup-box {
-  height: 100%;
-  width: 250px;
-}
+    .login-box,
+    .signup-box {
+      height: 100%;
+      width: 250px;
+    }
 
-.ele {
-  height: 50px;
-  width: 220px;
-  font-size: 15px;
-}
+    .ele {
+      height: 50px;
+      width: 220px;
+      font-size: 15px;
+    }
 
-.clkbtn {
-  height: 50px;
-  width: 130px;
-  font-size: 19px;
-}
-}
-
+    .clkbtn {
+      height: 50px;
+      width: 130px;
+      font-size: 19px;
+    }
+  }
 </style>
 
 </head>
 
 <body>
-<!-- <div class="header">
+  <!-- <div class="header">
   <h1 class="heading">Become a Tutor</h1>
 </header> -->
 
-<!-- container div -->
-<div class="auth-container">
+  <!-- container div -->
+  <div class="auth-container">
 
-  <!-- upper button section to select
+    <!-- upper button section to select
     the login or signup form -->
-  <div class="slider" id="slider"></div>
-  <div class="slider-btn">
-    <button class="login-btn">Login</button>
-    <button class="signup-btn">Signup</button>
-  </div>
+    <div class="slider" id="slider"></div>
+    <div class="slider-btn">
+      <button class="login-btn">Login</button>
+      <button class="signup-btn">Signup</button>
+    </div>
 
-  <!-- Form section that contains the
+    <!-- Form section that contains the
     login and the signup form -->
-  <div class="form-section">
+    <div class="form-section">
 
-    <!-- login form -->
-    <div class="login-box">
+      <!-- login form -->
+      <form action="{% url 'tutor_login' %}" method="post">
+        {% csrf_token %}
+        <div class="login-box">
 
-      <input type="email"
-        class="email ele"
-        placeholder="youremail@email.com">
-      <input type="password"
-        class="password ele"
-        placeholder="password">
-      <button class="clkbtn">Login</button>
-    </div>
+          <input type="text" name="username" class="email ele" placeholder="youremail@email.com">
+          <input type="password" name="password"  class="password ele" placeholder="password">
+          <button class="clkbtn" type="submit">Login</button>
+        </div>
+      </form>
 
-    <!-- signup form -->
-    <div class="signup-box">
-      <input type="text"
-        class="name ele"
-        placeholder="Enter First Name">
-              <input type="text"
-        class="name ele"
-        placeholder="Enter Last Name">
-      <input type="email"
-        class="email ele"
-        placeholder="youremail@email.com">
-              <input type="text"
-        class="name ele"
-        placeholder="Username">
-      <input type="password"
-        class="password ele"
-        placeholder="password">
-      <input type="password"
-        class="password ele"
-        placeholder="Confirm password">
-      <button class="clkbtn">Signup</button>
+      <!-- signup form -->
+
+      <form action="{% url 'tutor_signup' %}" method="post">
+        {% csrf_token %}
+        <div class="signup-box">
+          <input type="text" name="firstname" class="name ele" placeholder="Enter First Name">
+          <input type="text" class="name ele" name="lastname" placeholder="Enter Last Name">
+          <input type="email" name="email" class="email ele" placeholder="youremail@email.com">
+          <input type="text" class="name ele" name="username" placeholder="Username">
+          <input type="password" class="password ele" name="password" placeholder="password">
+          <input type="password" class="password ele" placeholder="Confirm password">
+          <button class="clkbtn" type="submit">Signup</button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
-<script>
-  let signup = document.querySelector(".signup-btn");
-let login = document.querySelector(".login-btn");
-let slider = document.querySelector("#slider");
-let formSection = document.querySelector(".form-section");
+  <script>
+    let signup = document.querySelector(".signup-btn");
+    let login = document.querySelector(".login-btn");
+    let slider = document.querySelector("#slider");
+    let formSection = document.querySelector(".form-section");
 
-signup.addEventListener("click", () => {
-slider.classList.add("moveslider");
-formSection.classList.add("form-section-move");
-});
+    signup.addEventListener("click", () => {
+      slider.classList.add("moveslider");
+      formSection.classList.add("form-section-move");
+    });
 
-login.addEventListener("click", () => {
-slider.classList.remove("moveslider");
-formSection.classList.remove("form-section-move");
-});
+    login.addEventListener("click", () => {
+      slider.classList.remove("moveslider");
+      formSection.classList.remove("form-section-move");
+    });
 
-</script>
+  </script>
 </body>
 {% endblock body_account %}

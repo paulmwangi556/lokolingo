@@ -80,39 +80,41 @@ def contactus(request):
 
 @login_required
 def account_settings(request):
-	if request.method == 'POST':
-		#User Details Update
-		s_form = UpdateUserDetailForm(request.POST, request.FILES, instance=request.user.userdetail)
-		u_form = UserUpdateForm(request.POST, instance=request.user)
-		if s_form.is_valid() and u_form.is_valid():
-			s_form.save()
-			u_form.save()
-			messages.success(request, f'Your Account has been Updated!')
-			return redirect("account_settings")
+	# if request.method == 'POST':
+	# 	#User Details Update
+	# 	s_form = UpdateUserDetailForm(request.POST, request.FILES, instance=request.user.userdetail)
+	# 	u_form = UserUpdateForm(request.POST, instance=request.user)
+	# 	if s_form.is_valid() and u_form.is_valid():
+	# 		s_form.save()
+	# 		u_form.save()
+	# 		messages.success(request, f'Your Account has been Updated!')
+	# 		return redirect("account_settings")
 
-		#Change Password
-		pass_change_form = PasswordChangeForm(request.user, request.POST)
-		if pass_change_form.is_valid():
-			user = pass_change_form.save()
-			update_session_auth_hash(request, user)  # Important!
-			messages.success(request, 'Your password was successfully updated!')
-			return redirect('account_settings')
-		else:
-			messages.error(request, 'Please correct the error below.')
+	# 	#Change Password
+	# 	pass_change_form = PasswordChangeForm(request.user, request.POST)
+	# 	if pass_change_form.is_valid():
+	# 		user = pass_change_form.save()
+	# 		update_session_auth_hash(request, user)  # Important!
+	# 		messages.success(request, 'Your password was successfully updated!')
+	# 		return redirect('account_settings')
+	# 	else:
+	# 		messages.error(request, 'Please correct the error below.')
 
-	else:
-		s_form = UpdateUserDetailForm(instance=request.user.userdetail)
-		u_form = UserUpdateForm(instance=request.user)
-		pass_change_form = PasswordChangeForm(request.user)
-	detl = {
-		'u_form':u_form,
-		's_form':s_form,
-		'pass_change_form':pass_change_form,
-		'title':'User Account Settings',
-		'cart_element_no' : len([p for p in Cart.objects.all() if p.user == request.user]),
-		'category':category.objects.all(),
-		}
-	return render(request, 'main/account_settings.html', detl)
+	# else:
+	# 	s_form = UpdateUserDetailForm(instance=request.user.userdetail)
+	# 	u_form = UserUpdateForm(instance=request.user)
+	# 	pass_change_form = PasswordChangeForm(request.user)
+	# detl = {
+	# 	'u_form':u_form,
+	# 	's_form':s_form,
+	# 	'pass_change_form':pass_change_form,
+	# 	'title':'User Account Settings',
+	# 	'cart_element_no' : len([p for p in Cart.objects.all() if p.user == request.user]),
+	# 	'category':category.objects.all(),
+	# 	}
+	# return render(request, 'main/account_settings.html', detl)
+	return render(request, 'main/account_settings.html',)
+
 
 def productView(request, prod_id):
 	if request.method == 'POST' and request.user.is_authenticated:
@@ -392,7 +394,7 @@ def book_now(request):
 				return render(request, 'main/paytm.html', {'param_dict': param_dict})
 
 	else:
-		address_form = UserAddressForm(instance=request.user.userdetail)
+		# address_form = UserAddressForm(instance=request.user.userdetail)
 		u_form2 = UserAddressForm1(instance=request.user)
 	delev = 0.0
 	subtotal = Product.objects.filter(product_id=int(new_prod)).first().price
@@ -401,7 +403,7 @@ def book_now(request):
 	params = {
 			'allProds':allProds,
 			'cart_element_no' : len([p for p in Cart.objects.all() if p.user == request.user]),
-			'address_form': address_form,
+			# 'address_form': address_form,
 			'u_form':u_form2,
 			'total':totl,
 			'category':category.objects.all(),

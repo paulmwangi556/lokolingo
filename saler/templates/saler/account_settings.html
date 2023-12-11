@@ -1,283 +1,156 @@
-{% extends "saler/base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
-
-{% block saler_head %}
-	<style type="text/css">
-		.detail_heading{
-				color: #080d2b;
-				font-family: Candara;
-		}
-
-	
-
-		.btn a{
-			color: #080d2b;
-			text-decoration: none;
-		}
-
-		.btn:active{
-			border: solid 1px #ff4500;
-			border-radius: 0;
-		}
 
 
-		.detail{
-			-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.17);
-		    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.17);
-		    -ms-box-shadow: 0 0 10px rgba(0,0,0,0.17);
-		    -o-box-shadow: 0 0 10px rgba(0,0,0,0.17);
-		    box-shadow: 0 0 10px rgba(0,0,0,0.17); 
-		}
-		@media(min-width:420px){
-			.detail_heading{
-				font-size: 55px;
-				letter-spacing: 3px;
-				
-			}
-		}
+<!DOCTYPE html>
+<html lang="en">
 
-		.removeing br{
-			display: none;
-		}
-		.removeing a{
-			display: none;
-		}
-		.form-group textarea{
-			height: 63px;
-		}
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, 
+				initial-scale=1.0">
+	<title>Lokolingo</title>
+	<link rel="stylesheet" href="{% static  'main/css/dashboard.css'  %}">
+	<link rel="stylesheet" href="{% static  'main/css/dashboard_responsive.css' %}">
+</head>
 
-		.sub_btn{
-			height: 30px;
-			width: 150px;
-			color: #fff;
-			font-weight: bold;
-			border: 0;
-			border-radius: 3px;
-			background-color: #080d2b;
-		}
-		.sub_btn:hover{
-			background-color: #ff4500;
-			color: #f4f4f4;
-		}
-		@media(max-width: 420px){
-			
-		}
+<body>
 
-	</style>
+	<!-- for header part -->
+	<header>
 
-	<script>
-		function change(b_id)
-		{	
-
-			if (b_id == "change_pass") {
-				document.getElementById("account_update").style.display = 'none';
-				document.getElementById(b_id).style.display="block";
-				document.getElementById("disp_setting").style.display = 'none';
-			}
-			else if (b_id == "disp_setting") {
-				document.getElementById("account_update").style.display = 'none';
-				document.getElementById("change_pass").style.display="none";
-				document.getElementById(b_id).style.display = 'block';
-			}
-
-			else{
-				document.getElementById("account_update").style.display = 'block';
-				document.getElementById("change_pass").style.display="none";
-				document.getElementById("disp_setting").style.display = 'none';
-			}
-		}
-	</script>
-{% endblock saler_head %}
-
-{% block saler_body %}
-	{% if messages %}
-     {% for message in messages %}
-             <div class="alert alert-{{message.tags}} alert-dismissible fade show">{{ message }}</div>
-     {% endfor %}
-    {% endif %}
-    <div class="container pt-1">
-    	<div class="row">
-			<div class="col-md-3" >
-				LOKOLiNGO
-			</div>
-			<div class="col-md-9" align="center">
-				<h3 class="detail_heading mt-1">Tutor Profile</h3>
-			</div>
-
+		<div class="logosec">
+			<div class="logo">Lokolingo</div>
+			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+				class="icn menuicn" id="menuicn" alt="menu-icon">
 		</div>
-		<hr class="mb-1 mt-1">
-    	<div class="row">
-			<div class="col-md-3 mt-2">
-				<div class="card">
-					<button type="button" class="btn"  onclick="change('account_update')"><a href="#detail">Update Profile</a></button><hr class="mt-0 mb-0">
-					<button type="button" class="btn" onclick="change('change_pass')"><a href="#detail">Change Password</a></button><hr class="mt-0 mb-0">
-					<button type="button" class="btn" onclick="change('disp_setting')"><a href="#detail">Bank Details</a></button><hr class="mt-0 mb-0">
-					
+
+		<div class="searchbar">
+			<input type="text" placeholder="Search">
+			<div class="searchbtn">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+					class="icn srchicn" alt="search-icon">
+			</div>
+		</div>
+
+		<div class="message">
+			<div class="circle"></div>
+			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+			<div class="dp">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+					class="dpicn" alt="dp">
+			</div>
+		</div>
+
+	</header>
+
+	<div class="main-container">
+		<div class="navcontainer">
+			<nav class="nav">
+				<div class="nav-upper-options">
+					<div class="nav-option option1">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
+							class="nav-img" alt="dashboard">
+						<h3> Dashboard</h3>
+					</div>
+
+					<div class="option2 nav-option">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
+							class="nav-img" alt="my profile">
+						<h3> My Profile</h3>
+					</div>
+
+					<div class="nav-option option3">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+							class="nav-img" alt="reviews">
+						<h3> Reviews</h3>
+					</div>
+
+					<div class="nav-option option4">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
+							class="nav-img" alt="my skills">
+						<h3> My Skills</h3>
+					</div>
+
+					<div class="nav-option option5">
+						<img src="{% static 'main/images/withdrawals.webp' %}"
+							class="nav-img" alt="withdrawals">
+						<h3> Withdrawals</h3>
+					</div>
+
+					<div class="nav-option option5">
+						<img src="{% static 'main/images/meet.webp' %}"
+							class="nav-img" alt="google meet">
+						<h3>Google meet</h3>
+					</div>
+
+					<div class="nav-option option6">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
+							class="nav-img" alt="settings">
+						<h3> Settings</h3>
+					</div>
+					<div class="nav-option logout">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+							class="nav-img" alt="logout">
+						<h3>Logout</h3>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<div class="main">
+			<div class="searchbar2">
+				<input type="text" name="" id="" placeholder="Search">
+				<div class="searchbtn">
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+						class="icn srchicn" alt="search-button">
 				</div>
 			</div>
-			<div class="col-md-9 mt-2">
-				<!-- Update Details -->
-				<div class="card detail" id="account_update" style="display: block;">
-					<h4 class="ml-3 mt-2"  style="color: #080d2b; font-family: Comic Sans MS;">Your Details</h4>
-					<hr class="mt-1 mb-0">
-					<form method="POST" class="signup_form mr-3 ml-3 mt-1" enctype="multipart/form-data">
-						{% csrf_token %}
-						<div class="form-row">
-					      <div class="form-group col-md-3 mb-0">
-					        {{ u_form.first_name | as_crispy_field }}
-					      </div>
-					      <div class="form-group col-md-3 mb-0">
-					        {{ u_form.last_name | as_crispy_field }}
-					      </div>
-					      
-					      <div class="form-group col-md-2 mb-0">
-					        {{ s_form.mobile | as_crispy_field }}
-					      </div>
-					      <div class="form-group col-md-2 mb-0">
-					        {{ s_form.alternate_mobile | as_crispy_field }}
-					      </div>
-					    </div>
-						
-						<div class="form-row">
-					      <div class="form-group col-md-4 mb-0">
-					        {{ u_form.email | as_crispy_field }}
-					      </div>
-					      
-					      <div class="form-group col-md-2 mb-0">
-					        {{ s_form.landmark | as_crispy_field }}
-					      </div>
-					       <div class="form-group col-md-3 mb-0">
-					        {{ s_form.locality | as_crispy_field }}
-					      </div>
-					      
-					    </div>
-						<div class="form-row">
-					      
-					    
-					      <div class="form-group col-md-4 mb-0 removeing">
-					        {{ s_form.photo | as_crispy_field }}
-					      </div>					      
-					    </div>
-					    <div class="form-row">
-					      
-					      <div class="form-group col-md-4 mb-0">
-					        {{ s_form.city | as_crispy_field }}
-					      </div>
-					      <div class="form-group col-md-4 mb-0 removeing">
-					        {{ s_form.area | as_crispy_field }}
-					      </div>
-					      <div class="form-group col-md-4 mb-0 removeing">
-					        {{ s_form.pincode | as_crispy_field }}
-					      </div>					      
-					    </div>
-						<section class="mr-1 mb-5">
-							<button type="submit" class="sub_btn" style="float: right;">Update</button>
-						</section>
-					</form>
+			<div class="box-container">
+				<div class="box box1">
+					<div class="text">
+						<h2 class="topic-heading">0.0k</h2>
+						<h2 class="topic">Profile Views</h2>
+					</div>
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
+						alt="Views">
 				</div>
-
-				<!-- Change Password -->
-				<div class="card detail" id="change_pass" style="display: none;">
-					<h4 class="ml-3 mt-2"  style="color: #080d2b; font-family: Comic Sans MS;">Change Password</h4>
-					<hr class="mt-1 mb-0">
-					<form method="POST" class="signup_form mr-3 ml-3 mt-1" enctype="multipart/form-data">
-						{% csrf_token %}
-						<fieldset>
-							{{ pass_change_form | crispy}}
-						</fieldset>
-						<section class="mt-4 mr-1 ml-1">
-							<button type="submit" class="sub_btn" style="float: right; margin-top: -45px; width: 200px;">Change Password</button>
-						</section>
-					</form>
+				<div class="box box2">
+					<div class="text">
+						<h2 class="topic-heading">0</h2>
+						<h2 class="topic">Total Students</h2>
+					</div>
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png" alt="likes">
 				</div>
-
-				<!-- Account Settings -->
-				<div class="card detail pb-3" id="disp_setting" style="display: none;">
-					<h4 class="ml-3 mt-2"  style="color: #080d2b; font-family: Comic Sans MS;">Bank Account</h4>
-					<hr class="mt-1 mb-0">
-					<form method="POST" class="signup_form mr-3 ml-3 mt-1" enctype="multipart/form-data">
-						{% csrf_token %}
-						<div class="form-row">
-					      <div class="form-group col-md mb-0">
-					        {{ acc_form.account_Holder_Name | as_crispy_field }}
-					      </div>
-					      <div class="form-group col-md mb-0">
-					        {{ acc_form.ifsc_Code | as_crispy_field }}
-					      </div>
-					    </div>
-						<div class="form-row">
-					      <div class="form-group col-md mb-0">
-					        {{ acc_form.account_Number | as_crispy_field }}
-					      </div>
-					      
-					    </div>
-					    <section class="mt-4 mr-1 ml-1">
-							<button type="submit" class="sub_btn" style="float: right; margin-top: -25px; width: 200px;">Save</button>
-						</section>
-					</form>
+				<div class="box box3">
+					<div class="text">
+						<h2 class="topic-heading">0</h2>
+						<h2 class="topic">Total Skills</h2>
+					</div>
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png"
+						alt="comments">
+				</div>
+				<div class="box box4">
+					<div class="text">
+						<h2 class="topic-heading">Ksh 0.00</h2>
+						<h2 class="topic">Total Earnings</h2>
+					</div>
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published">
 				</div>
 			</div>
-    </div>
+			<div class="report-container">
+				<div class="report-header">
+					<h1 class="recent-Articles">Still not sure with what to upload here!!!</h1>
+				</div>
+				<div class="report-body">
+					<div class="report-topic-heading">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 
-    <script type="text/javascript">
-    	 function hexCode(i) { 
-                return ("0" + parseInt(i).toString(16)).slice(-2); 
-            }
-    		rgb = document.body.style.backgroundColor;
-            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/); 
-            hex = "#" + hexCode(rgb[1]) + hexCode(rgb[2])  + hexCode(rgb[3]); 
-    	document.getElementById('select_bgcolor').value = hex;
-    </script>
-    <script>
-      $(document).on('change',"#id_gst_Number", function(){
-        var inputvalues = $(this).val();
-        var gstinformat = new RegExp('');
+	<script src="{% static 'main/js/dashboard.js' %}"></script>
+</body>
 
-        if (gstinformat.test(inputvalues)) {
-         return true;
-        } else {
-            alert('Please Enter Valid GSTIN Number');
-            $("#id_gst_Number").val('');
-            $("#id_gst_Number").focus();
-        }
-
-    });
-
-      $("#id_ifsc_Code").change(function () {      
-		var inputvalues = $(this).val();      
-		  var reg = /[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$/;    
-		                if (inputvalues.match(reg)) {    
-		                    return true;    
-		                }    
-		                else {    
-		                     $("#id_ifsc_Code").val("");    
-		                    alert("You entered invalid IFSC code");    
-		                    //document.getElementById("txtifsc").focus();    
-		                    return false;    
-		                }    
-		});   
-
-      $(document).on('change',"#id_mobile", function(){
-		var inputvalues = $(this).val();
-        var gstinformat = new RegExp("^[6-9][0-9]{9}$");
-
-        if (gstinformat.test(inputvalues)) {
-         return true;
-        } 
-    });
-      $(document).on('change',"#id_alternate_mobile", function(){
-        var inputvalues = $(this).val();
-        var gstinformat = new RegExp("^[6-9][0-9]{9}$");
-
-        if (gstinformat.test(inputvalues)) {
-         return true;
-        } else {
-            alert('Please Enter Valid Mobile Number');
-            $("#id_alternate_mobile").val('');
-            $("#id_alternate_mobile").focus();
-        }
-
-    });
-    </script>
-{% endblock saler_body %}
+</html>
