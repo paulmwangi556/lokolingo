@@ -24,11 +24,15 @@ class UserUpdateForm(forms.ModelForm):
 		]
 
 class UpdateUserDetailForm(forms.ModelForm):
+	dob = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label='Your Date Field'
+    )
 	class Meta:
 		model = UserDetail
 		fields = [
 			'dob',
-			'photo',
+			# 'photo',
 			'mobile',
 			'alternate_mobile',
 			'address',

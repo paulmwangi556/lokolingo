@@ -1,0 +1,56 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+<div class="main-profile-wrapper">
+    <div class="row">
+        <div class="col-lg-4">
+            {% if user_details.address %}
+            <div class="profile_div">
+               
+                    <div class="section-1">
+                        <div class="profile-image-wrapper">
+                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+                                class="dpidcn" alt="dp">
+                        </div>
+                    </div>
+                    <div class="section-2">
+                        <h2>Profile Details</h2>
+                        <hr class="hr">
+                        <p>{{request.user.first_name}} {{request.user.last_name}}</p>
+                        <p>{{request.user.email}}</p>
+                        <p>{{user_details.address}}</p>
+                        <button class="update-profile-btn">Update Profile</button>
+                    </div>
+               
+            </div>
+            {% else %}
+            <form method="POST" class="update-profile-form" enctype="multipart/form-data" action="{% url 'updatProfileForm'%}">
+                {% csrf_token %}
+                <h2>Update Profile</h2>
+                {% for message in messages %}
+                <p>{{message}}</p>
+                {% endfor %}
+
+                {% for field in profile_form %}
+                <p>
+                    {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {{ field.label_tag }} {{ field }}
+                </p>
+                {% endfor %}
+                <input type="submit" value="Update" class="btn btn-primary" id="auth-btn" />
+
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

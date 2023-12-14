@@ -1,0 +1,46 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+<div class="skills-container">
+    <div class="skills">
+        <h2>Time Slots for: </h2>
+      {% for slot in slots%}
+        <div class="skill-slots">
+            <p class="slot-date">Date: {{slot.date}}</p>
+            <p class="start-time">From: {{slot.start_time}}</p>
+            <p class="stop-time">To: {{slot.end_time}}</p>
+        </div>
+      {% endfor %}
+           
+    </div>
+
+
+    <form method="POST" class="update-profile-form" enctype="multipart/form-data"
+        action="{% url 'addTimeSlotForm' skill_id=skill_id %}">
+        {% csrf_token %}
+        <h2>Add Time Slot</h2>
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %}
+
+        {% for field in slot_form %}
+        <p>
+            {% if field.errors %}
+        <ul class="errorlist">
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {{ field.label_tag }} {{ field }}
+        </p>
+        {% endfor %}
+        <input type="submit" value="Add     " class="btn btn-primary" id="auth-btn" />
+
+    </form>
+</div>
+
+
+{% endblock %}

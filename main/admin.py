@@ -4,7 +4,12 @@ from saler.models import Product, ProductSize, SalerDetail, category, dow, Selle
 
 admin.site.site_header = 'LOKOLiNGO | admin panel'
 
-admin.site.register(UserDetail)
+
+class UserDetailAdmin(admin.ModelAdmin):
+    
+    list_display = ("mobile",)
+
+admin.site.register(UserDetail,UserDetailAdmin)
 admin.site.register(Product)
 admin.site.register(ProductSize)
 admin.site.register(SalerDetail)

@@ -34,14 +34,38 @@ class SalerDetail(models.Model):
 	account_Number = models.CharField(max_length=20, null=True)
 	ifsc_Code = models.CharField(max_length=11, null=True)
 
-	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs)
+	# def save(self, *args, **kwargs):
+	# 	super().save(*args, **kwargs)
 
-		img = Image.open(self.photo.path)
-		if img.height > 300 or img.width > 300:
-			output_size = (300, 300)
-			img.thumbnail(output_size)
-			img.save(self.photo.path)
+	# 	img = Image.open(self.photo.path)
+	# 	if img.height > 300 or img.width > 300:
+	# 		output_size = (300, 300)
+	# 		img.thumbnail(output_size)
+	# 		img.save(self.photo.path)
+ 
+class SkillCategory(models.Model):
+    category = models.CharField(max_length=100,default="General") 
+    
+    def __str__(self) -> str:
+	               return self.category
+	
+
+class Skill(models.Model):
+    title = models.CharField(max_length=100)
+    tutor= models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(SkillCategory,on_delete=models.DO_NOTHING)
+    rate = models.CharField(max_length=100)
+    description= models.TextField()
+    thumbnail = models.FileField(upload_to="skill_images",default='default.png')
+    
+    
+    
+class TimeSlots(models.Model):
+    skill = models.ForeignKey(Skill,on_delete=models.DO_NOTHING,related_name="slots")
+    start_time=models.TimeField()
+    end_time=models.TimeField()
+    is_booked=models.BooleanField(default=False)
+    date=models.DateField()
 
 class SellerSlider(models.Model):
 	name = models.CharField(max_length=50, default = "", null=True)

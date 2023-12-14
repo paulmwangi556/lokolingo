@@ -126,7 +126,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['https://bd34-102-215-77-162.ngrok-free.app',]
+# CSRF_TRUSTED_ORIGINS = ['https://bd34-102-215-77-162.ngrok-free.app',]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

@@ -419,7 +419,7 @@ def checkout(request):
 		prod = Product.objects.filter(product_id=cprod.product_id)[0]
 		allProds.append([cprod, prod])
 	if request.method == 'POST':
-		address_form = UserAddressForm(request.POST, instance=request.user.userdetail)
+		address_form = UserAddressForm(request.POST, instance=request.user)
 		u_form2 = UserAddressForm1(request.POST, instance=request.user)
 		if address_form.is_valid() and u_form2.is_valid():
 			address_form.save()
@@ -446,7 +446,7 @@ def checkout(request):
 			else:
 				temp = 1
 	else:
-		address_form = UserAddressForm(instance=request.user.userdetail)
+		address_form = UserAddressForm(instance=request.user)
 		u_form2 = UserAddressForm1(instance=request.user)
 	subtotal = 0.0
 	delev = 0.0

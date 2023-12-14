@@ -1,0 +1,75 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+<div class="skills-container">
+    <div class="skills">
+        <h2>My Skills</h2>
+        <hr>
+        {% for skill in skills%}
+        <div class="skill-wrapper">
+            <div class="skill-details">
+                <div class="skill-image">
+                    <img src="{{skill.thumbnail.url}}" alt="">
+                </div>
+                <div class="skill-data">
+                    <p class="skill-title">{{skill.title}}</p>
+                    <p class="skill-category">Category: <span>{{skill.category}}</span></p>
+                    <p class="desc-title">Description</p>
+                    <p class="description">
+                        {{skill.description}}
+                    </p>
+                </div>
+                <div class="slots">
+                   
+                    {% with slot_count=skill.slots.all|length %}
+                    <p class="all-slots">All Slots: {{slot_count}}</p>
+                    {% endwith %}
+                    <hr>
+                    <p class="active-slots">Empty Slots: 4</p>
+                    <p class="booked-slots">Booked Slots: 6</p>
+                    <a href="{% url 'addTimeSlot' skill_id=skill.id %}"><button class="add-slot">Manage</button></a>
+                </div>
+            </div>
+
+            <div class="stats">
+                <p class="students-enrolled">Students Enrolled: 30</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <form method="POST" class="update-profile-form" enctype="multipart/form-data"
+        action="{% url 'addTutorSkillsForm' %}">
+        {% csrf_token %}
+        <h2>Add Skill</h2>
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %}
+
+        {% for field in skill_form %}
+        <p>
+            {% if field.errors %}
+        <ul class="errorlist">
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {{ field.label_tag }} {{ field }}
+        </p>
+        {% endfor %}
+        <input type="submit" value="Add Skill" class="btn btn-primary" id="auth-btn" />
+
+    </form>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

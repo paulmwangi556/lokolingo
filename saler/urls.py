@@ -7,7 +7,18 @@ urlpatterns = [
         # path('withdrawal/', views.withdrawal, name = 'withdrawal'),
         path('tutor_signup/', views.tutor_signup, name="tutor_signup"),
 		path('tutor_login/', views.tutor_login, name="tutor_login"),
+        
+
     	path('account_settings/', views.account_settings, name="saler_account_settings"),
+        path("updateProfile/",views.updateProfile,name="updateProfile"),
+        path("logout_tutor",views.logout_tutor,name="logout_tutor"),
+        path("processUpdateForm",views.updateProfileForm,name="updatProfileForm"),
+        path("addSkill",views.addSkill,name="addSkill"),
+        path("addTutorSkillsForm",views.addTutorSkillsForm,name="addTutorSkillsForm"),
+        path("addTimeSlot/<str:skill_id>",views.addTimeSlot,name="addTimeSlot"),
+        path("addTimeSlotForm/<str:skill_id>",views.addTimeSlotForm,name="addTimeSlotForm"),
+        
+
     	path('add_product/', views.add_product, name="add_product"),
     	path('view_products/', views.view_products, name="view_products"),
     	path('plus_element_cart/', views.plus_element_cart),

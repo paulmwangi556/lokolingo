@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from . import models
+from django.contrib.admin import widgets                                       
 
 class SalerRegisterForm(UserCreationForm):
 	first_name = forms.CharField(widget=forms.TextInput(attrs={}))
@@ -60,3 +62,39 @@ class UpdateSalerAccountDetailForm(forms.ModelForm):
 			'account_Number',
 			'ifsc_Code',
 			]
+  
+  
+#   skills
+
+class AddSkillForm(forms.ModelForm):
+    class Meta:
+        model = models.Skill
+        fields = [
+			"title",
+			"category",
+			"rate",
+			"description",
+			"thumbnail"
+		]
+        
+class AddTimeSlotForm(forms.ModelForm):
+    start_time = forms.TimeField(
+        label='Start Time',
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+    )
+    end_time = forms.TimeField(
+        label='End Time',
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+    )
+    
+    date = forms.DateField(
+        label='Date',
+        widget=forms.DateInput(attrs={'type': 'date'}),
+    )
+    class Meta:
+        model = models.TimeSlots
+        fields= [
+			"start_time",
+			"end_time",
+			"date"
+		]

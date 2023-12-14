@@ -1,0 +1,47 @@
+.update-profile-form {
+    padding: 1rem;
+}
+.update-profile-form p{
+    display: flex;
+    flex-direction: column  ;
+}
+
+#auth-btn{
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    background-color: rgb(2, 2, 48);
+    color: white;
+    border: none;
+    border-radius: 0.3rem;
+}
+
+/* authenticated user */
+
+.profile_div{
+    width: 100%;
+    /* background-color:    rebeccapurple; */
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+    /* justify-content: space-evenly; */
+}
+
+.section-2 h2{
+    margin-bottom: 2rem;
+}
+
+.update-profile-btn{
+    padding: 0.5rem 1rem;
+    background-color: rgb(5, 5, 43);
+    border: 1px solid ;
+    border-radius: 0.2rem;
+    color: white;
+    font-weight: bold;
+}
+
+.update-profile-btn:hover{
+    background-color: rgb(85, 85, 196);
+    color: white;
+    transition: 0.1s ease-in;
+}
