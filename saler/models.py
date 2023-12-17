@@ -18,7 +18,7 @@ class SalerDetail(models.Model):
 		("Kibera",'Kibera'),
 		("Kayole",'Kayole'),
 		)
-	user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
+	user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True,)
 	photo = models.ImageField(default='default.png',upload_to='user_photos')
 	mobile = models.CharField(max_length=10,null=True)
 	gst_Number = models.CharField(max_length=15,null=True)
@@ -90,6 +90,22 @@ class category(models.Model):
 	sub_Categories  = models.TextField(default="")
 	def __str__(self):
 		return f'{self.name}'
+
+
+class Booking( models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled'),
+        ('completed', 'Completed'),
+    ]
+    
+    tutor=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    skill=models.ForeignKey(Skill,on_delete=models.DO_NOTHING),
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    date=models.DateField()
+    message = models.TextField()
+    
 
 class Product(models.Model):
 	GST_CHOICES = (("0",'0'),("3",'3'),("5",'5'),("12",'12'),("18",'18'),("28",'28'))

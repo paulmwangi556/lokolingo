@@ -1,0 +1,70 @@
+.find-tutors-container{
+    /* background-color: red; */
+}
+.main-wrapper{
+    /* margin-top: 13rem; */
+    padding-top: 6rem;
+    /* background-color: red; */
+}
+.card-wrapper{
+    padding: 2rem;
+}
+
+.single-tutor-wrapper{
+    border: 1px solid rgba(0, 0, 0, 0.089);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    /* background-color: aqua; */
+    margin-bottom: 1rem;
+}
+
+.profile-image-wrapper{
+    height: 8rem;
+    width: 8rem;
+    overflow: hidden;
+    border-radius: 0.4rem;
+}
+
+.profile-image-wrapper img{
+    height: 8rem;
+    width: 8rem;
+}
+
+.tutor-name{    
+    color: black;
+    font-size: 1.3rem;
+    text-transform: capitalize;
+}
+
+.price{
+    font-weight: bold;
+}
+.tutor-description{
+    font-size: 0.8rem;
+    color: black;
+}
+
+.column-three{
+    /* background-color: red; */
+    width: 100%;
+}
+
+.skills{
+    /* margin-right: 3rem; */
+}
+
+.related-skill-wrapper{
+    margin-bottom: 1rem;
+    color: rgb(8, 8, 96);
+    border: 1px solid rgba(38, 35, 35, 0.109);
+    padding: 0.5rem;
+    width: 70%;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    
+}
+
+.related-skill-wrapper:hover{
+    background-color: rgb(233, 214, 214);
+    text-decoration: none;
+}

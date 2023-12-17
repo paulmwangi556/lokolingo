@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="profile-wrapper">
+        {% include 'main/includes/navbar.html' %}
+
+        <div class="profile-section container bg-light">
+            <div class="quick-actions">
+                <button class="btn btn-primary">Book A Session</button>
+                <button class="btn btn-primary">Message Me</button>
+            </div>
+            <hr>
+            <div class="row">
+                <div class= "col-lg-4 col-md-6 col-sm-12 account-details">
+                    <div class="profile-image">
+                        <img src="{{tutor.photo.url}}" alt="">
+                    </div>
+
+                    <p class="name">{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
+                    <p class="rate text-primary">Ksh:{{tutor.rate_per_hour}}/hr</p>
+                    <p class="experience">Years of Experience: {{tutor.tutoring_experience}}</p>
+                    <p class="country"> Country: {{tutor.country}}</p>
+                    <p class="city">City: {{tutor.city}}</p>
+                    <p class="rating text-success">Average Rating: 4.7/5</p>
+                    {% for rate in rating%}
+                     <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i>
+                   {% endfor %}
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12 profile-details">
+                    <p class="about-title">About Me</p>
+                    <p class="about">{{tutor.profile_description}}</p>
+                    <hr>
+                    <p class="skill-title">Areas of Specialization</p>
+                    <div class="row">
+                        {% for skill in skills %}
+                        <div class="col">
+                            <div class="skill-tile">
+                                <a href="">
+                                <span class="skill-name">
+                                    {{skill.title}}
+                                </span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <div class="booking-section">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

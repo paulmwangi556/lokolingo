@@ -10,7 +10,7 @@
                
                     <div class="section-1">
                         <div class="profile-image-wrapper">
-                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+                            <img src="{{user_details.photo.url}}"
                                 class="dpidcn" alt="dp">
                         </div>
                     </div>
@@ -19,8 +19,10 @@
                         <hr class="hr">
                         <p>{{request.user.first_name}} {{request.user.last_name}}</p>
                         <p>{{request.user.email}}</p>
-                        <p>{{user_details.address}}</p>
+                        <!-- <hr> -->
+                        <p>{{user_details.profile_description}}</p>
                         <button class="update-profile-btn">Update Profile</button>
+                        <p>{{user_details.user_type}}</p>
                     </div>
                
             </div>
@@ -28,9 +30,7 @@
             <form method="POST" class="update-profile-form" enctype="multipart/form-data" action="{% url 'updatProfileForm'%}">
                 {% csrf_token %}
                 <h2>Update Profile</h2>
-                {% for message in messages %}
-                <p>{{message}}</p>
-                {% endfor %}
+               
 
                 {% for field in profile_form %}
                 <p>

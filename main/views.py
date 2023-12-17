@@ -10,38 +10,51 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from .PayTm import Checksum
+from django.db.models import Q
+from . import models
+from saler import models as saler_models
 
 def index(request):
-	if request.user.is_superuser:
-		return redirect('admin2')
-	elif request.user.is_staff:
-		return redirect("saler_home")
-	else:
-		pass
+	# if request.user.is_superuser:
+	# 	return redirect('admin2')
+	# elif request.user.is_staff:
+	# 	return redirect("home")
+	# else:
+	# 	pass
+	if request.method == "GET" and 'q' in request.GET:
+		query=request.GET.get("q") if request.GET.get('q') !=None else 'pp'
 
-	prod = Product.objects.all()
-	allProds = []
-	catprods = Product.objects.values('category', 'product_id')
-	cats = {item['category'] for item in catprods}
-	for cat in cats:
-		prod = []
-		for p in [i for i in Product.objects.filter(category=cat)]:
-			prod.append([p,[item for item in ProductSize.objects.filter(product=p)]])
-		n = len(prod)
-		nSlides = 5
-		allProds.append([prod[::-1], range(1, nSlides), nSlides])
-	params = {
-		'sliders':Slider.objects.all(),
-		'allProds':allProds,
-		'category':category.objects.all(),
-		#'prod_men' : [i for i in prod if i.buyer_gender == 'Male'],
-		#'prod_women' : [i for i in prod if i.buyer_gender == 'Female'],
-		#'prod_other' : [i for i in prod if i.buyer_gender == 'All'],
-		'dow' : dow.objects.all()[0:30],
-		'trend': trend.objects.order_by('-number')[0:30],
-		'cart_element_no' : len([p for p in Cart.objects.all() if p.user == request.user]),
+		result = perform_search(query)
+		
+		if(query !=  ""):
+			
+		
+			return redirect("findTutors",query=query)
+
+	return render(request, 'main/index.html', )
+
+def perform_search(q):
+    if q == "":
+        searched = saler_models.Skill.objects.all()
+        return searched
+    searched = saler_models.Skill.objects.filter(Q(title__icontains=q) | Q(tutor__username__icontains=q) | Q(tutor__first_name__icontains=q) | Q(tutor__last_name__icontains=q))
+    print(searched.count())
+    return searched
+
+def find_tutor(request,query:str):
+    searched = perform_search(query)
+    skills = saler_models.Skill.objects.all().order_by("?")
+    context={
+		"searched":searched,
+		"query":query,
+  		"skills":skills
 	}
-	return render(request, 'main/index.html', params)
+    for item in searched:
+        print("jkh")
+    return render(request,"main/find_tutor.html",context)
+
+
+
 
 def register(request):
 	if request.user.is_authenticated:

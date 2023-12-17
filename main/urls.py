@@ -2,13 +2,17 @@ from django.urls import path,include
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('home', views.index, name='home'),
     path('chatbot', views.chatbot, name='chatbot'),
     path('tutors', views.tutors, name='tutors'),
     path('aboutus', views.aboutus, name='aboutus'),
     path('contactus', views.contactus, name='contactus'),
+    path('find_tutors/<str:query>/',views.find_tutor,name="findTutors"),
+    
+    
+    
     path('register/', views.register, name="signup"),
-    path('account_settings/', views.account_settings, name="account_settings"),
+    # path('account_settings/', views.account_settings, name="account_settings"),
     path("product/<int:prod_id>", views.productView, name="ProductView"),
     path('contact/', views.contact, name="contact"),
     path("products/<str:catg>", views.view_all, name="products_view_all"),

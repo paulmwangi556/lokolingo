@@ -2,14 +2,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-        path('', views.dashboard, name = 'dashboard'),
-		path('home/', views.index, name = 'saler_home'),
+        # path('', views.dashboard, name = 'dashboard'),
+		# path('', views.index, name = 'home'),
         # path('withdrawal/', views.withdrawal, name = 'withdrawal'),
         path('tutor_signup/', views.tutor_signup, name="tutor_signup"),
 		path('tutor_login/', views.tutor_login, name="tutor_login"),
         
 
     	path('account_settings/', views.account_settings, name="saler_account_settings"),
+     
         path("updateProfile/",views.updateProfile,name="updateProfile"),
         path("logout_tutor",views.logout_tutor,name="logout_tutor"),
         path("processUpdateForm",views.updateProfileForm,name="updatProfileForm"),
@@ -17,6 +18,10 @@ urlpatterns = [
         path("addTutorSkillsForm",views.addTutorSkillsForm,name="addTutorSkillsForm"),
         path("addTimeSlot/<str:skill_id>",views.addTimeSlot,name="addTimeSlot"),
         path("addTimeSlotForm/<str:skill_id>",views.addTimeSlotForm,name="addTimeSlotForm"),
+        
+        
+        # booking
+        path("tutor_profile/<str:tutor_id>",views.tutor_profile,name="tutor_profile"),
         
 
     	path('add_product/', views.add_product, name="add_product"),

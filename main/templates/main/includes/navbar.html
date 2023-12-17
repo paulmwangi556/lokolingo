@@ -1,0 +1,40 @@
+
+{% load static%}
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow custom-navbar">
+    <div class="container container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">
+                <img class="img-responsive custom-logo" src="{% static 'saler/img/logo.png' %}" alt="LOKOLINGO LOGO">
+            </a>
+           
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ms-auto custom-ul">
+                <li class="nav-item custom-li">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item custom-li">
+                    <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
+                </li>
+                <li class="nav-item custom-li">
+                    <a class="nav-link" href="{% url 'findTutors' query='mm' %}>Find Tutor</a>
+                </li>
+                <li class="nav-item custom-li">
+                    <a class="nav-link" href="{% url 'contactus' %}">Contact us</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="">Student</a>
+                </li>
+                <li class="nav-item custom-li">
+                    <a class="nav-link" href="{% url 'tutor_signup'%}">Become A Tutor</a>
+                </li>
+                <li>
+                   <a href="{% url 'saler_account_settings' %}"> <i class="fas fa-user-circle fa-3x fa-fw"></i></a><span>Hello {{request.user.username}}</span>
+                    <!-- <p></p> -->
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+

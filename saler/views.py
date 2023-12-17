@@ -20,27 +20,12 @@ from . import models
 
 @login_required
 def index(request):
-    if request.user.is_superuser or request.user.is_staff:
-        allProds = []
-        catprods = WholeSaleProduct.objects.values('category', 'product_id')
-        cats = {item['category'] for item in catprods}
-        for cat in cats:
-            prod = WholeSaleProduct.objects.filter(category=cat)
-            n = len(prod)
-            nSlides = n // 6 + ceil((n / 6) - (n // 6))
-            allProds.append([prod, range(1, nSlides), nSlides])
-        params = {
-            'allProds': allProds,
-            'prod': WholeSaleProduct.objects.all()[::-1][:4],
-            'sliders': SellerSlider.objects.all(),
-            'popular': WholeSaleProduct.objects.all(),
-            'cart_element_no': len([p for p in MyCart.objects.all() if p.user == request.user]),
-
-        }
-        return render(request, 'saler/index.html', params)
-    else:
-        return redirect("/")
-
+    context={
+        
+    }
+    
+    return render(request, 'saler/index.html', context)
+    
 # This is View of Dashboard in which we display all orders of the seller and ther status
 
 
@@ -427,16 +412,21 @@ def view_products(request):
 # Signup for Seller
 
 
+
+
 def tutor_signup(request):
     if request.user.is_authenticated:
-        return redirect('account_settings')
+        return redirect('saler_account_settings')
     else:
+        if request.method == "GET":
+            return render(request, 'saler/tutor_signup.html')
         if request.method == 'POST':
             username = request.POST.get("username")
             email = request.POST.get("email")
             firstname = request.POST.get("firstname")
             lastname = request.POST.get("lastname")
             password = request.POST.get("password")
+            
             print(username)
             if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
                 messages.error(
@@ -460,7 +450,7 @@ def tutor_signup(request):
                 usr.save()
                 SalerDetail(user=usr, gst_Number=gst).save()
             messages.success(request, f'Account is Created for {username}')
-            return redirect('signup')
+            return redirect('tutor_login')
 
             # form = SalerRegisterForm(request.POST)
             # if form.is_valid():
@@ -570,10 +560,12 @@ def updateProfileForm(request):
        
         form = UpdateUserDetailForm(request.POST,request.FILES)
         if form.is_valid():
-            form.save()
+            tutor = form.save(commit=False)
+            tutor.user_type = "tutor"
+            tutor.save()
             messages.success(request,"Profile Updated")
             print("form saved")
-            return redirect("home")
+            return redirect("account_settings")
         else:
             print("invalid form")
             return render(request,"saler/admin/profile.html",{'profile_form':form})
@@ -670,10 +662,24 @@ def addTimeSlotForm(request,skill_id):
     
 
 def logout_tutor(request):
-    
     logout(request)
     messages.success(request, f'You have been logged out.')
     return redirect('home')
+
+
+
+def tutor_profile(request,tutor_id):
+    print(tutor_id)
+    tutor = main_models.UserDetail.objects.get(user = tutor_id)
+    skills = models.Skill.objects.filter(tutor=tutor_id)
+    print(tutor.country)
+    rating=range(0,5)
+    context={
+        "tutor":tutor,
+        "skills":skills,
+        "rating":rating
+    }
+    return render(request,"saler/tutor_profile.html",context)
 
 
 # This is a part of admin view in which all ordered products will display with address

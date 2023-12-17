@@ -5,33 +5,25 @@ from PIL import Image
 
 class UserDetail(models.Model):
     SEX_CHOICES = (("Male", 'Male'), ("Female", 'Female'), ("Other", 'Other'))
-    STATE_CHOICES = (
-        ("Beginner", 'Beginner'),
-        ("Intermediate", 'Intermediate')
+    USER_TYPE_CHOICES = (
+        ('student', 'Student'),
+        ('tutor', 'Tutor'),
     )
     
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, primary_key=True)
-    dob = models.DateField(null=True)
-    # photo = models.ImageField(default='default.png', upload_to='user_photos')
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True,related_name='userdetails') 
+    rate_per_hour = models.DecimalField(max_digits=10,decimal_places=2)
+    profile_description=models.TextField()
+    tutoring_experience=models.IntegerField(default=0)
+    country = models.CharField(max_length=100,default="Kenya")
+    identification_document = models.FileField(upload_to="tutor_documents")
+    photo = models.FileField( upload_to='tutor_photos')
     mobile = models.CharField(max_length=10, null=True)
     alternate_mobile = models.CharField(max_length=10, null=True, blank=True)
-    address = models.TextField()
-    # pincode = models.CharField(max_length=6, null=True)
-    landmark = models.CharField(max_length=500, null=True, blank=True)
-    locality = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=100,blank=True,null=True)
     city = models.CharField(max_length=100, null=True, blank=True)
-    area = models.CharField(max_length=50, choices=STATE_CHOICES, null=True)
     sex = models.CharField(max_length=6, choices=SEX_CHOICES, null=True)
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-
-    #     img = Image.open(self.photo.path)
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.photo.path)
 
 
 class Slider(models.Model):

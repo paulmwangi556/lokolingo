@@ -1,0 +1,181 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FFFFFF;
+}
+div {
+    display: block;
+    /* border: 1px solid; */
+}
+h1 {
+    font-family: 'Bebas Neue';
+    font-size: 80px;
+    color: #363958;
+    padding: 0px;
+    margin: 0px;
+    /* border: 1px solid; */
+}
+h2 {
+    font-family: 'Bebas Neue';
+    font-size: 48px;
+    color: #363958;
+}
+h4 {
+    font-family: 'Roboto';
+    font-size: 24px;
+    font-weight: 1000;
+    color: #363958;
+}
+h5 {
+    font-family: 'Roboto';
+    font-size: 20px;
+    font-weight: 1000;
+    color: #363958;
+}
+a:hover {
+    transition: 1s;
+    box-shadow: box-shadow: 20px 20px 30px #3D4FF3;
+}
+
+/* header */
+#header {
+    height: auto;
+    padding: 50px 0px 70px 0px;
+    background-color: #fff9f4;
+}
+#header span {
+    font-weight: 1000;
+}
+.custom-navbar {
+    background-color: #fff9f4;
+}
+.custom-ul {
+    text-align: center;
+    background-color: #fff9f4;
+}
+.custom-li {
+    font-weight: 700;
+    padding: 0px 25px;
+}
+.custom-logo {
+    width: 40%;
+}
+/* end header */
+
+/* header,*/
+.custom-highlight {
+    color: #ff8367;
+}
+.custom-btn {
+    background-color: #3D4FF3;
+    padding: 10px;
+    border: none;
+}
+/* end header,*/
+h1 {
+    color: ;
+}
+     
+* {
+    box-sizing: border-box;
+}
+     
+body {
+    text-align: center;
+}
+ 
+/* Float columns */
+.column {
+    float: left;
+    width: 33%;
+    padding: 0 5px;
+}
+     
+.row {
+    margin: 0 -5px;
+}
+ 
+.row:after {
+    content: "";
+    display: table;
+}
+ 
+/* Style the cards */
+.card1 {
+    padding: 10px;
+    text-align: center;
+    background-color: white;
+    color: black;
+    }
+     
+.card1:hover {
+    transform: ;
+    background-color: ;
+    transition-duration: 2s;
+    color: ;
+}
+     
+.fa {
+    font-size: 50px;
+}
+
+/* services section */
+.custom-img-width {
+    width: 80px;
+    /* border: 1px solid; */
+}
+.custom-service-card {
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+    border: none;
+}
+/* end services section */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.background-image {
+    background: url('C:\Users\Punda\Desktop\Ye\Photos\image 5.png') center/cover no-repeat fixed; 
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: grey; 
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.column {
+    width: 30%; /* Adjust the width as needed */
+}
+
+.card2 {
+    background: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* subscribe */
+/* end subscribe */
+
+/* footer */
+#footer {
+    padding: 25px 0px;
+}
+footer h5 {
+    padding: 10px 0px;
+    /* border: 1px solid; */
+}
+#footer li a {
+    text-decoration: none;
+}
+/* end footer */

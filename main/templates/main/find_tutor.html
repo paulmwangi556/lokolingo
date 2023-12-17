@@ -1,0 +1,76 @@
+{% extends 'main/base.html' %}
+
+{% block content%}
+
+<body>
+    {% include 'main/includes/navbar.html' %}
+    <div class="row main-wrapper">
+        <div class="col-lg-8">
+            <div class="find-tutors-container container-fluid">
+                <div class="card-wrapper container pt-4">
+                    <div class="search-div">
+                        <div class="container mt-3">
+                            <div class="row">
+                              <div class="col-md-8">
+                                <!-- Search Form -->
+                                <form class="input-group" method="GET" method="get">
+                                  <input type="text" class="form-control" name="query" placeholder="Search" aria-label="Search" aria-describedby="search-button">
+                                  <div class="input-group-append">
+                                    <!-- Search Button -->
+                                    <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="query-param">
+                        <p>Search results for: "{{request.GET.query}}" returned {{searched|length}} results</p>
+                    </div>
+                    {% for search in searched %}
+                    <div class="row single-tutor-wrapper">
+                        <div class="col-lg-1">
+                            <div class="profile-image-wrapper">
+                                <a href="" style="text-decoration: none; color: #231f20">
+                                    <img src="{{search.tutor.userdetails.photo.url}}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <p class="tutor-name">{{search.tutor.first_name}} {{search.tutor.last_name}}</p>
+                            <!-- <small>{{i.0.product_name}}</small> -->
+                            <p class="tutor-description">{{search.tutor.userdetails.profile_description}}
+                            </p>
+                            <p> </p>
+                        </div>
+                        <div class=" column-three">
+                            <p class="price">Ksh <span> {{search.rate}}</span>/hr </p>
+                            <div class="other-skills">
+                                <p></p>
+                            </div>
+                            <a href="{% url 'tutor_profile' tutor_id=search.tutor.id %}">
+                            <button class="btn-warning view-profile p-2">View Profile</button>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-4 related-skills">
+            <p>Other Related Subjects Include:</p>
+            <hr>
+                {% for skill in skills%}
+                <a href="{% url 'findTutors' query=skill.title %}" style="text-decoration: none;">
+                <div class="related-skill-wrapper">
+                    <p>{{skill.title}}</p>
+                </div>
+                    
+                {% endfor %}
+            </a>
+        </div>
+    </div>
+
+
+
+    {% endblock %}
