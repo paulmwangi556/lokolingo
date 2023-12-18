@@ -3,56 +3,108 @@
 
 {% block content %}
 
-    <div class="profile-wrapper">
-        {% include 'main/includes/navbar.html' %}
+<div class="profile-wrapper">
+    {% include 'main/includes/navbar.html' %}
 
-        <div class="profile-section container bg-light">
-            <div class="quick-actions">
-                <button class="btn btn-primary">Book A Session</button>
-                <button class="btn btn-primary">Message Me</button>
-            </div>
-            <hr>
-            <div class="row">
-                <div class= "col-lg-4 col-md-6 col-sm-12 account-details">
-                    <div class="profile-image">
-                        <img src="{{tutor.photo.url}}" alt="">
-                    </div>
-
-                    <p class="name">{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
-                    <p class="rate text-primary">Ksh:{{tutor.rate_per_hour}}/hr</p>
-                    <p class="experience">Years of Experience: {{tutor.tutoring_experience}}</p>
-                    <p class="country"> Country: {{tutor.country}}</p>
-                    <p class="city">City: {{tutor.city}}</p>
-                    <p class="rating text-success">Average Rating: 4.7/5</p>
-                    {% for rate in rating%}
-                     <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i>
-                   {% endfor %}
+    <div class="profile-section container bg-light">
+        <!-- <div class="quick-actions">
+            <button class="btn btn-primary">Book A Session</button>
+            <button class="btn btn-primary">Message Me</button>
+        </div> -->
+        <hr>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 account-details">
+                <div class="profile-image">
+                    <img src="{{tutor.photo.url}}" alt="">
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 profile-details">
-                    <p class="about-title">About Me</p>
-                    <p class="about">{{tutor.profile_description}}</p>
-                    <hr>
-                    <p class="skill-title">Areas of Specialization</p>
-                    <div class="row">
-                        {% for skill in skills %}
-                        <div class="col">
-                            <div class="skill-tile">
-                                <a href="">
+
+                <p class="name">{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
+                <p class="rate text-primary">Ksh:{{tutor.rate_per_hour}}/hr</p>
+                <p class="experience">Years of Experience: {{tutor.tutoring_experience}}</p>
+                <p class="country"> Country: {{tutor.country}}</p>
+                <p class="city">City: {{tutor.city}}</p>
+                <p class="rating text-success">Average Rating: 4.7/5</p>
+                {% for rate in rating%}
+                <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i>
+                {% endfor %}
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-12 profile-details">
+                <p class="about-title">About Me</p>
+                <p class="about">{{tutor.profile_description}}</p>
+                <hr>
+                <p class="skill-title">Areas of Specialization</p>
+                <div class="row">
+                    {% for skill in skills %}
+                    <div class="col">
+                        <div class="skill-tile">
+                            <a href="">
                                 <span class="skill-name">
                                     {{skill.title}}
                                 </span>
-                                </a>
-                            </div>
+                            </a>
                         </div>
-                    {% endfor %}
                     </div>
-                    <div class="booking-section">
-                        
+                    {% endfor %}
+                </div>
+                <hr>
+                <div class="booking-section">
+                    <h3>Quick Book </h3>
+                    <div class="booking-form">
+                        <form action="{% url 'bookSession' %}" method="POST">
+                            <label for="skill">Select a Skill:</label>
+                            <select name="skill" style="width: 100%; height: 100%; font-size: 20px ;" class="from-control mb-2">
+                                {% for skill in skills %}
+                                <option value="{{skill.id}}" name="q">{{skill.title}}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Select Date</label>
+                                        <input type="date" class="form-control" name="date" id="date"
+                                            aria-describedby="Select Date" placeholder="Your Preferred date" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Select Time</label>
+                                        <input type="time" class="form-control" name="time" id="time"
+                                            aria-describedby="Select Time" placeholder="Your Preferred Time" />
+                                    </div>
+                                </div>
+                            </div>
+ 
+                            <div class="form-group">
+                              <label for="">Duration</label>
+                              <select class="form-control" name="duration" id="duration">
+                                <option value="0.5">30 mins</option>
+                                <option value="1">1 hr</option>
+                                <option value="1.5">1hr 30 mins</option>
+                                <option value="2">2 hrs</option>
+                                <option value="2.5">2hrs 30 mins</option>
+                                <option value="3">3 hrs</option>
+                                <option value="3.5">3hrs 30 mins</option>
+                                <option value="4">4hrs</option>
+                                <option value="4.5">4hrs 30 mins</option>
+                                <option value="5">5hrs </option>
+                                <option></option>
+                                <option></option>
+                              </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="" class="form-label">Your Message To The Tutor</label>
+                                <textarea class="form-control" name="message" id="message" rows="5"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Quick Book</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 {% endblock %}

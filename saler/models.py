@@ -67,6 +67,65 @@ class TimeSlots(models.Model):
     is_booked=models.BooleanField(default=False)
     date=models.DateField()
 
+
+class Booking(models.Model):
+    PENDING_APPROVAL = 'pending_approval'
+    APPROVED = 'approved'
+    REJECTED = 'rejected'
+    CANCELLED = 'cancelled'
+    PENDING_PAYMENT = 'pending_payment'
+    CONFIRMED = 'confirmed'
+    IN_PROGRESS = 'in_progress'
+    COMPLETED = 'completed'
+    ARCHIVED = 'archived'
+    ON_HOLD = 'on_hold'
+
+    STATUS_CHOICES = [
+		(PENDING_APPROVAL, 'Pending Approval'),
+		(APPROVED, 'Approved'),
+		(REJECTED, 'Rejected'),
+		(CANCELLED, 'Cancelled'),
+		(PENDING_PAYMENT, 'Pending Payment'),
+		(CONFIRMED, 'Confirmed'),
+		(IN_PROGRESS, 'In Progress'),
+		(COMPLETED, 'Completed'),
+		
+	]
+
+    PAYMENT_NOT_INITIATED='payment_not_initiated'
+    PAYMENT_INITIATED='payment_initiated'
+    PAYMENT_PENDING = 'payment_pending'
+    PAYMENT_COMPLETED = 'payment_completed'
+    PAYMENT_FAILED = 'payment_failed'
+	
+
+    PAYMENT_STATUS_CHOICES = [
+		(PAYMENT_NOT_INITIATED,'Payment Not Initiated'),
+		(PAYMENT_INITIATED,'Payment Initiated'),
+        (PAYMENT_PENDING, 'Payment Pending'),
+        (PAYMENT_COMPLETED, 'Payment Completed'),
+        (PAYMENT_FAILED, 'Payment Failed'),
+    ]
+
+    booking_status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=PENDING_APPROVAL,
+    )
+    skill = models.ForeignKey(Skill,on_delete=models.DO_NOTHING,blank=True,null=True)
+    student=models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True)
+    date=models.DateField(blank=True,null=True)
+    time = models.TimeField(blank=True,null=True)
+    student_message = models.TextField(blank=True,null=True)
+    tutor_message = models.TextField(blank=True,null=True)
+    duration = models.CharField(max_length=5,default="1")
+    payment_status = models.CharField(
+        max_length=30,
+        choices=PAYMENT_STATUS_CHOICES,
+        default=PAYMENT_NOT_INITIATED,
+    )
+
+
 class SellerSlider(models.Model):
 	name = models.CharField(max_length=50, default = "", null=True)
 	image = models.ImageField(upload_to='seller_slider_img')
@@ -92,20 +151,7 @@ class category(models.Model):
 		return f'{self.name}'
 
 
-class Booking( models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('cancelled', 'Cancelled'),
-        ('completed', 'Completed'),
-    ]
-    
-    tutor=models.ForeignKey(User,on_delete=models.DO_NOTHING)
-    skill=models.ForeignKey(Skill,on_delete=models.DO_NOTHING),
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    date=models.DateField()
-    message = models.TextField()
-    
+
 
 class Product(models.Model):
 	GST_CHOICES = (("0",'0'),("3",'3'),("5",'5'),("12",'12'),("18",'18'),("28",'28'))

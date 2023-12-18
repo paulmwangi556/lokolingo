@@ -7,9 +7,16 @@ urlpatterns = [
         # path('withdrawal/', views.withdrawal, name = 'withdrawal'),
         path('tutor_signup/', views.tutor_signup, name="tutor_signup"),
 		path('tutor_login/', views.tutor_login, name="tutor_login"),
+
+
         
 
     	path('account_settings/', views.account_settings, name="saler_account_settings"),
+        path('student_dashboard/',views.studentDashboard,name="studentDashboard"),
+
+
+        # studdent dashboard
+        path("student_bookings",views.studentBookings,name="studentBookings"),
      
         path("updateProfile/",views.updateProfile,name="updateProfile"),
         path("logout_tutor",views.logout_tutor,name="logout_tutor"),
@@ -22,6 +29,7 @@ urlpatterns = [
         
         # booking
         path("tutor_profile/<str:tutor_id>",views.tutor_profile,name="tutor_profile"),
+        path("bookSession",views.bookSession,name="bookSession"),
         
 
     	path('add_product/', views.add_product, name="add_product"),

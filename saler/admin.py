@@ -11,3 +11,4 @@ class SkillsAdmin(admin.ModelAdmin):
     
 admin.site.register(models.SkillCategory,AddSkillCategoryAdmin)
 admin.site.register(models.Skill,SkillsAdmin)
+admin.site.register(models.Booking)

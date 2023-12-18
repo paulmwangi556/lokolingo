@@ -3,7 +3,7 @@ from main import models as main_models
 from django.http import Http404, HttpResponse, JsonResponse
 from .models import SalerDetail, Product, ProductSize, SellerSlider, MyCart, WholeSaleProduct, category, Orders, WholeSaleProductOrders
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from .forms import SalerRegisterForm, SalerAddressForm, UpdateSalerDetailForm, UpdateSalerAccountDetailForm
 from main.forms import UserUpdateForm, UpdateUserDetailForm
 from django.contrib.auth.decorators import login_required
@@ -426,19 +426,27 @@ def tutor_signup(request):
             firstname = request.POST.get("firstname")
             lastname = request.POST.get("lastname")
             password = request.POST.get("password")
+            user_type = request.POST.get("user_type")
             
-            print(username)
+            
+            # if user_type in dict()
             if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
                 messages.error(
                     request, 'User with this username or email already exists.')
-                return redirect('signup')  # Redirect back to the signup page
+                return render(request, 'saler/tutor_signup.html')  # Redirect back to the signup page
 
             hashed_password = make_password(password)
             user = User.objects.create(
                 username=username, email=email, password=hashed_password, first_name=firstname, last_name=lastname, )
+            
             user.save()
+            group_name = 'student' if user_type == 'student' else 'tutor'
+            group = Group.objects.get(name=group_name)
+            user.groups.add(group)
+            
+            
             messages.success(request, 'Account created successfully!')
-            print(messages)
+            # print(user.groups.name)
             usr = User.objects.filter(username=username).first()
             usr.is_staff = True
             gst = 00
@@ -452,26 +460,7 @@ def tutor_signup(request):
             messages.success(request, f'Account is Created for {username}')
             return redirect('tutor_login')
 
-            # form = SalerRegisterForm(request.POST)
-            # if form.is_valid():
-            # 	form.save();
-            # 	username = form.cleaned_data.get('username')
-            # 	# shop = form.cleaned_data.get('shop')
-            # 	gst = form.cleaned_data.get('gst')
-            # 	usr = User.objects.filter(username=username).first()
-            # 	usr.is_staff=True
-            # 	usr.save()
-            # 	if username.isdigit():
-            # 		SalerDetail(user=usr,mobile=username,gst_Number=gst).save()
-            # 	else:
-            # 		usr.email = username
-            # 		usr.save()
-            # 		SalerDetail(user=usr,gst_Number=gst).save()
-            # 	messages.success(request, f'Account is Created for {username}')
-            # 	return redirect('login')
-    # 	else:
-    # 		form = SalerRegisterForm()
-    # return render(request, 'saler/tutor_signup.html', {'form':form, 'title':'Become a Tutor'})
+            
     return render(request, 'saler/tutor_signup.html')
 
 
@@ -483,7 +472,15 @@ def tutor_login(request):
         login(request, user)
         messages.success(request, f'Hi {username.title()}, welcome back!')
         print("Authenticated")
-        return redirect('saler_account_settings')
+        group = user.groups.first()
+        user_groups = request.user.groups.values_list('name', flat=True)
+        if 'student' in user_groups:
+            return redirect("studentDashboard")
+        
+        else:
+            
+            return redirect('saler_account_settings')
+    # studentDashboard
 
     messages.error(request, f'Invalid username or password')
     print("Not Authenticated")
@@ -539,6 +536,17 @@ def account_settings(request):
     # else:
     # 	return redirect("/")
     return render(request, 'saler/admin/home.html')
+
+def studentDashboard(request):
+    return render(request,"saler/student_dashboard.html")
+
+
+def studentBookings(request):
+    bookings = models.Booking.objects.all()
+    context={
+        "bookings":bookings
+    }
+    return render(request,"saler/student/student_bookings.html",context)
 
 @login_required
 def updateProfile(request):
@@ -681,6 +689,35 @@ def tutor_profile(request,tutor_id):
     }
     return render(request,"saler/tutor_profile.html",context)
 
+# @login_required
+def bookSession(request):
+    if request.method == "POST":
+        date = request.POST.get("date")
+        time = request.POST.get("time")
+        message= request.POST.get("message")
+        skill_id = request.POST.get("skill")
+        duration = request.POST.get("duration")
+        skill = models.Skill.objects.get(id=skill_id)
+        
+        if request.user.is_authenticated:
+            user = request.user
+            session = models.Booking.objects.create(
+                date=date,
+                time=time,
+                skill=skill,
+                student=user,
+                duration=duration,
+                student_message=message,
+            )
+            session.save()
+            print("session id is ",session.id)
+        else:
+            print("user not authenticated")
+        
+        
+        return render(request,"saler/tutor_profile.html",)
+    else:
+        return render(request,"saler/tutor_profile.html",)
 
 # This is a part of admin view in which all ordered products will display with address
 def admin2(request):

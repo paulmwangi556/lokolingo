@@ -44,7 +44,7 @@
   }
 
   .auth-container {
-    height: 700px;
+    height: 900px;
     width: 500px;
     background-color: white;
     box-shadow: 8px 8px 20px rgb(128, 128, 128);
@@ -285,7 +285,7 @@
 
   <!-- container div -->
   <div class="auth-container-wrapper">
-    <h3 style="text-align: center;">Tutor Login</h3>
+    <h3 style="text-align: center;">Welcome</h3>
 
     {% for message in messages %}
 		<p>{{message}}</p>
@@ -323,6 +323,20 @@
           <input type="text" name="firstname" class="name ele" placeholder="Enter First Name">
           <input type="text" class="name ele" name="lastname" placeholder="Enter Last Name">
           <input type="email" name="email" class="email ele" placeholder="youremail@email.com">
+          <div class="mb-3 w-100">
+            <label for="" class="form-label">Account Type</label>
+            <select
+              class="form-select form-select-lg"
+              name="user_type"
+              id="user_type"
+            >
+              
+              <option value="tutor">Tutor</option>
+              <option value="student">Student</option>
+             
+            </select>
+          </div>
+          
           <input type="text" class="name ele" name="username" placeholder="Username">
           <input type="password" class="password ele" name="password" placeholder="password">
           <input type="password" class="password ele" placeholder="Confirm password">
