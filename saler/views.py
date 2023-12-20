@@ -712,12 +712,12 @@ def bookSession(request):
             session.save()
             print("session id is ",session.id)
         else:
-            print("user not authenticated")
+            return redirect("tutor_login")
         
         
-        return render(request,"saler/tutor_profile.html",)
+        return redirect("studentDashboard")
     else:
-        return render(request,"saler/tutor_profile.html",)
+        return redirect("studentDashboard")
 
 # This is a part of admin view in which all ordered products will display with address
 def admin2(request):

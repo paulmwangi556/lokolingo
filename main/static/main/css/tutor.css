@@ -1,5 +1,8 @@
 .find-tutors-container{
-    /* background-color: red; */
+    /* background-color: red;
+    height: 100vh;
+    overflow: scroll; */
+
 }
 .main-wrapper{
     /* margin-top: 13rem; */
@@ -14,7 +17,7 @@
     border: 1px solid rgba(0, 0, 0, 0.089);
     border-radius: 0.5rem;
     padding: 1rem;
-    /* background-color: aqua; */
+    background-color: rgb(255, 255, 255);
     margin-bottom: 1rem;
 }
 
@@ -22,7 +25,7 @@
     height: 8rem;
     width: 8rem;
     overflow: hidden;
-    border-radius: 0.4rem;
+    border-radius: 50%;
 }
 
 .profile-image-wrapper img{
@@ -42,6 +45,12 @@
 .tutor-description{
     font-size: 0.8rem;
     color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 .column-three{
@@ -67,4 +76,14 @@
 .related-skill-wrapper:hover{
     background-color: rgb(233, 214, 214);
     text-decoration: none;
+}
+
+.query-param{
+    height: 3rem;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-evenly   ;
+    margin-top: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
 }

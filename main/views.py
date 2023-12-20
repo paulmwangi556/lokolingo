@@ -34,7 +34,7 @@ def index(request):
 	return render(request, 'main/index.html', )
 
 def perform_search(q):
-    if q == "":
+    if q == "" or q == 'all':
         searched = saler_models.Skill.objects.all()
         return searched
     searched = saler_models.Skill.objects.filter(Q(title__icontains=q) | Q(tutor__username__icontains=q) | Q(tutor__first_name__icontains=q) | Q(tutor__last_name__icontains=q))
@@ -42,15 +42,31 @@ def perform_search(q):
     return searched
 
 def find_tutor(request,query:str):
-    searched = perform_search(query)
     skills = saler_models.Skill.objects.all().order_by("?")
+    if request.method == "GET" and "query" in request.GET:
+        strr = request.GET.get("query") if request.GET.get('query') !=None else ''
+        searched=perform_search(strr)
+        context={
+		"searched":searched,
+		"query":strr,
+  		"skills":skills
+		}
+        print(searched.count())
+        return render(request,"main/find_tutor.html",context)
+        
+    
+    
+    else:
+       searched = perform_search(query)
+  
+  
+    # skills = saler_models.Skill.objects.all().order_by("?")
     context={
 		"searched":searched,
 		"query":query,
   		"skills":skills
 	}
-    for item in searched:
-        print("jkh")
+    
     return render(request,"main/find_tutor.html",context)
 
 
