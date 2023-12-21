@@ -17,6 +17,7 @@ urlpatterns = [
 
         # studdent dashboard
         path("student_bookings",views.studentBookings,name="studentBookings"),
+        path("student_profile",views.studentProfile,name="studentProfile"),
 
 
     #  admin dashboard
@@ -27,14 +28,23 @@ urlpatterns = [
         path("addTutorSkillsForm",views.addTutorSkillsForm,name="addTutorSkillsForm"),
         path("addTimeSlot/<str:skill_id>",views.addTimeSlot,name="addTimeSlot"),
         path("addTimeSlotForm/<str:skill_id>",views.addTimeSlotForm,name="addTimeSlotForm"),
+        path('update_booking_status/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
         path("bookings",views.staffBookings,name="staffBookings"),
+        path("withdrawals",views.withdrawals,name="withdrawals"),
+        path("reviews",views.reviews,name="reviews"),
         
         
         # booking
         path("tutor_profile/<str:tutor_id>",views.tutor_profile,name="tutor_profile"),
-        path("bookSession",views.bookSession,name="bookSession"),
+        path("bookSession/<str:tutor_id>",views.bookSession,name="bookSession"),
         path("rate_tutor/<str:tutor_id>",views.rateTutor,name="rateTutor"),
         
+        
+        # payments
+        path("getAuthToken",views.getAuthToken,name="getAuthToken"),
+        path("registerIpnUrl",views.registerIpnUrl,name="registerIpnUrl"),
+        path("submitOrder",views.submitOrder,name="submitOrder"),
+            
 
     	path('add_product/', views.add_product, name="add_product"),
     	path('view_products/', views.view_products, name="view_products"),

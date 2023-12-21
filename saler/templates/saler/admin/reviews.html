@@ -1,0 +1,23 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+   <div class="reviews-container">
+    {% for review in tutor_reviews %}
+    <div class="card mb-2">
+        <div class="card-header">
+          {% for rate in review.rating %}
+                <span>  <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+          {% endfor %}
+          <!-- <p>{{review.rating}}/5</p> -->
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{review.student}}</h5>
+          <p class="card-text">{{review.review}}</p>
+         <p class="text-primary">{{review.date_added}}</p>
+        </div>
+      </div>
+    {% endfor %}
+   </div>
+
+{% endblock %}

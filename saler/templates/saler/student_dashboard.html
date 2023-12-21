@@ -16,7 +16,13 @@
 	<link rel="stylesheet" href="{% static  'saler/css/skills.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/slots.css' %}">
     <link rel="stylesheet" href="{% static  'saler/css/student_bookings.css' %}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> 
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Domine">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 	
 </head>
@@ -24,38 +30,12 @@
 <body>
 
 	<!-- for header part -->
-	<header>
-
-		<div class="logosec">
-			<div class="logo">Lokolingo Student Dashboard</div>
-			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-				class="icn menuicn" id="menuicn" alt="menu-icon">
-		</div>
-
-		<div class="searchbar">
-			<input type="text" placeholder="Search">
-			<div class="searchbtn">
-				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-					class="icn srchicn" alt="search-icon">
-			</div>
-		</div>
+	<header class="top_nav">
 
 		<div class="home">
 			<a href="{% url 'home'%}">
 			<i class="fas fa-home fa-2x  "></i>
 		</a> 
-		</div>
-		
-		<div class="message">
-			
-			<div class="circle"></div>
-			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
-			<div class="dp">
-				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
-					class="dpicn" alt="dp">
-					
-			</div>
-			<p>Hello {{request.user.username}}</p>
 		</div>
 
 	</header>
@@ -64,7 +44,7 @@
 		<div class="navcontainer">
 			<nav class="nav">
 				<div class="nav-upper-options">
-					<a href="{%url 'saler_account_settings' %}">
+					<a href="{%url 'studentDashboard' %}">
 					<div class="nav-option option1">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
 							class="nav-img" alt="dashboard">
@@ -72,12 +52,13 @@
 					</div>
 					</a>
 					
-					
+					<a href="{% url 'studentProfile' %}">
 					<div class="option2 nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
 							class="nav-img" alt="my profile">
 						<h3> My Profile</h3>
 					</div>
+					</a>
 					
 
 					<a href="{% url 'studentBookings'%}">
@@ -88,24 +69,12 @@
 					</div>
 				</a>
 				
-					<div class="nav-option option4">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
-							class="nav-img" alt="my skills">
-						<h3> My Skills</h3>
-					</div>
+					
 				
 
-					<div class="nav-option option5">
-						<img src="{% static 'main/images/withdrawals.webp' %}"
-							class="nav-img" alt="withdrawals">
-						<h3> Withdrawals</h3>
-					</div>
+					
 
-					<div class="nav-option option5">
-						<img src="{% static 'main/images/meet.webp' %}"
-							class="nav-img" alt="google meet">
-						<h3>Google meet</h3>
-					</div>
+					
 
 					<div class="nav-option option6">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
@@ -131,6 +100,23 @@
 	</div>
 
 	<script src="{% static 'main/js/dashboard.js' %}"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+       
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

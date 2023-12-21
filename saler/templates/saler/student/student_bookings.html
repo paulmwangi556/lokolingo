@@ -23,9 +23,12 @@
       <div class="booking-status">
         <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}</span> </p>
         <p class="payment-status">Payment approval Status| <span>
-            <button class="payment-btn">{{booking.payment_status}}</button>
+            <!-- <button class="payment-btn">{{booking.payment_status}}</button> -->
+            <a href="{% url 'submitOrder' %}" class="btn btn-outline-success">{{booking.payment_status}}</a>
             </span> </p>
       </div>
     </div>
     {% endfor %}
 {% endblock %}
+
+submitOrder

@@ -98,3 +98,9 @@ class AddTimeSlotForm(forms.ModelForm):
 			"end_time",
 			"date"
 		]
+        
+        
+class BookingStatusUpdateForm(forms.ModelForm):
+    class Meta:
+        model = models.Booking
+        fields = ['booking_status']

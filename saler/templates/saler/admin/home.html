@@ -9,47 +9,176 @@
             class="icn srchicn" alt="search-button">
     </div>
 </div>
-<div class="box-container">
-    <div class="box box1">
-        <div class="text">
-            <h2 class="topic-heading">0.0k</h2>
-            <h2 class="topic">Profile Views</h2>
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+        <div class="box box1">
+            <div class="text">
+                <h2 class="topic-heading">0.0k</h2>
+                <h2 class="topic">Profile Views</h2>
+            </div>
+            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
+                alt="Views"> -->
         </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
-            alt="Views">
     </div>
-    <div class="box box2">
-        <div class="text">
-            <h2 class="topic-heading">0</h2>
-            <h2 class="topic">Total Students</h2>
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+        <div class="box box2">
+            <div class="text">
+                <h2 class="topic-heading">0</h2>
+                <h2 class="topic">Total Students</h2>
+            </div>
+            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png" alt="likes"> -->
         </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png" alt="likes">
     </div>
-    <div class="box box3">
-        <div class="text">
-            <h2 class="topic-heading">0</h2>
-            <h2 class="topic">Total Skills</h2>
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+        <div class="box box3">
+            <div class="text">
+                <h2 class="topic-heading">0</h2>
+                <h2 class="topic">Total Skills</h2>
+            </div>
+            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png" -->
+                <!-- alt="comments"> -->
         </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png"
-            alt="comments">
     </div>
-    <div class="box box4">
-        <div class="text">
-            <h2 class="topic-heading">Ksh 0.00</h2>
-            <h2 class="topic">Total Earnings</h2>
-        </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published">
-    </div>
-</div>
-<div class="report-container">
-    <div class="report-header">
-        <h1 class="recent-Articles">Still not sure with what to upload here!!!</h1>
-    </div>
-    <div class="report-body">
-        <div class="report-topic-heading">
-            hgvdhjvjd
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+        <div class="box box4">
+            <div class="text">
+                <h2 class="topic-heading">Ksh 0.00</h2>
+                <h2 class="topic">Total Earnings</h2>
+            </div>
+            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published"> -->
         </div>
     </div>
 </div>
+
+
+
+
+<div class="row mb-4">
+    <div class="col-lg-8 col-md-12 col-sm-12">
+        <div class="chart-section">
+            <h6>Your Pregress: Overview</h6>
+            <canvas id="myChart" width="400" height="200"></canvas>
+
+            <div class="students">
+                <h4>My Students</h4>
+                <p class="user-icons">
+                    <span>
+                        <i class="fas fa-user fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user-ninja fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user-ninja fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user-ninja fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user-ninja fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user-ninja fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user fa-3x  "></i>
+                    </span>
+                    <span>
+                        <i class="fas fa-user-ninja fa-3x  "></i>
+                    </span>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="account-data">
+           <div class="profile-data">
+           <div>
+            <p class="name">{{request.user.first_name}} {{request.user.first_name}} </p>
+            <p class="text-primary">@{{request.user.username}}</p>
+            <p>Date Joined: {{request.user.date_joined}}</p>
+           </div>
+            <img src="{{request.user.userdetails.photo.url}}" alt="" class="profile-img">
+           </div>
+           <div class="finances">
+            <h4 class="text-bold text-primary font-bold">Finances</h6>
+            <div class="balances">
+                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Current Balance: <span>Ksh 9850.56</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Month Balance: <span>Ksh 9850.41</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Year Balance: <span>Ksh 79885.10</span></p>
+            </div>
+            <div class="withdrawals">
+                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> Total Withdrawals: <span>Ksh 56472.97</span></p>
+                <p class="current-balance"><span><i class="fas fa-calendar-alt  fa-sm  "></i></span> Pending Withdrawals: <span>Ksh 1000.00</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> This Year Balance: <span>Ksh 9850.56</span></p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <button class="btn btn-success">Request Withdrawal</button>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <button class="btn btn-danger">Cancel Withdrawal</button>
+                </div>
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var data = {
+      labels: ['January', 'February', 'March', 'April', 'May','June','July','August','September','October','November','December'],
+      datasets: [
+        {
+          label: 'Profile Visits',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          data: [65, 59, 80, 81, 56,88,95,36,90,37,66,83],
+        },
+        {
+          label: 'Bookings',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+          data: [45, 34, 44, 90, 65,66,87,32,14,43,26,55],
+        }
+      ]
+    };
+
+    // Configuration options
+    var options = {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Create the chart
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options
+    });
+</script>
+
 
 {% endblock %}

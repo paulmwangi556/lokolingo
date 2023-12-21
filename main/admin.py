@@ -6,10 +6,10 @@ admin.site.site_header = 'LOKOLiNGO | admin panel'
 
 
 class UserDetailAdmin(admin.ModelAdmin):
-    list_display = ("mobile",)
+    list_display = ("mobile","user")
 
 class TutorRatingAdmin(admin.ModelAdmin):
-    list_display = ("tutor","student","rating","review")
+    list_display = ("tutor","student","rating","review","date_added")
 
 admin.site.register(UserDetail,UserDetailAdmin)
 admin.site.register(Product)

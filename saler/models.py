@@ -112,8 +112,9 @@ class Booking(models.Model):
         choices=STATUS_CHOICES,
         default=PENDING_APPROVAL,
     )
+    tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="tutor_details")
     skill = models.ForeignKey(Skill,on_delete=models.DO_NOTHING,blank=True,null=True)
-    student=models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True)
+    student=models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="student_details")
     date=models.DateField(blank=True,null=True)
     time = models.TimeField(blank=True,null=True)
     student_message = models.TextField(blank=True,null=True)
@@ -124,7 +125,28 @@ class Booking(models.Model):
         choices=PAYMENT_STATUS_CHOICES,
         default=PAYMENT_NOT_INITIATED,
     )
+    
+    
+class BookingPayments(models.Model):
+    
+	session = models.OneToOneField(Booking,on_delete=models.DO_NOTHING)
+	amount = models.DecimalField(max_digits=10,decimal_places=2)
+	date=models.DateTimeField(auto_now_add=True)
+	reference = models.CharField(max_length=10)
+	payment_method=models.CharField(max_length=100)
+	confirmation_code = models.CharField(max_length=100)
+	payment_status_description=models.CharField(max_length=100)
+	payment_account = models.CharField(max_length=50)
+	merchant_reference=models.CharField(max_length=100)
+	currency=models.CharField(max_length=100)
+	order_tracking_id=models.CharField(max_length=100)
+	create_date=models.DateTimeField()
 
+
+class TutorAccount(models.Model):
+    balance = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
+    tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    last_deposit_amount = models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)
 
 class SellerSlider(models.Model):
 	name = models.CharField(max_length=50, default = "", null=True)

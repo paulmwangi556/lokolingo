@@ -32,6 +32,7 @@ class TutorRating(models.Model):
     review = models.CharField(max_length=200)
     tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="tutor")
     student=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="student")
+    date_added = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
 
 class Slider(models.Model):

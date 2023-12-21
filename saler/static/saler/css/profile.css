@@ -69,3 +69,10 @@
     height: 9rem;
     width: 9rem;
 }
+
+.tutoring-details{
+    padding: 2rem;
+	height: 10rem;
+	width: 100%;
+	box-shadow: 3px 3px 10px rgb(188, 188, 188);
+}

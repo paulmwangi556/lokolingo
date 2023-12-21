@@ -90,3 +90,8 @@
     margin-bottom: 2rem;
     padding-bottom: 1rem;
 }
+.rated_value{
+    width: 100%;
+    text-align: end;
+    background-color: red;
+}

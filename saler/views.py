@@ -1,4 +1,7 @@
+import json
 from django.shortcuts import render, redirect,get_object_or_404
+from django.urls import reverse
+import httpx
 from main import models as main_models
 from django.http import Http404, HttpResponse, JsonResponse
 from .models import SalerDetail, Product, ProductSize, SellerSlider, MyCart, WholeSaleProduct, category, Orders, WholeSaleProductOrders
@@ -542,13 +545,22 @@ def studentDashboard(request):
 
 
 def studentBookings(request):
-    bookings = models.Booking.objects.all()
+    student_id=request.user.id
+    bookings = models.Booking.objects.filter(student=student_id)
     context={
         "bookings":bookings
     }
     return render(request,"saler/student/student_bookings.html",context)
 
-@login_required
+
+def studentProfile(request):
+    # bookings = models.Booking.objects.all()
+    context={
+        
+    }
+    return render(request,"saler/student/student_profile.html",context)
+
+
 def updateProfile(request):
     form = UpdateUserDetailForm()
     try:
@@ -669,13 +681,54 @@ def addTimeSlotForm(request,skill_id):
         return render(request, "saler/admin/time_slots.html",context)  
     
 def staffBookings(request):
-    bookings = models.Booking.objects.all()
+    tutor_id = request.user.id
+    bookings = models.Booking.objects.filter(tutor=tutor_id)
+    # booking = get_object_or_404(models.Booking, id=booking_id)
+    booking_form=forms.BookingStatusUpdateForm(request.POST)
     context = {
-        "bookings":bookings
+        "bookings":bookings,
+        "form":booking_form
     }
 
     return render(request,"saler/admin/bookings.html",context)
 
+def update_booking_status(request, booking_id):
+    booking = get_object_or_404(models.Booking, id=booking_id)
+    tutor_id = request.user.id
+    bookings = models.Booking.objects.filter(tutor=tutor_id)
+    # booking = get_object_or_404(models.Booking, id=booking_id)
+    booking_form=forms.BookingStatusUpdateForm(request.POST)
+    context = {
+        "bookings":bookings,
+        "form":booking_form
+    }
+    if request.method == 'POST':
+        form = forms.BookingStatusUpdateForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            print("form saved")
+            # Add any additional logic after saving the form if needed
+    else:
+        form = forms.BookingStatusUpdateForm(instance=booking)
+
+    return render(request,"saler/admin/bookings.html",context)
+
+
+def withdrawals(request):
+    
+    return render(request,"saler/admin/withdrawals.html")
+
+
+def reviews(request):
+    tutor_reviews=main_models.TutorRating.objects.all()
+    
+    for item in tutor_reviews:
+        item.rating =range(0,item.rating)
+    
+    context={
+        "tutor_reviews":tutor_reviews
+    }
+    return render(request,"saler/admin/reviews.html",context)
 
 def logout_tutor(request):
     logout(request)
@@ -698,7 +751,7 @@ def tutor_profile(request,tutor_id):
     return render(request,"saler/tutor_profile.html",context)
 
 # @login_required
-def bookSession(request):
+def bookSession(request,tutor_id):
     if request.method == "POST":
         date = request.POST.get("date")
         time = request.POST.get("time")
@@ -706,6 +759,7 @@ def bookSession(request):
         skill_id = request.POST.get("skill")
         duration = request.POST.get("duration")
         skill = models.Skill.objects.get(id=skill_id)
+        tutor=models.User.objects.get(id=tutor_id)
         
         if request.user.is_authenticated:
             user = request.user
@@ -716,6 +770,7 @@ def bookSession(request):
                 student=user,
                 duration=duration,
                 student_message=message,
+                tutor=tutor
             )
             session.save()
             print("session id is ",session.id)
@@ -740,7 +795,7 @@ def rateTutor(request,tutor_id):
             tutor = main_models.User.objects.get(id=tutor_id)
 
             rated = main_models.TutorRating.objects.create(
-                rating=rate,
+                rating="5",
                 review=review,
                 student=student,
                 tutor=tutor
@@ -752,6 +807,151 @@ def rateTutor(request,tutor_id):
             return redirect("tutor_login")
     else:
          return tutor_profile(request,tutor_id)
+     
+     
+     
+     
+     
+     
+# payments
+
+async def getAuthToken(request):
+    url = "https://pay.pesapal.com/v3/api/Auth/RequestToken"
+    payload = json.dumps({
+        "consumer_key": "INVBqKBsmVnVgdHiIYyqpJxSNIkNHp/K",
+        "consumer_secret": "yRiA3QOS2pdzkoPfAAHAv3BOB+o="
+    })
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cookie': '__cf_bm=UkeRsH42trDKHeVZOlLjH_uLOmdQe8H_g3SBfPDyT44-1702363838-1-ATlP/7hc90zrXyGLz/go4//imcapHXvLOBhtK6LH1FEUsx3Ucx43KlmnAk/AE+uItRmmZFjktFP8VNmL5T91rB0='
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, data=payload)
+        return response.json()
+
+
+async def registerIpnUrl(request):
+    try:
+        data = await getAuthToken(request)
+        token_value = data.get("token")
+        url = "https://pay.pesapal.com/v3/api/URLSetup/RegisterIPN"
+        payload = json.dumps({
+            "url": "http://127.0.0.1:8000/ipn",
+            "ipn_notification_type": "GET"
+        })
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer  {token_value}',
+            'Cookie': '__cf_bm=D6i0Q55cV0fAywZ6F2kYQPUc3BX0MVocklf0fNmAqhI-1702362813-1-AbM3loCbxQuLR18vRIpouqS9JX1CU/bZP17xcrk5+SQYgT1paOY3e3FDh3UFIb3mmKPaIXWlTMGbFmJWrZEMMdA='
+        }
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, headers=headers, data=payload)
+            print(response.text)
+        # return JsonResponse({'status': 'Data received successfully'})
+        return response.text
+    except Exception as e:
+        print(f"Error fetching data: {e}")
+        return JsonResponse({'status': 'Error fetching data'}, status=500)
+    return HttpResponse("Hello World")
+
+async def getTransactionStatus(request,token,order_tracking_id):
+    
+    url = f"https://pay.pesapal.com/v3/api/Transactions/GetTransactionStatus?orderTrackingId={order_tracking_id}"
+
+    payload={}
+    headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': f'Bearer {token}'
+    }
+
+    async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=headers)
+
+            print(response.text)
+            return response.text
+
+async def submitOrder(request):
+    try:
+        data = await getAuthToken(request)
+        token_value = data.get("token")
+        url = "https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest"
+        callback_url=reverse("home")
+        
+        
+        # ipn id
+        ipn_data=await registerIpnUrl(request)
+        ipn_vals=json.loads(ipn_data)
+        ipn_id_value = ipn_vals.get('ipn_id')
+        print("ipn value is ", ipn_id_value)
+        print("----------------------------")
+
+        payload = json.dumps({
+            "id":  "htr4346fhfuy5vjhvj7575",
+            "currency": "KES",
+            "amount": 1,
+            "description": "Payment description goes here",
+            "callback_url": "https://www.myapplication.com/response-page",
+            "redirect_mode": "",
+            "notification_id": ipn_id_value,
+            "branch": "LokoLingo",
+            "billing_address": {
+                "email_address": "josemusila03@gmail.com",
+                "phone_number": "0794106178",
+                "country_code": "KE",
+                "first_name": "Joseph",
+                "middle_name": "Jela",
+                "last_name": "Musila",
+                "line_1": "Pesapal Limited",
+                "line_2": "",
+                "city": "",
+                "state": "",
+                "postal_code": "",
+                "zip_code": ""
+            }
+        })
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token_value}',
+            'Cookie': '__cf_bm=UkeRsH42trDKHeVZOlLjH_uLOmdQe8H_g3SBfPDyT44-1702363838-1-ATlP/7hc90zrXyGLz/go4//imcapHXvLOBhtK6LH1FEUsx3Ucx43KlmnAk/AE+uItRmmZFjktFP8VNmL5T91rB0='
+        }
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, headers=headers, data=payload)
+            print("------------------------------")
+            print(response.text)
+            print("-----------------------")
+
+        json_response = response.json()
+        redirect_url = json_response.get("redirect_url")
+        
+        tracking_id_value = json_response.get('order_tracking_id')
+        print("Tracking ID:", tracking_id_value)
+        print("Redirect url is ",redirect_url)
+        status = await getTransactionStatus(request,token=token_value,order_tracking_id=tracking_id_value)
+        print("status is",status)
+        
+        # save the data in the booking payment model
+        
+        confirmed_payment_json=json.loads(status)
+        reference=confirmed_payment_json.get("confirmation_code")
+        print("-----------------------------------------------------")
+        print("Reference code is ",reference)
+        print("--------------------------------------")
+        return redirect(redirect_url)
+    except Exception as e:
+        print(f"Error fetching data: {e}")
+        return JsonResponse({'status': 'Error fetching data'}, status=500)
+
+
+
+
+
+
+
+
 
 
 # This is a part of admin view in which all ordered products will display with address
