@@ -30,7 +30,7 @@
     margin: auto;
     padding-top: 3rem;
     margin-bottom: 2rem;
-    border-radius: 3rem;
+    border-radius: 50%;
 }
 
 .profile-image img{
@@ -38,7 +38,7 @@
     width: 18rem;
     object-fit: contain;
     margin: auto;
-    border-radius: 3rem;
+    border-radius: 50%;
 }
 .skill-tile{
     text-align: center;
@@ -70,4 +70,23 @@
 
 .about{
     color: black;
+}
+
+.star {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ccc;
+}
+
+.star:hover,
+.star.rated {
+    color: #ffac00;
+}
+
+
+.rating-section{
+    border: 1px solid ;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
 }

@@ -1,0 +1,31 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+{% for booking in bookings %}
+    <div class="bookings">
+      <div class="booking-data">
+         
+        <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
+        <p>Date: {{booking.date}}  @{{booking.time}}</p>
+       
+        <p>Duration: {{booking.duration}} hrs</p>
+        
+      
+      </div>
+      <!-- <hr> -->
+      <div class="booking-message">
+        <p class="message-title">Student Message</p>
+        <p class="message-body">{{booking.student_message}}</p>
+      </div>
+      <hr>
+      <div class="booking-status">
+        <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}</span> </p>
+        <p class="payment-status">Payment approval Status| <span>
+            <button class="payment-btn">{{booking.payment_status}}</button>
+            </span> </p>
+      </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

@@ -17,7 +17,9 @@ urlpatterns = [
 
         # studdent dashboard
         path("student_bookings",views.studentBookings,name="studentBookings"),
-     
+
+
+    #  admin dashboard
         path("updateProfile/",views.updateProfile,name="updateProfile"),
         path("logout_tutor",views.logout_tutor,name="logout_tutor"),
         path("processUpdateForm",views.updateProfileForm,name="updatProfileForm"),
@@ -25,11 +27,13 @@ urlpatterns = [
         path("addTutorSkillsForm",views.addTutorSkillsForm,name="addTutorSkillsForm"),
         path("addTimeSlot/<str:skill_id>",views.addTimeSlot,name="addTimeSlot"),
         path("addTimeSlotForm/<str:skill_id>",views.addTimeSlotForm,name="addTimeSlotForm"),
+        path("bookings",views.staffBookings,name="staffBookings"),
         
         
         # booking
         path("tutor_profile/<str:tutor_id>",views.tutor_profile,name="tutor_profile"),
         path("bookSession",views.bookSession,name="bookSession"),
+        path("rate_tutor/<str:tutor_id>",views.rateTutor,name="rateTutor"),
         
 
     	path('add_product/', views.add_product, name="add_product"),

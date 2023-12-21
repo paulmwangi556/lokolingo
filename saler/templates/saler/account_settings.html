@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="{% static  'main/css/dashboard_responsive.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/profile.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/skills.css' %}">
+	<link rel="stylesheet" href="{% static  'saler/css/student_bookings.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/slots.css' %}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> 
 	
@@ -98,12 +99,14 @@
 							class="nav-img" alt="withdrawals">
 						<h3> Withdrawals</h3>
 					</div>
-
+					<a href="{% url 'staffBookings' %}">
 					<div class="nav-option option5">
-						<img src="{% static 'main/images/meet.webp' %}"
-							class="nav-img" alt="google meet">
-						<h3>Google meet</h3>
+						
+						<i class="fas fa-calendar fa-2x  "></i>
+							
+						<h3>Bookings</h3>
 					</div>
+					</a>
 
 					<div class="nav-option option6">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"

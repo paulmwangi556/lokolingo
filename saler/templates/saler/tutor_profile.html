@@ -27,6 +27,30 @@
                 {% for rate in rating%}
                 <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i>
                 {% endfor %}
+
+                <div class="mt-4">
+                    <buttton class="btn btn-outline-warning">Rate {{request.user.first_name}}</buttton>
+                </div>
+
+                <div class="rating-section mt-5">
+                    <h6 class="h4">Add A review</h6>
+                    <form method="POST" action="{% url 'rateTutor' tutor_id=tutor.user.id %}">
+                        <div class="form-group">
+                          <label for="Review">Write a Review</label>
+                          <textarea class="form-control" name="review" id="review" rows="3"></textarea>
+                        </div>
+
+                        <div>
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="star" data-value="5">&#9733;</span>
+                        </div>
+                        <input type="hidden"  name="rating" id="id_value" value="5" />
+                        <button type="submit" class="btn btn-warning mt-3">Submit Rating</button>
+                    </form>
+                </div>
             </div>
             <div class="col-lg-8 col-md-6 col-sm-12 profile-details">
                 <p class="about-title">About Me</p>
@@ -105,6 +129,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll('.star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                stars.forEach(s => s.classList.remove('rated'));
+                star.classList.add('rated');
+                document.getElementById('id_value').value = star.dataset.value;
+                console.log(star.dataset.value)
+            });
+        });
+    });
+</script>
 
 
 {% endblock %}

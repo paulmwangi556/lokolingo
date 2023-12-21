@@ -668,6 +668,14 @@ def addTimeSlotForm(request,skill_id):
        
         return render(request, "saler/admin/time_slots.html",context)  
     
+def staffBookings(request):
+    bookings = models.Booking.objects.all()
+    context = {
+        "bookings":bookings
+    }
+
+    return render(request,"saler/admin/bookings.html",context)
+
 
 def logout_tutor(request):
     logout(request)
@@ -718,6 +726,33 @@ def bookSession(request):
         return redirect("studentDashboard")
     else:
         return redirect("studentDashboard")
+    
+
+def rateTutor(request,tutor_id):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            review = request.POST.get("review")
+            rate = request.POST.get("rating")
+            student_id = request.user.id
+            student = main_models.User.objects.get(id=student_id)
+
+            print("rate is ", rate)
+            tutor = main_models.User.objects.get(id=tutor_id)
+
+            rated = main_models.TutorRating.objects.create(
+                rating=rate,
+                review=review,
+                student=student,
+                tutor=tutor
+            )
+            print("rating")
+            rated.save()
+            return tutor_profile(request,tutor_id)
+        else:
+            return redirect("tutor_login")
+    else:
+         return tutor_profile(request,tutor_id)
+
 
 # This is a part of admin view in which all ordered products will display with address
 def admin2(request):
