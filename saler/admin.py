@@ -11,10 +11,10 @@ class SkillsAdmin(admin.ModelAdmin):
     
     
 class BookingAdmin(admin.ModelAdmin):
-    list_display=("tutor","student")
+    list_display=("student","duration")
     
 class BookingPaymentsAdmin(admin.ModelAdmin):
-    list_display=("id","reference","amount","date","session")
+    list_display=("id","payment_method","amount","date","confirmation_code","payment_status_description","booking")
     
 class TotorAccountAdmin(admin.ModelAdmin):
     list_display=("tutor","balance","last_deposit_amount")
@@ -22,5 +22,5 @@ class TotorAccountAdmin(admin.ModelAdmin):
 admin.site.register(models.SkillCategory,AddSkillCategoryAdmin)
 admin.site.register(models.Skill,SkillsAdmin)
 admin.site.register(models.Booking,BookingAdmin)
-admin.site.register(models.BookingPayments)
+admin.site.register(models.BookingPayments,BookingPaymentsAdmin)
 admin.site.register(models.TutorAccount,TotorAccountAdmin)

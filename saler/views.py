@@ -1,4 +1,7 @@
+from datetime import datetime
+from decimal import Decimal
 import json
+import uuid
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse
 import httpx
@@ -18,6 +21,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, authenticate, logout
 from . import forms
 from . import models
+from asgiref.sync import sync_to_async
 # This is view of Index Page of Seller in which we Display Whole Sale Products
 
 
@@ -470,12 +474,15 @@ def tutor_signup(request):
 def tutor_login(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
+   
+  
     user = authenticate(request, username=username, password=password)
     if user:
         login(request, user)
         messages.success(request, f'Hi {username.title()}, welcome back!')
         print("Authenticated")
-        group = user.groups.first()
+        # group = user.groups.first()
+        # print("User group is ", group.name)
         user_groups = request.user.groups.values_list('name', flat=True)
         if 'student' in user_groups:
             return redirect("studentDashboard")
@@ -759,7 +766,7 @@ def bookSession(request,tutor_id):
         skill_id = request.POST.get("skill")
         duration = request.POST.get("duration")
         skill = models.Skill.objects.get(id=skill_id)
-        tutor=models.User.objects.get(id=tutor_id)
+        # tutor=models.User.objects.get(id=tutor_id)
         
         if request.user.is_authenticated:
             user = request.user
@@ -770,7 +777,7 @@ def bookSession(request,tutor_id):
                 student=user,
                 duration=duration,
                 student_message=message,
-                tutor=tutor
+                
             )
             session.save()
             print("session id is ",session.id)
@@ -815,6 +822,9 @@ def rateTutor(request,tutor_id):
      
 # payments
 
+def payments(request):
+    return render(request, 'saler/student/payments.html')
+
 async def getAuthToken(request):
     url = "https://pay.pesapal.com/v3/api/Auth/RequestToken"
     payload = json.dumps({
@@ -856,29 +866,61 @@ async def registerIpnUrl(request):
         return JsonResponse({'status': 'Error fetching data'}, status=500)
     return HttpResponse("Hello World")
 
-async def getTransactionStatus(request,token,order_tracking_id):
+async def getTransactionStatus(request,order_tracking_id):
     
     url = f"https://pay.pesapal.com/v3/api/Transactions/GetTransactionStatus?orderTrackingId={order_tracking_id}"
 
     payload={}
+    data = await getAuthToken(request)
+    token_value = data.get("token")
     headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': f'Bearer {token}'
+    'Authorization': f'Bearer {token_value}'
     }
-
+    booking_payment = await sync_to_async(models.BookingPayments.objects.get)(order_tracking_id=order_tracking_id)
     async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=headers)
+            json_response = response.json()
+            
+    if json_response.get("status") == "200":
+        booking_payment.payment_method=json_response.get("payment_method")
+        booking_payment.create_date=json_response.get("create_date")
+        booking_payment.confirmation_code=json_response.get("confirmation_code")
+        booking_payment.payment_status_description=json_response.get("payment_status_description")
+        booking_payment.message=json_response.get("message")
+        booking_payment.currency=json_response.get("currency")
+        booking_payment.payment_account=json_response.get("payment_account")
+        booking_payment.status=json_response.get("status")
+        await sync_to_async(booking_payment.save)()
+        
+        
+        booking_id = await sync_to_async(lambda: booking_payment.booking.id)()
+        booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
+        booking.payment_status = models.Booking.PAYMENT_COMPLETED
+        await sync_to_async(booking.save)()
+        
+        return redirect("studentBookings")
+    else:
+        booking_payment.status=json_response.get("status")
+        await sync_to_async(booking_payment.save)()
+        
+        booking = await sync_to_async(models.Booking.objects.get)(id=booking_payment.booking.id)
+        booking.payment_status = models.Booking.PAYMENT_FAILED
+        await sync_to_async(booking.save)()
+        
+        return redirect("payments")
+            # return response.text
 
-            print(response.text)
-            return response.text
-
-async def submitOrder(request):
+async def submitOrder(request,booking_id):
     try:
         data = await getAuthToken(request)
         token_value = data.get("token")
         url = "https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest"
-        callback_url=reverse("home")
+        callback_url= await sync_to_async(reverse)("payments")
+        named_url_absolute = request.build_absolute_uri(callback_url)
+        print("callback url is ", named_url_absolute)
+
         
         
         # ipn id
@@ -887,23 +929,46 @@ async def submitOrder(request):
         ipn_id_value = ipn_vals.get('ipn_id')
         print("ipn value is ", ipn_id_value)
         print("----------------------------")
+        uid = str(uuid.uuid4())
+        current_datetime = str(datetime.now())
+        
+        booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
+        # rate_per_hour = await sync_to_async(lambda: booking.skill.tutor.userdetails.rate_per_hour)()
+        # duration = await sync_to_async(lambda: booking.duration)()
+        
+        # cost =str(Decimal(rate_per_hour)*Decimal(duration))
+
+        
+        user = await sync_to_async(lambda: request.user)()
+        user_id =await sync_to_async(lambda: user.id)() 
+      
+        user_details = await sync_to_async(main_models.UserDetail.objects.get)(user=user_id)
+        email_address = await sync_to_async(lambda: user.email)()
+        phone= await sync_to_async(lambda: request.user.userdetails.mobile)()
+        first_name= await sync_to_async(lambda: user.first_name)()
+        last_name= await sync_to_async(lambda: user.last_name)()
+        cost= str( await sync_to_async(lambda: booking.cost)())
+        
+        
+        
+        
 
         payload = json.dumps({
-            "id":  "htr4346fhfuy5vjhvj7575",
+            "id":uid ,
             "currency": "KES",
-            "amount": 1,
-            "description": "Payment description goes here",
-            "callback_url": "https://www.myapplication.com/response-page",
+            "amount":cost ,
+            "description": "Payment For Tutor Session",
+            "callback_url":named_url_absolute ,
             "redirect_mode": "",
             "notification_id": ipn_id_value,
             "branch": "LokoLingo",
             "billing_address": {
-                "email_address": "josemusila03@gmail.com",
-                "phone_number": "0794106178",
+                "email_address": email_address,
+                "phone_number": phone,
                 "country_code": "KE",
-                "first_name": "Joseph",
-                "middle_name": "Jela",
-                "last_name": "Musila",
+                "first_name": first_name,
+                "middle_name": "",
+                "last_name": last_name,
                 "line_1": "Pesapal Limited",
                 "line_2": "",
                 "city": "",
@@ -918,6 +983,10 @@ async def submitOrder(request):
             'Authorization': f'Bearer {token_value}',
             'Cookie': '__cf_bm=UkeRsH42trDKHeVZOlLjH_uLOmdQe8H_g3SBfPDyT44-1702363838-1-ATlP/7hc90zrXyGLz/go4//imcapHXvLOBhtK6LH1FEUsx3Ucx43KlmnAk/AE+uItRmmZFjktFP8VNmL5T91rB0='
         }
+        
+        user = request.user
+        
+        
         async with httpx.AsyncClient() as client:
             response = await client.post(url, headers=headers, data=payload)
             print("------------------------------")
@@ -927,20 +996,46 @@ async def submitOrder(request):
         json_response = response.json()
         redirect_url = json_response.get("redirect_url")
         
+        
         tracking_id_value = json_response.get('order_tracking_id')
+        
+        booking_payment = await sync_to_async(models.BookingPayments.objects.create)()
+        print("Reached Here",booking_id)
+        if tracking_id_value is not None:
+            booking.student=request.user
+          
+            booking.payment_status = models.Booking.PAYMENT_INITIATED
+            await sync_to_async(booking.save)()
+            
+            booking_payment.booking=booking
+            booking_payment.amount=1.00
+            booking_payment.reference=json_response.get("merchant_reference")
+            booking_payment.merchant_reference=json_response.get("merchant_reference")
+            booking_payment.order_tracking_id=json_response.get("order_tracking_id")
+            await sync_to_async(booking_payment.save)()
+            
+            
+            
         print("Tracking ID:", tracking_id_value)
         print("Redirect url is ",redirect_url)
-        status = await getTransactionStatus(request,token=token_value,order_tracking_id=tracking_id_value)
-        print("status is",status)
+       
         
         # save the data in the booking payment model
         
-        confirmed_payment_json=json.loads(status)
-        reference=confirmed_payment_json.get("confirmation_code")
-        print("-----------------------------------------------------")
-        print("Reference code is ",reference)
-        print("--------------------------------------")
-        return redirect(redirect_url)
+        # confirmed_payment_json=json.loads(status)
+        # reference=confirmed_payment_json.get("confirmation_code")
+        # print("-----------------------------------------------------")
+        # print("Reference code is ",reference)
+        # print("--------------------------------------")
+        # return redirect(redirect_url)
+        
+        if redirect_url:
+          
+            return render(request, 'saler/student/payments.html',{"redirect_url":redirect_url})
+        else:
+            # status = await getTransactionStatus(request,token_value,tracking_id_value)
+            print("status >>>>>>>>")
+            return render(request, 'saler/student/payments.html',{"tracking_id":tracking_id_value})
     except Exception as e:
         print(f"Error fetching data: {e}")
         return JsonResponse({'status': 'Error fetching data'}, status=500)

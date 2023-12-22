@@ -10,7 +10,7 @@ from saler.views import admin2
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('admin2', admin2, name = 'admin2'),
-    path('main/', include('main.urls')),
+    path('', include('main.urls')),
 # added
     path('accounts/', include('allauth.urls')),
     # added end

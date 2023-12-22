@@ -1,0 +1,31 @@
+{
+  "payment_method": "MpesaKE",
+  "amount": 1.0,
+  "created_date": "2023-12-22T13:07:52.597",
+  "confirmation_code": "RLM8VFZK4I",
+  "order_tracking_id": "b76514e1-2740-4cfe-a171-ddccbcfd98ad",
+  "payment_status_description": "Completed",
+  "description": null,
+  "message": "Request processed successfully",
+  "payment_account": "2547xxx87487",
+  "call_back_url": "http://127.0.0.1:8000/tutor/payments?OrderTrackingId=b76514e1-2740-4cfe-a171-ddccbcfd98ad&OrderMerchantReference=2023-12-22 10:07:10.521841",
+  "status_code": 1,
+  "merchant_reference": "2023-12-22 10:07:10.521841",
+  "payment_status_code": "",
+  "currency": "KES",
+  "error": {
+    "error_type": null,
+    "code": null,
+    "message": null
+  },
+  "status": "200"
+}
+
+
+{
+  "order_tracking_id": "78768d35-19ea-41db-a7da-ddcc1a7d533e",
+  "merchant_reference": "2023-12-22 13:35:23.805905",
+  "redirect_url": "https://pay.pesapal.com/iframe/PesapalIframe3/Index?OrderTrackingId=78768d35-19ea-41db-a7da-ddcc1a7d533e",
+  "error": null,
+  "status": "200"
+}

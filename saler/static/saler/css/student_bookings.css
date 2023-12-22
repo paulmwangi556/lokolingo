@@ -15,10 +15,12 @@
     height: 10rem;
     /* width: 18rem; */
     top: 100%;
+    background-color: rgb(255, 255, 255);
     box-shadow: 3px 3px 10px rgb(188, 188, 188);
     display: flex;
     align-content: center;
     display: none;
+    z-index: 4;
     
 }
 

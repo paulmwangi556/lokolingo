@@ -11,6 +11,8 @@
         <p>Date: {{booking.date}}  @{{booking.time}}</p>
        
         <p>Duration: {{booking.duration}} hrs</p>
+
+        <p>Cost:{{booking.cost}}</p>
         
       
       </div>
@@ -22,9 +24,9 @@
       <hr>
       <div class="booking-status">
         <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}</span> </p>
-        <p class="payment-status">Payment approval Status| <span>
+        <p class="payment-status">Payment  Status <span>
             <!-- <button class="payment-btn">{{booking.payment_status}}</button> -->
-            <a href="{% url 'submitOrder' %}" class="btn btn-outline-success">{{booking.payment_status}}</a>
+            <a href="{% url 'submitOrder' booking_id=booking.id %}" class="btn btn-outline-success">{{booking.payment_status}}</a>
             </span> </p>
       </div>
     </div>

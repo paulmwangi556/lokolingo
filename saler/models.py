@@ -1,6 +1,9 @@
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class SalerDetail(models.Model):
 	SEX_CHOICES = (("Male",'Male'),("Female",'Female'),("Other",'Other'))
@@ -112,7 +115,7 @@ class Booking(models.Model):
         choices=STATUS_CHOICES,
         default=PENDING_APPROVAL,
     )
-    tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="tutor_details")
+    # tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="tutor_details")
     skill = models.ForeignKey(Skill,on_delete=models.DO_NOTHING,blank=True,null=True)
     student=models.ForeignKey(User,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="student_details")
     date=models.DateField(blank=True,null=True)
@@ -120,27 +123,49 @@ class Booking(models.Model):
     student_message = models.TextField(blank=True,null=True)
     tutor_message = models.TextField(blank=True,null=True)
     duration = models.CharField(max_length=5,default="1")
+    cost=models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
     payment_status = models.CharField(
         max_length=30,
         choices=PAYMENT_STATUS_CHOICES,
         default=PAYMENT_NOT_INITIATED,
     )
     
+def booking_post_save(sender,instance,created,*args,**kwargs):
+    instance.cost = Decimal(instance.skill.tutor.userdetails.rate_per_hour) * Decimal(instance.duration) 
+    if created:
+        instance.save()
+        
+        
+post_save.connect(booking_post_save,sender=Booking)
+
+    
+class InitiatedPayments():
+    tracking_id=models.CharField(max_length=100)
+    
+    
     
 class BookingPayments(models.Model):
     
-	session = models.OneToOneField(Booking,on_delete=models.DO_NOTHING)
-	amount = models.DecimalField(max_digits=10,decimal_places=2)
+	booking = models.ForeignKey(Booking,on_delete=models.DO_NOTHING,null=True,blank=True)
+	amount = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
 	date=models.DateTimeField(auto_now_add=True)
-	reference = models.CharField(max_length=10)
-	payment_method=models.CharField(max_length=100)
-	confirmation_code = models.CharField(max_length=100)
-	payment_status_description=models.CharField(max_length=100)
-	payment_account = models.CharField(max_length=50)
-	merchant_reference=models.CharField(max_length=100)
-	currency=models.CharField(max_length=100)
-	order_tracking_id=models.CharField(max_length=100)
-	create_date=models.DateTimeField()
+	reference = models.CharField(max_length=10,null=True,blank=True)
+	payment_method=models.CharField(max_length=100,null=True,blank=True)
+	confirmation_code = models.CharField(max_length=100,null=True,blank=True)
+	payment_status_description=models.CharField(max_length=100,null=True,blank=True)
+	payment_account = models.CharField(max_length=50,null=True,blank=True)
+	merchant_reference=models.CharField(max_length=100,null=True,blank=True)
+	currency=models.CharField(max_length=100,null=True,blank=True)
+	order_tracking_id=models.CharField(max_length=100,null=True,blank=True)
+	create_date=models.DateTimeField(null=True,blank=True)
+	message=models.CharField(max_length=100,blank=True,null=True)
+	status_code=models.CharField(max_length=20,blank=True,null=True)
+	payment_status_code = models.CharField(max_length=20,null=True,blank=True)
+	status = models.CharField(max_length=20,null=True,blank=True)
+ 
+	
+	
+	
 
 
 class TutorAccount(models.Model):
