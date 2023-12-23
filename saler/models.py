@@ -145,7 +145,6 @@ class InitiatedPayments():
     
     
 class BookingPayments(models.Model):
-    
 	booking = models.ForeignKey(Booking,on_delete=models.DO_NOTHING,null=True,blank=True)
 	amount = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
 	date=models.DateTimeField(auto_now_add=True)
@@ -197,6 +196,33 @@ class category(models.Model):
 	def __str__(self):
 		return f'{self.name}'
 
+
+class TutorSession(models.Model):
+	NOT_STARTED = 'not_started'
+	ONGOING = 'ongoing'
+	COMPLETED = 'completed'
+	PENDING_APPROVAL = 'pending_approval'
+	CANCELLED = 'cancelled'
+	
+
+	SESSION_STATUS_CHOICES = [
+		(NOT_STARTED, 'Not Started'),
+		(ONGOING, 'Ongoing'),
+		(COMPLETED, 'Completed'),
+		(PENDING_APPROVAL, 'Pending Approval'),
+		(CANCELLED, 'Cancelled'),
+		
+	]
+
+	session_status = models.CharField(
+		max_length=20,
+		choices=SESSION_STATUS_CHOICES,
+		default=NOT_STARTED,
+	)
+	title =models.CharField(max_length=200,blank=True,null=True)
+	payments = models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="session")
+	meet_url = models.CharField(max_length=200,blank=True,null=True)
+	
 
 
 

@@ -18,6 +18,7 @@ urlpatterns = [
         # studdent dashboard
         path("student_bookings",views.studentBookings,name="studentBookings"),
         path("student_profile",views.studentProfile,name="studentProfile"),
+        path("studentTransactionHistory",views.checkTransactionHistory,name="studentTransactionHistory"),
 
 
     #  admin dashboard
@@ -32,6 +33,8 @@ urlpatterns = [
         path("bookings",views.staffBookings,name="staffBookings"),
         path("withdrawals",views.withdrawals,name="withdrawals"),
         path("reviews",views.reviews,name="reviews"),
+        path("tutorSessions",views.tutorSessions,name="tutorSessions"),
+        path("createSession/<str:booking_id>",views.createSession,name="createSession"),
         
         
         # booking

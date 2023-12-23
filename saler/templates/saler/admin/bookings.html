@@ -19,11 +19,40 @@
         <p class="message-body">{{booking.student_message}}</p>
       </div>
       <hr>
-      <div class="booking-status">
-        <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}   <button class="btn btn-primary ml-3 update_booking">Change</button></span>  </p>
-        <p class="payment-status">Payment approval Status| <span>
-            <button class="payment-btn">{{booking.payment_status}}</button>
-            </span> </p>
+      <div class="booking-statvus">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}  
+              {% if booking.payment_status == 'payment_not_initiated' %}
+             <button class="btn btn-primary ml-3 update_booking">Change</button>
+             {% else %}
+  
+             {% endif %}
+            </span>  
+            </p>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            {% if booking.payment_status == 'payment_completed' %}
+              {% if booking.payment.session %}
+              <button class="btn btn-danger btn-disabled ml-3 " disabled>Session Already Created</button>
+              {% else %}
+              <a href="{% url 'createSession' booking_id=booking.id %}" class="btn btn-primary ml-3 ">Create a Session</a>
+              {% endif %}
+             
+             {% else %}
+             <button class="btn btn-secondary btn-disabled ml-3 " disabled>Create a Session</button>
+             {% endif %}
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <p class="payment-status">Payment approval Status| <span>
+              {{booking.payment_status}}
+              </span> </p>
+          </div>
+        </div>
+       
+       
            
       </div>
 

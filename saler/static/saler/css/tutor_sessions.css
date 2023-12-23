@@ -1,0 +1,8 @@
+.sessions-wrapper{
+    background-color: rgb(242, 235, 235);
+    padding: 2rem;
+    border-radius: 0.4rem;
+}
+.session-title{
+    font-weight: bold;
+}

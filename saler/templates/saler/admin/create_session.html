@@ -1,0 +1,78 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+<div class="sessions-container">
+    <div class="row">
+        
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h4 class="card-title">Add A Session</h4>
+
+            {% for messsage in messages %}
+                <p class="text-danger">{{message}}</p>
+            {% endfor %}
+
+            <div class="booking-details">
+                <h6>Booking Details</h6>
+                <hr>
+               <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <p class="skill">Skill: {{booking.skill.title}}</p>
+                    <p class="student">Student: {{booking.student.first_name}} {{booking.student.last_name}}</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <p class="time">Time: {{booking.date}} at {{booking.time}}</p>
+                    <p class="duration">Duration: {{booking.duration}} hrs</p>
+                </div>
+               </div>
+            </div>
+            <hr>
+            <form action="" method="POST">
+                <div class="mb-3">
+                    <label for="" class="form-label">Session Title</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="title"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="" class="form-label">Payments Confirmation Code</label>
+                    <input
+                    readonly
+                        type="text"
+                        class="form-control"
+                        name=""
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                        value="{{payments.confirmation_code}}"
+                    />
+                    <small id="helpId" class="form-text text-muted">You can get it from the payments section</small>
+                    <small id="helpId" class="form-text text-warning text-muted"><p class="text-warning">Can only be used once</p></small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="" class="form-label">Meet Url</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="meet"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                    <small id="helpId" class="form-text text-muted">Enter your google meet url here</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

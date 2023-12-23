@@ -1,0 +1,38 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+<div class="sessions-container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h4 class="card-title">Active Sessions</h4>
+
+
+            {% for session in sessions %}
+            <div class="sessions-wrapper">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <p class="session-title">{{session.title}}</p>
+                        <p class="start-date">Date: {{session.payments.booking.date}} </p>
+                        <p class="start-time">Time: {{session.payments.booking.time}}</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                       
+                        <p >Session Status: <span class="text-success"><a href="" class="btn btn-outline-success">{{session.session_status}}</a></span> </p>
+                    </div>
+                </div>
+                <div class="row">
+                   <div class="col-10">
+                    <a href="{{session.meet_url}}" class="btn btn-danger mb-4">Start Meeting</a>
+                   </div>
+                </div>
+              
+            </div>
+
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

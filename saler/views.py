@@ -689,8 +689,9 @@ def addTimeSlotForm(request,skill_id):
     
 def staffBookings(request):
     tutor_id = request.user.id
-    bookings = models.Booking.objects.filter(tutor=tutor_id)
+    bookings = models.Booking.objects.filter(skill__tutor=tutor_id)
     # booking = get_object_or_404(models.Booking, id=booking_id)
+    
     booking_form=forms.BookingStatusUpdateForm(request.POST)
     context = {
         "bookings":bookings,
@@ -892,6 +893,8 @@ async def getTransactionStatus(request,order_tracking_id):
         booking_payment.currency=json_response.get("currency")
         booking_payment.payment_account=json_response.get("payment_account")
         booking_payment.status=json_response.get("status")
+        booking_payment.create_date=json_response.get("created_date")
+        booking_payment.payment_status_code=json_response.get("payment_status_code")
         await sync_to_async(booking_payment.save)()
         
         
@@ -900,7 +903,7 @@ async def getTransactionStatus(request,order_tracking_id):
         booking.payment_status = models.Booking.PAYMENT_COMPLETED
         await sync_to_async(booking.save)()
         
-        return redirect("studentBookings")
+        return redirect("studentTransactionHistory")
     else:
         booking_payment.status=json_response.get("status")
         await sync_to_async(booking_payment.save)()
@@ -909,7 +912,7 @@ async def getTransactionStatus(request,order_tracking_id):
         booking.payment_status = models.Booking.PAYMENT_FAILED
         await sync_to_async(booking.save)()
         
-        return redirect("payments")
+        return redirect("studentTransactionHistory")
             # return response.text
 
 async def submitOrder(request,booking_id):
@@ -956,7 +959,7 @@ async def submitOrder(request,booking_id):
         payload = json.dumps({
             "id":uid ,
             "currency": "KES",
-            "amount":cost ,
+            "amount":"1" ,
             "description": "Payment For Tutor Session",
             "callback_url":named_url_absolute ,
             "redirect_mode": "",
@@ -1040,12 +1043,72 @@ async def submitOrder(request,booking_id):
         print(f"Error fetching data: {e}")
         return JsonResponse({'status': 'Error fetching data'}, status=500)
 
+def checkTransactionHistory(request):
+    user = request.user
+   
+    user_groups = request.user.groups.values_list('name', flat=True)
+    
+    if 'student' in user_groups:
+        transactions = models.BookingPayments.objects.filter(booking__student=user)
+        context={
+        "transactions":transactions
+        }
+        return render(request, "saler/student/payment_history.html",context)
+    
+    else:
+        transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user)
+        context={
+            "transactions":transactions
+        }
+        return render(request, "saler/admin/tutor_payment_history.html",context)
+    
+    
+    
+    
+    # return render(request, "saler/student/payment_history.html",context)
 
+def tutorSessions(request):
+    user=request.user
+    sessions = models.TutorSession.objects.filter(payments__booking__skill__tutor=user)
+    context={
+        "sessions":sessions
+    }
+    return render(request,"saler/admin/sessions.html",context)
 
-
-
-
-
+def createSession(request,booking_id):
+    booking=models.Booking.objects.get(id=booking_id)
+    payments=models.BookingPayments.objects.get(booking=booking)
+    # used_payment=models.TutorSession.objects.get(payments__reference=payments.reference)
+    
+    context={
+        "booking":booking,
+        "payments":payments
+        }
+    
+    try:
+        # used_payment=models.TutorSession.objects.get(payments__reference=payments.reference)
+        messages.error(request, f'A session using this payment has already been created')
+        used_payment=get_object_or_404(models.TutorSession,payments__reference=payments.reference)
+        return render(request,"saler/admin/create_session.html",context)
+    except Exception as e:
+    
+        if request.method == "POST":
+            title=request.POST.get("title")
+            meet_url=request.POST.get("meet")
+            
+           
+            session = models.TutorSession.objects.create()
+            session.title=title
+            session.meet_url=meet_url
+            session.session_status=models.TutorSession.NOT_STARTED
+            session.payments=payments
+            session.save()
+            # messages.error(request, f'Invalid username or password')
+            messages.success(request, f'Session Created Succesfully')
+            return redirect("tutorSessions")
+    
+    
+    return render(request,"saler/admin/create_session.html",context)
 
 
 
