@@ -52,6 +52,22 @@ class UpdateUserDetailForm(forms.ModelForm):
             'sex',
         ]
 
+class UpdateStudentProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserDetail
+        fields = [
+            "profile_description",
+            'photo',
+            'mobile',
+            'alternate_mobile',
+            'address',
+            'identification_document',
+            "country",
+            'city',
+            'sex',
+        ]
+
+
 
 class UserAddressForm1(forms.ModelForm):
     class Meta:

@@ -15,9 +15,9 @@ class UserDetail(models.Model):
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True,related_name='userdetails') 
-    rate_per_hour = models.DecimalField(max_digits=10,decimal_places=2)
+    rate_per_hour = models.DecimalField(max_digits=10,decimal_places=2,blank=True,null=True)
     profile_description=models.TextField()
-    tutoring_experience=models.IntegerField(default=0)
+    tutoring_experience=models.IntegerField(default=0,blank=True,null=True)
     country = models.CharField(max_length=100,default="Kenya")
     identification_document = models.FileField(upload_to="tutor_documents")
     photo = models.FileField( upload_to='tutor_photos')

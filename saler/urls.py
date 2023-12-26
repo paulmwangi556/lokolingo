@@ -18,6 +18,7 @@ urlpatterns = [
         # studdent dashboard
         path("student_bookings",views.studentBookings,name="studentBookings"),
         path("student_profile",views.studentProfile,name="studentProfile"),
+        path("updateStudentProfileForm",views.updateStudentProfile,name="updateStudentProfileForm"),
         path("studentTransactionHistory",views.checkTransactionHistory,name="studentTransactionHistory"),
 
 

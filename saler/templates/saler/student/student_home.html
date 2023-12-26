@@ -2,54 +2,35 @@
 {% load static %}
 
 {% block student %}
-<div class="searchbar2">
-    <input type="text" name="" id="" placeholder="Search">
-    <div class="searchbtn">
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-            class="icn srchicn" alt="search-button">
+
+    <div class="dashboard-home">
+        <h4 class="active-sessions">Active Sessions</h4>
+        {% for session in sessions %}
+            <div class="student-sessions p-3">
+                <p class="font-weight-bold text-primary">{{session.title}}</p>
+                <p class="font-weight-bold">Skill: {{session.payments.booking.skill.title}}</p>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <p class="">Tutor: {{session.payments.booking.skill.tutor.first_name}} {{session.payments.booking.skill.tutor.last_name}}</p>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <p class="">{{session.payments.booking.date}} at {{session.payments.booking.time}} for {{session.payments.booking.duration}} hrs</p>
+                    </div>
+                   <div class="session-status mt-3">
+                    <dic class="row">
+                        <div class="col-lg-6 col-md-12 mb-2">
+                            <a href="{{session.meet_url}}" class="btn btn-danger mb-4">Join Meeting</a>
+                            <p class="tex-primary">{{session.meet_url}}</p>
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-2">
+                            <p>Session Status</p>
+                            <button class="btn btn-outline-secondary">{{session.session_status}}</button>
+                        </div>
+                    </dic>
+                   </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-</div>
-<div class="box-container">
-    <div class="box box1">
-        <div class="text">
-            <h2 class="topic-heading">0.0k</h2>
-            <h2 class="topic">Profile Views</h2>
-        </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
-            alt="Views">
-    </div>
-    <div class="box box2">
-        <div class="text">
-            <h2 class="topic-heading">0</h2>
-            <h2 class="topic">Total Students</h2>
-        </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png" alt="likes">
-    </div>
-    <div class="box box3">
-        <div class="text">
-            <h2 class="topic-heading">0</h2>
-            <h2 class="topic">Total Skills</h2>
-        </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png"
-            alt="comments">
-    </div>
-    <div class="box box4">
-        <div class="text">
-            <h2 class="topic-heading">Ksh 0.00</h2>
-            <h2 class="topic">Total Earnings</h2>
-        </div>
-        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published">
-    </div>
-</div>
-<div class="report-container">
-    <div class="report-header">
-        <h1 class="recent-Articles">Still not sure with what to upload here!!!</h1>
-    </div>
-    <div class="report-body">
-        <div class="report-topic-heading">
-           student
-        </div>
-    </div>
-</div>
 
 {% endblock %}

@@ -11,7 +11,7 @@ from .models import SalerDetail, Product, ProductSize, SellerSlider, MyCart, Who
 from django.contrib import messages
 from django.contrib.auth.models import User,Group
 from .forms import SalerRegisterForm, SalerAddressForm, UpdateSalerDetailForm, UpdateSalerAccountDetailForm
-from main.forms import UserUpdateForm, UpdateUserDetailForm
+from main.forms import UserUpdateForm, UpdateUserDetailForm,UpdateStudentProfileForm
 from django.contrib.auth.decorators import login_required
 from math import ceil
 from django.contrib.auth import update_session_auth_hash
@@ -548,7 +548,13 @@ def account_settings(request):
     return render(request, 'saler/admin/home.html')
 
 def studentDashboard(request):
-    return render(request,"saler/student_dashboard.html")
+    user=request.user
+    sessions = models.TutorSession.objects.filter(payments__booking__student=user)
+    print(sessions.count())
+    context={
+        "sessions":sessions
+    }
+    return render(request,"saler/student/student_home.html",context)
 
 
 def studentBookings(request):
@@ -561,11 +567,35 @@ def studentBookings(request):
 
 
 def studentProfile(request):
-    # bookings = models.Booking.objects.all()
-    context={
-        
-    }
-    return render(request,"saler/student/student_profile.html",context)
+    form = UpdateStudentProfileForm()
+    try:
+        # user_details = main_models.UserDetail.objects.filter(user_id=request.user.id)
+        print(request.user.id)
+        user_details= get_object_or_404(main_models.UserDetail,user=request.user.id)
+        print(request.user.id)
+        return render(request, "saler/student/student_profile.html", {'user_details': user_details})
+    except Http404:
+        return updateStudentProfile(request)
+
+def updateStudentProfile(request):
+    form = UpdateStudentProfileForm()
+    print(request.method)
+    if request.method == "POST":
+       
+        form = UpdateStudentProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            tutor = form.save(commit=False)
+            tutor.user_type = "student"
+            tutor.save()
+            messages.success(request,"Profile Updated")
+            print("form saved")
+            return redirect("studentDashboard")
+        else:
+            print("invalid form")
+            return render(request,"saler/student/student_profile.html",{'profile_form':form})
+    else:
+       
+        return render(request,"saler/student/student_profile.html",{'profile_form':form})
 
 
 def updateProfile(request):
@@ -578,6 +608,7 @@ def updateProfile(request):
         return render(request, "saler/admin/profile.html", {'user_details': user_details})
     except Http404:
         return updateProfileForm(request)
+
     
 
 def updateProfileForm(request):

@@ -5,7 +5,88 @@
 
 {% block student %}
 
+<div class="main-profile-wrapper">
+    <div class="row">
+       
+            {% if user_details.address %}
+            <div class="row">
+                <div class="col-lg-3 col-md-12">
+                   
+                        <div class="section-1">
+                            <div class="profile-image-wrapper mb-4">
+                                <img src="{{user_details.photo.url}}" class="dpidcn" alt="dp">
+                            </div>
+                            <p class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</p>
+                            <p>Username: <span class="text-primary">@{{request.user.username}}</span></p>
+                            <p>Email: <span class="text-primary">{{request.user.email}}</span></p>
+                            <p>Phone 1: <span class="text-primary">{{user_details.mobile}}</span></p>
+                            <p>Phone 2: <span class="text-primary">{{user_details.alternate_mobile}}</span></p>
+                            <p>Date Joined: <span class="text-primary">{{request.user.date_joined}}</span></p>
+                            <p>Account Type: <span class="text-primary">{{user_details.user_type}}</span></p>
+                            <hr>
+                            <p>Address: <span class="text-primary">{{user_details.address}}</span></p>
+                            <p>Country: <span class="text-primary">{{user_details.country}}</span></p>
+                            <p>City: <span class="text-primary">{{user_details.city}}</span></p>
+                        </div>
 
+
+                    
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="section-2">
+                        <h2>Profile Details</h2>
+                        <hr class="hr">
+                       
+                        <!-- <hr> -->
+                        <h5 class="card-title">About Me</h5>
+                        <p>{{user_details.profile_description}}</p>
+                       
+                       <div class="tutoring-details">
+                        
+                            <hr>
+                        <div class="row">
+                            <h6 class="card-title text-danger mb-4">Danger Zone</h6>
+
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <a href="" class="btn btn-primary">Update Profile</a>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <a href="" class="btn btn-warning">Deactivate Profile</a>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <a href="" class="btn btn-danger">Delete Profile</a>
+                            </div>
+                        </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <form method="POST" class="update-profile-form" enctype="multipart/form-data"
+                action="{% url 'updateStudentProfileForm'%}">
+                {% csrf_token %}
+                <h2>Update Profile</h2>
+
+
+                {% for field in profile_form %}
+                <p>
+                    {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {{ field.label_tag }} {{ field }}
+                </p>
+                {% endfor %}
+                <input type="submit" value="Update" class="btn btn-primary" id="auth-btn" />
+
+            </form>
+            {% endif %}
+       
+    </div>
+</div>
     
 
 
