@@ -47,7 +47,7 @@
                         <div class="col-lg-4">
                             <div class="profile-image-wrapper">
                                 <a href="" style="text-decoration: none; color: #231f20">
-                                    <img src="{{search.tutor.userdetails.photo.url}}" alt="">
+                                    <img src="{{search.tutor.userdetails.photo.url}}" alt="" style="border-radius: 50%; height: 10rem; width: 10rem;">
                                 </a>
                             </div>
                             <p class="mt-4">Country: {{search.tutor.userdetails.country}}</p>
@@ -75,12 +75,20 @@
                             </div>
                            
                             <!-- <small>{{i.0.product_name}}</small> -->
-                            <p class="tutor-description">{{search.tutor.userdetails.profile_description}}
+                            <p class="tutor-description fs-7 text-black" style="font-size: 0.9rem;color: black;">{{search.tutor.userdetails.profile_description}}
                             </p>
                             <hr>
                             <p>
                                 <p class="text-primary">Skills</p>
-                                {{search.tutor}} </p>
+                                <div class="row">
+                                    {% for skill in skills %}
+                                    <div class="col-4">
+                                        <p> {{skill.title}} </p>
+                                    </div>
+                              
+                              {% endfor %}
+                                </div>
+                              
                             <!-- <hr> -->
                         </div>
                         <hr class="hr">

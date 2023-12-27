@@ -13,6 +13,7 @@ from .PayTm import Checksum
 from django.db.models import Q
 from . import models
 from saler import models as saler_models
+from django.db.models import Max
 
 def index(request):
 	# if request.user.is_superuser:
@@ -35,14 +36,24 @@ def index(request):
 
 def perform_search(q):
     if q == "" or q == 'all':
-        searched = saler_models.Skill.objects.all()
-        return searched
+        # searched = saler_models.Skill.objects.all()
+        latest_skills = saler_models.Skill.objects.values('tutor', 'category').annotate(latest_id=Max('id'))
+        unique_skills =saler_models.Skill.objects.filter(id__in=latest_skills.values('latest_id'))
+        return unique_skills
+    
+    # latest_skills = saler_models.Skill.objects.values('tutor', 'category').annotate(latest_id=Max('id'))
+    # unique_skills =saler_models.Skill.objects.filter(id__in=latest_skills.values('latest_id'))
     searched = saler_models.Skill.objects.filter(Q(title__icontains=q) | Q(tutor__username__icontains=q) | Q(tutor__first_name__icontains=q) | Q(tutor__last_name__icontains=q))
-    print(searched.count())
+    # filterd=[]
+  
+
+	
+    # print(unique_skills.count())
     return searched
 
 def find_tutor(request,query:str):
-    skills = saler_models.Skill.objects.all().order_by("?")
+    # skills = saler_models.Skill.objects.all().order_by("?")
+    skills=perform_search("all")
     if request.method == "GET" and "query" in request.GET:
         strr = request.GET.get("query") if request.GET.get('query') !=None else ''
         searched=perform_search(strr)
