@@ -3,6 +3,10 @@
 
 {% block student %}
 
+<h4 class="h3">Bookings</h4>
+
+{% if bookings %}
+
 {% for booking in bookings %}
     <div class="bookings">
       <div class="booking-data">
@@ -31,6 +35,13 @@
       </div>
     </div>
     {% endfor %}
+
+    {% else %}
+    <div class="container bg-primary p-4 m-4">
+      <p>No Bookings Made So far</p>
+  </div>
+
+    {% endif %}
 {% endblock %}
 
 submitOrder

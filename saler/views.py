@@ -632,7 +632,7 @@ def updateProfileForm(request):
             tutor.save()
             messages.success(request,"Profile Updated")
             print("form saved")
-            return redirect("account_settings")
+            return redirect("saler_account_settings")
         else:
             print("invalid form")
             return render(request,"saler/admin/profile.html",{'profile_form':form})

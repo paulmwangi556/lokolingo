@@ -72,7 +72,7 @@ class AddSkillForm(forms.ModelForm):
         fields = [
 			"title",
 			"category",
-			"rate",
+			
 			"description",
 			"thumbnail"
 		]

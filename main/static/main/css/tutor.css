@@ -1,3 +1,15 @@
+
+
+
+:root{
+    --primary: #0cdf88;
+    --secondary: #0cc0df;
+}
+
+h1,h2,h3,h4,h5,h6{
+    color: var(--secondary) !important;
+}
+
 .find-tutors-container{
     /* background-color: red;
     height: 100vh;
@@ -34,7 +46,7 @@
 }
 
 .tutor-name{    
-    color: black;
+    color: var(--secondary);
     font-size: 1.3rem;
     text-transform: capitalize;
 }

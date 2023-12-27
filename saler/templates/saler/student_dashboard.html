@@ -27,19 +27,51 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-	
+	<style>
+		@media only screen and (max-width: 600px) {
+  .nav-upper-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-option {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .nav-img {
+    width: 50px; /* Adjust the size as needed */
+    height: 50px; /* Adjust the size as needed */
+  }
+}
+	</style>
 </head>
 
 <body>
 
 	<!-- for header part -->
+
+
 	<header class="top_nav">
 
-		<div class="home">
-			<a href="{% url 'home'%}">
-			<i class="fas fa-home fa-2x  "></i>
-		</a> 
+		<div class="row mt-2 mb-2">
+			<div class="col">
+				<a href="{% url 'home'%}">
+					<i class="fas fa-home fa-2x  "></i></a>
+			</div>
+			<div class="col">
+				
+			</div>
+			<div class="col">
+				
+			</div>
+			<div class="col">
+				<p>Welcome:  <span class="text-primary">{{request.user.username}}</span></p>
+			</div>
 		</div>
+
+		
 
 	</header>
 

@@ -22,16 +22,7 @@
                         {{skill.description}}
                     </p>
                 </div>
-                <div class="slots">
-                   
-                    {% with slot_count=skill.slots.all|length %}
-                    <p class="all-slots">All Slots: {{slot_count}}</p>
-                    {% endwith %}
-                    <hr>
-                    <p class="active-slots">Empty Slots: 4</p>
-                    <p class="booked-slots">Booked Slots: 6</p>
-                    <a href="{% url 'addTimeSlot' skill_id=skill.id %}"><button class="add-slot">Manage</button></a>
-                </div>
+               
             </div>
 
             <!-- <div class="stats">

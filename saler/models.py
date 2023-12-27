@@ -57,7 +57,7 @@ class Skill(models.Model):
     title = models.CharField(max_length=100)
     tutor= models.ForeignKey(User,on_delete=models.DO_NOTHING)
     category = models.ForeignKey(SkillCategory,on_delete=models.DO_NOTHING)
-    rate = models.CharField(max_length=100)
+   
     description= models.TextField()
     thumbnail = models.FileField(upload_to="skill_images",default='default.png')
     

@@ -159,4 +159,20 @@
         width: 180px;
     }
     }
-    
+    @media only screen and (max-width: 600px) {
+        .nav-upper-options {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      
+        .nav-option {
+          margin-bottom: 10px;
+          text-align: center;
+        }
+        
+        .nav-img {
+          width: 50px; /* Adjust the size as needed */
+          height: 50px; /* Adjust the size as needed */
+        }
+      }

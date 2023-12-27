@@ -1,6 +1,6 @@
 .profile-section{
     /* background-color: blue; */
-    height: 100vh;
+    /* height: 100vh; */
     width: 100vw;
     margin-top: 5rem;
 }
@@ -22,10 +22,10 @@
 }
 
 .profile-image{
-    /* width: 100%; */
+    width: 100%;
     height: 18rem;
     width: 18rem;
-    overflow: hidden;
+    /* overflow: hidden; */
     object-fit: contain;
     margin: auto;
     padding-top: 3rem;
@@ -34,9 +34,9 @@
 }
 
 .profile-image img{
-    height: 18rem;
-    width: 18rem;
-    object-fit: contain;
+    height: 13rem;
+    width: 13rem;
+    object-fit: cover;
     margin: auto;
     border-radius: 50%;
 }
@@ -86,7 +86,7 @@
 
 
 .rating-section{
-    border: 1px solid ;
+    /* border: 1px solid ; */
     margin-bottom: 2rem;
     padding-bottom: 1rem;
 }

@@ -2,105 +2,123 @@
 
 {% block content%}
 
-<body class="bg-light">
-   
-    <div class=" main-wrapper container">
-        
-            <div class="find-tutors-container container-fluid">
-                
-                <div class="card-wrapper container pt-4">
-                    <div class="search-div">
-                        <div class="container mt-3">
-                            <div class="row">
-                              <div class="col-md-8">
-                                <!-- Search Form -->
-                                <form class="input-group" method="GET" >
-                                  <input type="text" class="form-control" name="query" placeholder="Search by tutor name,subject,skill" aria-label="Search" aria-describedby="search-button">
-                                  <div class="input-group-append">
-                                    <!-- Search Button -->
-                                    <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="query-param mb-4">
-                        <p>Search results for: "{{request.GET.query}}" matched {{searched|length}} Tutors</p>
-                        <a class="btn btn-outline-primary" href="{% url 'findTutors' query='all' %}">All Tutors</a>
-                        <hr class="hr">
-                    </div>
+<body class="bg-light container-fluid">
+    <div class="w-100 container h-20 mb-4"></div>
+    <form class="input-group w-100 mt-4 ml-4 mr-4 container" method="GET">
+        <input type="text" class="form-control" name="query" placeholder="Search by tutor name,subject,skill"
+            aria-label="Search" aria-describedby="search-button">
+        <div class="input-group-append">
+            <!-- Search Button -->
+            <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
+        </div>
+    </form>
 
-                    {% if searched|length == 0 %}
-                    <div class="container">
-                       You might be interesetd in 
-                       <div class="row">
-                        {% for skill in skills %}
-                        <a class="btn btn-outline-primary mb-3" href="{% url 'findTutors' query=skill.title %}">{{skill.title}}</a>
-                        {% endfor %}
-                       </div>
-                    </div>
-                    {% else %}
-                    {% for search in searched %}
+    <div class="query-pacram mb-4 col-12">
+        <p>Search results for: "{{request.GET.query}}" matched {{searched|length}} result(s)</p>
+        <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">All Tutors</a>
+        <hr class="hr">
+    </div>
 
-                                        <div class="row single-tutor-wrapper mb-4">
-                        <div class="col-lg-4">
+    <div class=" main-wrapper container-fluid">
+
+        <div class="find-tuftors-container container-fluid row">
+
+
+
+            {% if searched|length == 0 %}
+            <div class="container col-12">
+                You might be interested in:
+                <div class="row">
+                    {% for skill in skills %}
+                    <a class="btn btn-outline-primary mb-3"
+                        href="{% url 'findTutors' query=skill.title %}">{{skill.title}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            {% for search in searched %}
+
+            <div class="row single-tutor-wrapper w-100 mb-4">
+                <div class="col-lg-4 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6 col-sm-12">
                             <div class="profile-image-wrapper">
                                 <a href="" style="text-decoration: none; color: #231f20">
-                                    <img src="{{search.tutor.userdetails.photo.url}}" alt="" style="border-radius: 50%; height: 10rem; width: 10rem;">
+                                    <img src="{{search.tutor.userdetails.photo.url}}" alt="">
                                 </a>
                             </div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-12">
                             <p class="mt-4">Country: {{search.tutor.userdetails.country}}</p>
                             <p class="mt-4">City: {{search.tutor.userdetails.city}}</p>
+                           
                             <a href="{% url 'tutor_profile' tutor_id=search.tutor.id %}">
                                 <button class=" btn btn-primary view-profile p-2">View Profile</button>
                             </a>
+                        </div>
+                    </div>
 
+
+
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-8 col-sm-12">
+                            <p class="tutor-name">{{search.tutor.first_name}} {{search.tutor.last_name}}</p>
                         </div>
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <div class="col-lg-8 col-sm-12">
-                                    <p class="tutor-name">{{search.tutor.first_name}} {{search.tutor.last_name}}</p>
-                                </div>
-                                <div class="col-lg-4 col-sm-12">
-                                    <p>
-                                        <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-                                        <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-                                        <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-                                        <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-                                        <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-                                    </p>
-                                    <p class="price">Ksh <span> {{search.rate}}</span>/hr </p>
-                                </div>
-                            </div>
-                           
-                            <!-- <small>{{i.0.product_name}}</small> -->
-                            <p class="tutor-description fs-7 text-black" style="font-size: 0.9rem;color: black;">{{search.tutor.userdetails.profile_description}}
-                            </p>
-                            <hr>
+                        <div class="col-lg-4 col-sm-12">
                             <p>
-                                <p class="text-primary">Skills</p>
-                                <div class="row">
-                                    {% for skill in skills %}
-                                    <div class="col-4">
-                                        <p> {{skill.title}} </p>
-                                    </div>
-                              
-                              {% endfor %}
-                                </div>
-                              
-                            <!-- <hr> -->
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                            </p>
+                            <p class="price">Ksh <span> {{search.tutor.userdetails.rate_per_hour}}</span>/hr </p>
                         </div>
-                        <hr class="hr">
+                    </div>
+
+                    <!-- <small>{{i.0.product_name}}</small> -->
+                    <p class="tutor-description fs-7 text-black" style="font-size: 0.9rem;color: black;">
+                        {{search.tutor.userdetails.profile_description}}
+                    </p>
+                    <hr>
+                    <p>
+                    <p class="text-primary">Subjects</p>
+                    <div class="row">
+                        {% for skill in all_skills %}
+                            {% if forloop.parentloop.counter0 == forloop.counter0  %}
+                                {% for item in skill%}
+                                {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                                    {% for element in item %}
+                                       <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-sm-12 ">
+                                            <p class="">{{element.title}}</p>
+                                        </div>
+                                       </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                {% endfor%}
+
+                            {% endif %}
+
+                        {% endfor %}
+
                        
                     </div>
-                    {% endfor %}
-                    {% endif %}
+
+                    <!-- <hr> -->
                 </div>
-                
+
+
             </div>
-      
-      
+            {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+
+
     </div>
 
 
