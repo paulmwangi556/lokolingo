@@ -1,0 +1,142 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+
+{% block content%}
+
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">About Us</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="{% url 'home' %}">Home</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">About Us</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <section>
+            <p class="mb-4">Welcome to Skuli, where learning knows no boundaries and passions find their place to thrive. 
+                We’re not just an online hub for education; we’re a vibrant community that connects students and tutors for 
+                language learning and a world of exciting extracurricular activities.</p>
+        </div>
+    </section>
+
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'main/images/bg-01-free-img.jpg' %}" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h1 class="mb-4">Our Story</h1>
+                    <p class="mb-4">Skuli was born out of a shared love for languages and a commitment to expanding horizons through extracurricular pursuits.</p>
+                    <p class="mb-4">Our journey began with a simple yet profound idea: to create a space where students can embark on linguistic adventures and discover a multitude of hobbies and interests under the guidance of passionate tutors.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+        
+   
+     <!-- Our Mission Start -->
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Our Mission</h6>
+                <h1 class="mb-5">Who We Are</h1>
+            </div>
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="row g-5">
+                        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                            <p class="mb-4">Our mission is to bridge the gaps in language learning and provide a platform where students can explore diverse interests. We’re here to make learning languages like Kikuyu, Luo, Kamba, Kalenjin, and many more accessible. 
+                                At the same time, we’re dedicated to nurturing talents in activities like chess, coding, playing musical instruments, and much more.</p>
+                            <p class="mb-4">Our aim is to inspire curiosity, ignite passions, and unlock the potential in students’ one language and one passion at a time.</p>
+                        </div>
+                        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                            <div class="position-relative h-100">
+                                <img class="img-fluid position-absolute w-100 h-100" src="{% static 'main/images/course-2.jpg'%}" alt="" style="object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- Our Mission End -->
+
+    <section>
+            <h1 class="mb-4">Join Us</h1>
+        <p class="mb-4">Whether you’re passionate about learning new languages, eager to excel in chess, or want to unlock the secrets of coding, Skuli welcomes you with open arms. Education is not just about mastering subjects; it’s about exploring the world of possibilities. 
+            Thank you for choosing Skuli. Let’s embark on this journey of learning, discovery, and growth together. 
+            Join us and let your language skills and passions flourish!</p>
+    </div>
+    <!-- Service Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item text-center pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-person text-primary mb-4"></i>
+                            <h5 class="mb-3">Diverse Language Learning</h5>
+                            <p>We offer a rich selection of languages, from local dialects to international tongues. You can embark on a linguistic journey that opens doors to new cultures and connections.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item text-center pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-person text-primary mb-4"></i>
+                            <h5 class="mb-3">Extracurricular Adventures</h5>
+                            <p>Our platform is not limited to languages; we celebrate the diversity of passions. 
+                                Explore activities such as chess, coding, music, and more, guided by expert tutors.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item text-center pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-person text-primary mb-4"></i>
+                            <h5 class="mb-3">Passionate Tutors</h5>
+                            <p>Our tutors are not just educators; they’re mentors who share your love for languages or extracurricular activities. 
+                                Their dedication is the driving force behind your success.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item text-center pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-person text-primary mb-4"></i>
+                            <h5 class="mb-3">Global Community</h5>
+                            <p>Join a global community of students and tutors, connecting with like-minded individuals from various backgrounds. 
+                                Together, we expand our horizons.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item text-center pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-person text-primary mb-4"></i>
+                            <h5 class="mb-3">Interactive Learning</h5>
+                            <p>Learning should be engaging. Our virtual classrooms and lessons are interactive, fun, and designed to capture your imagination.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->   
+</section>
+{% endblock %}

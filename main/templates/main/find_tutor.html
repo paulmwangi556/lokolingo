@@ -3,7 +3,7 @@
 {% block content%}
 
 <body class="bg-light">
-    {% include 'main/includes/navbar.html' %}
+   
     <div class=" main-wrapper container">
         
             <div class="find-tutors-container container-fluid">
@@ -25,12 +25,25 @@
                             </div>
                           </div>
                     </div>
-                    <div class="query-param">
+                    <div class="query-param mb-4">
                         <p>Search results for: "{{request.GET.query}}" matched {{searched|length}} Tutors</p>
                         <a class="btn btn-outline-primary" href="{% url 'findTutors' query='all' %}">All Tutors</a>
+                        <hr class="hr">
                     </div>
+
+                    {% if searched|length == 0 %}
+                    <div class="container">
+                       You might be interesetd in 
+                       <div class="row">
+                        {% for skill in skills %}
+                        <a class="btn btn-outline-primary mb-3" href="{% url 'findTutors' query=skill.title %}">{{skill.title}}</a>
+                        {% endfor %}
+                       </div>
+                    </div>
+                    {% else %}
                     {% for search in searched %}
-                    <div class="row single-tutor-wrapper">
+
+                                        <div class="row single-tutor-wrapper mb-4">
                         <div class="col-lg-4">
                             <div class="profile-image-wrapper">
                                 <a href="" style="text-decoration: none; color: #231f20">
@@ -70,9 +83,11 @@
                                 {{search.tutor}} </p>
                             <!-- <hr> -->
                         </div>
+                        <hr class="hr">
                        
                     </div>
                     {% endfor %}
+                    {% endif %}
                 </div>
                 
             </div>

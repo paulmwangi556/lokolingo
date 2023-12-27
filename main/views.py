@@ -31,7 +31,7 @@ def index(request):
 		
 			return redirect("findTutors",query=query)
 
-	return render(request, 'main/index.html', )
+	return render(request, 'main/index3.html', )
 
 def perform_search(q):
     if q == "" or q == 'all':
@@ -102,10 +102,10 @@ def tutors(request):
     	return render(request, 'main/index2.html' )
 
 def aboutus(request):
-    	return render(request, 'main/aboutus.html' )    	
+    	return render(request, 'main/aboutt.html' )    	
 
 def contactus(request):
-    	return render(request, 'main/contactus.html' )  
+    	return render(request, 'main/contact3.html' )  
 
 @login_required
 def account_settings(request):

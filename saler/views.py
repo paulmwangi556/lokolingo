@@ -423,7 +423,16 @@ def view_products(request):
 
 def tutor_signup(request):
     if request.user.is_authenticated:
-        return redirect('saler_account_settings')
+        user=request.user
+        user_groups = request.user.groups.values_list('name', flat=True)
+        if 'student' in user_groups:
+            return redirect("studentDashboard")
+        
+        else:
+            
+            return redirect('saler_account_settings')
+        
+        # return redirect('saler_account_settings')
     else:
         if request.method == "GET":
             return render(request, 'saler/tutor_signup.html')
@@ -817,9 +826,9 @@ def bookSession(request,tutor_id):
             return redirect("tutor_login")
         
         
-        return redirect("studentDashboard")
+        return redirect("studentBookings")
     else:
-        return redirect("studentDashboard")
+        return redirect("studentBookings")
     
 
 def rateTutor(request,tutor_id):

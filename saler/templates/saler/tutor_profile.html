@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="profile-wrapper">
-    {% include 'main/includes/navbar.html' %}
+    
 
     <div class="profile-section container bg-light">
         <!-- <div class="quick-actions">
@@ -57,7 +57,7 @@
                 <p class="about-title">About Me</p>
                 <p class="about">{{tutor.profile_description}}</p>
                 <hr>
-                <p class="skill-title">Areas of Specialization</p>
+                <p class="skill-title">Subjects of Specialization</p>
                 <div class="row">
                     {% for skill in skills %}
                     <div class="col">
@@ -122,7 +122,19 @@
                                 <textarea class="form-control" name="message" id="message" rows="5"></textarea>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary">Quick Book</button>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user == tutor.user %}
+                                    <a href="" class="btn btn-primary">you posted this</a>
+                                {% else %}
+                                {% if request.user.userdetails%}
+                                <button type="submit" class="btn btn-primary">Quick Book</button>
+                                {% else %}
+                                <a href="{% url 'studentProfile' %}" class="btn btn-primary">Please Complete your profile to continue</a>
+                                {% endif%}
+                                {% endif%}
+                            {% else %}
+                            <a href="{% url 'tutor_login' %}" class="btn btn-primary">Login To Continue Booking</a>
+                            {% endif %}
                         </form>
                     </div>
                 </div>
