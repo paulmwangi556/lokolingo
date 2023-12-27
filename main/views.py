@@ -30,7 +30,7 @@ def index(request):
 		if(query !=  ""):
 			
 		
-			return redirect("findTutors",query=query)
+			return redirect("findTutors",query="all")
 
 	return render(request, 'main/index3.html', )
 
@@ -71,7 +71,7 @@ def find_tutor(request,query:str):
        searched = perform_search(query)
   
   
-    # skills = saler_models.Skill.objects.all().order_by("?")
+    skills = saler_models.Skill.objects.all().order_by("?")
     context={
 		"searched":searched,
 		"query":query,
