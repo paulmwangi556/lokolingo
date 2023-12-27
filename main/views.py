@@ -30,7 +30,7 @@ def index(request):
 		if(query !=  ""):
 			
 		
-			return redirect("findTutors",query="all")
+			return redirect("findTutors",query=query)
 
 	return render(request, 'main/index3.html', )
 
