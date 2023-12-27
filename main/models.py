@@ -5,6 +5,8 @@ from django.contrib.auth.models import Group
 
 
 
+    
+
 class UserDetail(models.Model):
     SEX_CHOICES = (("Male", 'Male'), ("Female", 'Female'), ("Other", 'Other'))
     USER_TYPE_CHOICES = (

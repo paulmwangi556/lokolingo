@@ -16,11 +16,14 @@ class BookingAdmin(admin.ModelAdmin):
 class BookingPaymentsAdmin(admin.ModelAdmin):
     list_display=("id","payment_method","amount","date","confirmation_code","payment_status_description","booking")
     
-class TotorAccountAdmin(admin.ModelAdmin):
-    list_display=("tutor","balance","last_deposit_amount")
+# class TotorAccountAdmin(admin.ModelAdmin):
+#     list_display=("tutor","balance","last_deposit_amount")
     
 admin.site.register(models.SkillCategory,AddSkillCategoryAdmin)
 admin.site.register(models.Skill,SkillsAdmin)
 admin.site.register(models.Booking,BookingAdmin)
 admin.site.register(models.BookingPayments,BookingPaymentsAdmin)
-admin.site.register(models.TutorAccount,TotorAccountAdmin)
+# admin.site.register(models.TutorAccount,TotorAccountAdmin)
+
+admin.site.register(models.TutorFinanceAccount)
+admin.site.register(models.MainFinanceAccount)

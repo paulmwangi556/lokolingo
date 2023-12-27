@@ -167,10 +167,10 @@ class BookingPayments(models.Model):
 	
 
 
-class TutorAccount(models.Model):
-    balance = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
-    tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING)
-    last_deposit_amount = models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)
+# class TutorAccount(models.Model):
+#     balance = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
+#     tutor = models.ForeignKey(User,on_delete=models.DO_NOTHING)
+#     last_deposit_amount = models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)
 
 class SellerSlider(models.Model):
 	name = models.CharField(max_length=50, default = "", null=True)
@@ -223,7 +223,16 @@ class TutorSession(models.Model):
 	payments = models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING,blank=True,null=True,related_name="session")
 	meet_url = models.CharField(max_length=200,blank=True,null=True)
 	
-
+ 
+class MainFinanceAccount(models.Model):
+    amount_balance=models.DecimalField(decimal_places=2,max_digits=5,blank=True,null=True)
+    last_withdraw=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
+    last_deposit=models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)   
+    
+class TutorFinanceAccount(models.Model):
+    amount_balance=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
+    last_withdraw=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
+    last_deposit=models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)
 
 
 class Product(models.Model):

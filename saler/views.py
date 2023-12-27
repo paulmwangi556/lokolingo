@@ -911,6 +911,10 @@ async def getTransactionStatus(request,order_tracking_id):
     'Authorization': f'Bearer {token_value}'
     }
     booking_payment = await sync_to_async(models.BookingPayments.objects.get)(order_tracking_id=order_tracking_id)
+    
+    main_finance_account=await sync_to_async(models.MainFinanceAccount.objects.create)()
+    tutor_finance_account=await sync_to_async(models.TutorFinanceAccount.objects.create)()
+    
     async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=headers)
             json_response = response.json()
@@ -928,12 +932,23 @@ async def getTransactionStatus(request,order_tracking_id):
         booking_payment.payment_status_code=json_response.get("payment_status_code")
         await sync_to_async(booking_payment.save)()
         
+        # save main finance account
+        main_finance_account.last_deposit=booking_payment
+        main_finance_account.last_withdraw=0.00
+        await sync_to_async(main_finance_account.save)()
+        
+        # save tutor finance account
+        tutor_deposit = booking_payment.amount * 0.7
+        tutor_finance_account.amount_balance+=tutor_deposit
+        tutor_deposit.last_withdraw=0.00
+        await sync_to_async(tutor_deposit.save)()
+        
         
         booking_id = await sync_to_async(lambda: booking_payment.booking.id)()
         booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
         booking.payment_status = models.Booking.PAYMENT_COMPLETED
         await sync_to_async(booking.save)()
-        
+        vfdvdfvf
         return redirect("studentTransactionHistory")
     else:
         booking_payment.status=json_response.get("status")
@@ -1141,6 +1156,8 @@ def createSession(request,booking_id):
     
     return render(request,"saler/admin/create_session.html",context)
 
+def withdrawFunds(request):
+    pass
 
 
 # This is a part of admin view in which all ordered products will display with address
