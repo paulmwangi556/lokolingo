@@ -225,16 +225,48 @@ class TutorSession(models.Model):
 	
  
 class MainFinanceAccount(models.Model):
-    amount_balance=models.DecimalField(decimal_places=2,max_digits=5,blank=True,null=True)
-    last_withdraw=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
-    last_deposit=models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)   
+    DEPOSIT = 'deposit'
+    WITHDRAW = 'withdraw'
     
-class TutorFinanceAccount(models.Model):
-    amount_balance=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
+    STATUS_CHOICES = [
+		(DEPOSIT,'Deposit'),
+		(WITHDRAW,'Withdraw')
+	]
+    
+    transaction_type = models.CharField(max_length=20,choices=STATUS_CHOICES,default=DEPOSIT)
+    amount_balance=models.DecimalField(default=0.00,decimal_places=2,max_digits=5,blank=True,null=True)
     last_withdraw=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
-    last_deposit=models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING)
+    last_deposit_amount=models.DecimalField(decimal_places=2,max_digits=10,null=True,blank=True)
+    last_deposit=models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING,blank=True,null=True)   
+    
+    
+    class Meta:
+        get_latest_by = 'id'
+class TutorFinanceAccount(models.Model):
+    amount_balance=models.DecimalField(default=0.00,decimal_places=2,max_digits=10,blank=True,null=True)
+    last_withdraw=models.DecimalField(decimal_places=2,max_digits=10,blank=True,null=True)
+    last_deposit_amount=models.DecimalField(decimal_places=2,max_digits=10,null=True,blank=True)
+    last_deposit=models.ForeignKey(BookingPayments,on_delete=models.DO_NOTHING,blank=True,null=True)
 
+class WithdrawFunds(models.Model):
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    REJECTED = 'rejected'
+    PROCESSED = 'processed'
+    CANCELLED = 'cancelled'
 
+    STATUS_CHOICES = [
+        (PENDING, 'Pending'),
+        (APPROVED, 'Approved'),
+        (REJECTED, 'Rejected'),
+        (CANCELLED,'Cancelled'),
+        (PROCESSED, 'Processed'),
+    ]
+    
+    date_initiated = models.DateTimeField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10,decimal_places=2)
+    account = models.ForeignKey(TutorFinanceAccount,on_delete=models.DO_NOTHING)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
 class Product(models.Model):
 	GST_CHOICES = (("0",'0'),("3",'3'),("5",'5'),("12",'12'),("18",'18'),("28",'28'))
 	product_id = models.BigAutoField(primary_key=True)

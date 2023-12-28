@@ -32,7 +32,7 @@
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
         <div class="box box3">
             <div class="text">
-                <h2 class="topic-heading">0</h2>
+                <h2 class="topic-heading">{{skills|length}}</h2>
                 <h2 class="topic">Total Skills</h2>
             </div>
             <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png" -->
@@ -42,7 +42,7 @@
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
         <div class="box box4">
             <div class="text">
-                <h2 class="topic-heading">Ksh 0.00</h2>
+                <h2 class="topic-heading">Ksh {{saler_finances.amount_balance}}</h2>
                 <h2 class="topic">Total Earnings</h2>
             </div>
             <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published"> -->
@@ -90,6 +90,7 @@
            <div>
             <p class="name">{{request.user.first_name}} {{request.user.first_name}} </p>
             <p class="text-primary">@{{request.user.username}}</p>
+            <p>Tutor</p>
             <p>Date Joined: {{request.user.date_joined}}</p>
            </div>
             <img src="{{request.user.userdetails.photo.url}}" alt="" class="profile-img">
@@ -97,23 +98,21 @@
            <div class="finances">
             <h4 class="text-bold text-primary font-bold">Finances</h6>
             <div class="balances">
-                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Current Balance: <span>Ksh 9850.56</span></p>
-                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Month Balance: <span>Ksh 9850.41</span></p>
-                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Year Balance: <span>Ksh 79885.10</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Current Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Last Deposit: <span>Ksh {{saler_finances.last_deposit_amount}}</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Year Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
             </div>
             <div class="withdrawals">
-                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> Total Withdrawals: <span>Ksh 56472.97</span></p>
-                <p class="current-balance"><span><i class="fas fa-calendar-alt  fa-sm  "></i></span> Pending Withdrawals: <span>Ksh 1000.00</span></p>
-                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> This Year Balance: <span>Ksh 9850.56</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> Total Withdrawal Requests: <span> {{withdrawals|length}}</span></p>
+                <p class="current-balance"><span><i class="fas fa-calendar-alt  fa-sm  "></i></span> Pending Withdrawals: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
+                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> This Year Balance: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
             </div>
             <hr>
             <div class="row">
                 <div class="col-lg-12 col-md-12 mb-3">
-                    <button class="btn btn-success">Request Withdrawal</button>
+                    <a href="{% url 'withdrawals' %}" class="btn btn-success">Request Withdrawal</a>
                 </div>
-                <div class="col-lg-12 col-md-12">
-                    <button class="btn btn-danger">Cancel Withdrawal</button>
-                </div>
+               
             </div>
            </div>
         </div>

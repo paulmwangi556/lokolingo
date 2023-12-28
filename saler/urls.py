@@ -36,6 +36,8 @@ urlpatterns = [
         path("reviews",views.reviews,name="reviews"),
         path("tutorSessions",views.tutorSessions,name="tutorSessions"),
         path("createSession/<str:booking_id>",views.createSession,name="createSession"),
+        path("withdrawFundsForm",views.withdrawFundsForm,name="withdrawFundsForm"),
+        path("cancelWithdrawRequest/<str:withdraw_id>",views.cancelWithdrawRequest,name="cancelWithdrawRequest"),
         
         
         # booking

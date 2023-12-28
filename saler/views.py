@@ -510,51 +510,18 @@ def tutor_login(request):
 
 @login_required
 def account_settings(request):
-    # if request.user.is_superuser or request.user.is_staff:
-    # 	if request.method == 'POST':
-    # 		#User Details Update
-    # 		s_form = UpdateSalerDetailForm(request.POST, request.FILES, instance=request.user.salerdetail)
-    # 		u_form = UserUpdateForm(request.POST, instance=request.user)
-    # 		if s_form.is_valid() and u_form.is_valid():
-    # 			s_form.save()
-    # 			u_form.save()
-    # 			messages.success(request, f'Your Account has been Updated!')
-    # 			return redirect("saler_account_settings")
-
-    # 		#Change Password
-    # 		pass_change_form = PasswordChangeForm(request.user, request.POST)
-    # 		if pass_change_form.is_valid():
-    # 			user = pass_change_form.save()
-    # 			update_session_auth_hash(request, user)  # Important!
-    # 			messages.success(request, 'Your password was successfully updated!')
-    # 			return redirect('saler_account_settings')
-    # 		else:
-    # 			messages.error(request, 'Please correct the error below.')
-
-    # 		#Account Settings
-    # 		acc_form = UpdateSalerAccountDetailForm(request.POST, request.FILES, instance=request.user.salerdetail)
-    # 		if acc_form.is_valid():
-    # 			acc_form.save()
-    # 			messages.success(request, f'Account Settings has been Updated!')
-    # 			return redirect("saler_account_settings")
-
-    # 	else:
-    # 		s_form = UpdateSalerDetailForm(instance=request.user.salerdetail)
-    # 		u_form = UserUpdateForm(instance=request.user)
-    # 		acc_form = UpdateSalerAccountDetailForm(instance=request.user.salerdetail)
-    # 		pass_change_form = PasswordChangeForm(request.user)
-    # 	detl = {
-    # 		'u_form':u_form,
-    # 		's_form':s_form,
-    # 		'pass_change_form':pass_change_form,
-    # 		'acc_form':acc_form,
-    # 		'cart_element_no' : len([p for p in MyCart.objects.all() if p.user == request.user]),
-    # 		'title':'User Account Settings',
-    # 		}
-    # 	return render(request, 'saler/account_settings.html', detl)
-    # else:
-    # 	return redirect("/")
-    return render(request, 'saler/admin/home.html')
+    user=request.user
+    saler_finances=models.TutorFinanceAccount.objects.filter(last_deposit__booking__skill__tutor=user).first()
+    withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
+    skills = models.Skill.objects.filter(tutor=user)
+    
+    
+    context={
+        "saler_finances":saler_finances,
+        "skills":skills,
+        "withdrawals":withdrawal_history
+    }
+    return render(request, 'saler/admin/home.html',context)
 
 def studentDashboard(request):
     user=request.user
@@ -729,7 +696,7 @@ def addTimeSlotForm(request,skill_id):
     
 def staffBookings(request):
     tutor_id = request.user.id
-    bookings = models.Booking.objects.filter(skill__tutor=tutor_id)
+    bookings = models.Booking.objects.filter(skill__tutor=tutor_id).order_by("-id")
     # booking = get_object_or_404(models.Booking, id=booking_id)
     
     booking_form=forms.BookingStatusUpdateForm(request.POST)
@@ -743,7 +710,7 @@ def staffBookings(request):
 def update_booking_status(request, booking_id):
     booking = get_object_or_404(models.Booking, id=booking_id)
     tutor_id = request.user.id
-    bookings = models.Booking.objects.filter(tutor=tutor_id)
+    bookings = models.Booking.objects.filter(skill__tutor=tutor_id)
     # booking = get_object_or_404(models.Booking, id=booking_id)
     booking_form=forms.BookingStatusUpdateForm(request.POST)
     context = {
@@ -762,9 +729,6 @@ def update_booking_status(request, booking_id):
     return render(request,"saler/admin/bookings.html",context)
 
 
-def withdrawals(request):
-    
-    return render(request,"saler/admin/withdrawals.html")
 
 
 def reviews(request):
@@ -921,14 +885,13 @@ async def getTransactionStatus(request,order_tracking_id):
     }
     booking_payment = await sync_to_async(models.BookingPayments.objects.get)(order_tracking_id=order_tracking_id)
     
-    main_finance_account=await sync_to_async(models.MainFinanceAccount.objects.create)()
-    tutor_finance_account=await sync_to_async(models.TutorFinanceAccount.objects.create)()
+    
     
     async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=headers)
             json_response = response.json()
             
-    if json_response.get("status") == "200":
+    if json_response.get("payment_account"):
         booking_payment.payment_method=json_response.get("payment_method")
         booking_payment.create_date=json_response.get("create_date")
         booking_payment.confirmation_code=json_response.get("confirmation_code")
@@ -941,29 +904,67 @@ async def getTransactionStatus(request,order_tracking_id):
         booking_payment.payment_status_code=json_response.get("payment_status_code")
         await sync_to_async(booking_payment.save)()
         
-        # save main finance account
-        main_finance_account.last_deposit=booking_payment
-        main_finance_account.last_withdraw=0.00
-        await sync_to_async(main_finance_account.save)()
-        
+        try:
+            existing_payment=await sync_to_async(models.MainFinanceAccount.objects.get)(last_deposit=booking_payment)
+            # uncomment for first time run
+            # main_finance_account=await sync_to_async(models.MainFinanceAccount.objects.create)()
+            # latest_entry = await sync_to_async(models.MainFinanceAccount.objects.latest)()
+            
+            # main_finance_account.last_deposit=booking_payment
+            # main_finance_account.last_deposit_amount=booking_payment.amount
+            # main_finance_account.last_withdraw=0.00
+            # main_finance_account.amount_balance=Decimal(str(latest_entry.amount_balance)) + main_finance_account.last_deposit_amount
+            # saved_data = await sync_to_async(main_finance_account.save)()
+            
+            
+            
+            
+        except models.MainFinanceAccount.DoesNotExist:
+            latest_entry = await sync_to_async(models.MainFinanceAccount.objects.latest)()
+            main_finance_account=await sync_to_async(models.MainFinanceAccount.objects.create)()
+            main_finance_account.last_deposit=booking_payment
+            main_finance_account.last_deposit_amount=booking_payment.amount
+            main_finance_account.last_withdraw=0.00
+            main_finance_account.amount_balance=Decimal(str(latest_entry.amount_balance)) + main_finance_account.last_deposit_amount
+            saved_data = await sync_to_async(main_finance_account.save)()
+            # saved_data.amount_balance = Decimal(str(main_finance_account.amount_balance)) + main_finance_account.last_deposit_amount
+            # await sync_to_async(saved_data.save)()
+            
+            
+            
         # save tutor finance account
-        tutor_deposit = booking_payment.amount * 0.7
-        tutor_finance_account.amount_balance+=tutor_deposit
-        tutor_deposit.last_withdraw=0.00
-        await sync_to_async(tutor_deposit.save)()
-        
+        try:
+            tutor = await sync_to_async(lambda: booking_payment.booking.skill.tutor)()
+            existing_tutor_account=await sync_to_async(models.TutorFinanceAccount.objects.get)(last_deposit__booking__skill__tutor=tutor)
+            tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.7')
+            existing_tutor_account.last_deposit_amount=Decimal(str(tutor_deposit))
+            existing_tutor_account.last_deposit=booking_payment
+            existing_tutor_account.last_withdraw=0.00
+            existing_tutor_account.amount_balance=Decimal(str(existing_tutor_account.amount_balance)) + existing_tutor_account.last_deposit_amount
+            await sync_to_async(existing_tutor_account.save)()
+            # print("Tutor name is ",tutor.username)
+        except models.TutorFinanceAccount.DoesNotExist:
+            tutor_finance_account=await sync_to_async(models.TutorFinanceAccount.objects.create)()
+            tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.7')
+            tutor_finance_account.last_deposit_amount=Decimal(str(tutor_deposit))
+            tutor_finance_account.last_deposit=booking_payment
+            tutor_finance_account.last_withdraw=0.00
+            tutor_finance_account.amount_balance= Decimal(str(tutor_finance_account.amount_balance)) + tutor_finance_account.last_deposit_amount
+            await sync_to_async(tutor_finance_account.save)()
+            
         
         booking_id = await sync_to_async(lambda: booking_payment.booking.id)()
         booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
         booking.payment_status = models.Booking.PAYMENT_COMPLETED
         await sync_to_async(booking.save)()
-        vfdvdfvf
+       
         return redirect("studentTransactionHistory")
     else:
         booking_payment.status=json_response.get("status")
         await sync_to_async(booking_payment.save)()
         
-        booking = await sync_to_async(models.Booking.objects.get)(id=booking_payment.booking.id)
+        payment_id= await sync_to_async(lambda: booking_payment.booking.id)()
+        booking = await sync_to_async(models.Booking.objects.get)(id=payment_id)
         booking.payment_status = models.Booking.PAYMENT_FAILED
         await sync_to_async(booking.save)()
         
@@ -1104,14 +1105,14 @@ def checkTransactionHistory(request):
     user_groups = request.user.groups.values_list('name', flat=True)
     
     if 'student' in user_groups:
-        transactions = models.BookingPayments.objects.filter(booking__student=user)
+        transactions = models.BookingPayments.objects.filter(booking__student=user).order_by("-id")
         context={
         "transactions":transactions
         }
         return render(request, "saler/student/payment_history.html",context)
     
     else:
-        transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user)
+        transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user).order_by("-id")
         context={
             "transactions":transactions
         }
@@ -1121,6 +1122,134 @@ def checkTransactionHistory(request):
     
     
     # return render(request, "saler/student/payment_history.html",context)
+    
+
+def withdrawals(request):
+    user=request.user
+    saler_finances=models.TutorFinanceAccount.objects.filter(last_deposit__booking__skill__tutor=user).first()
+    withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user).order_by("-id")
+    pending_withdrawal=0.00
+    
+    
+    
+    context = {
+        "saler_finances":saler_finances,
+        "withdraw_history":withdrawal_history
+    }
+    return render(request,"saler/admin/withdrawals.html",context)
+
+def withdrawFundsForm(request):
+    
+    user = request.user
+    account = models.TutorFinanceAccount.objects.get(last_deposit__booking__skill__tutor=user)
+    main_finance_account = models.MainFinanceAccount.objects.last()
+    
+    if request.method == "POST":
+        try:
+            pending_withdrawals = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user).last()
+            messages.error(request,f'Please wait untill the pending withdraw request has been processed')
+            if pending_withdrawals:
+                if pending_withdrawals.status == "rejected" or pending_withdrawals.status == "processed" or pending_withdrawals.status == "cancelled":
+                    amount = request.POST.get("amount")
+                    
+                    withdraw_request = models.WithdrawFunds.objects.create(
+                        amount=amount,
+                        account=account
+                    )
+                    
+                    account.amount_balance = account.amount_balance-Decimal(str(amount))
+                    account.save()
+                    withdraw_request.save()
+                    
+                    update_finance = models.MainFinanceAccount.objects.create(
+                        transaction_type = models.MainFinanceAccount.WITHDRAW,
+                        amount_balance = main_finance_account.amount_balance - Decimal(str(amount)),
+                        last_withdraw = Decimal(str(amount)),
+                        last_deposit_amount=main_finance_account.last_deposit_amount
+                        
+                        
+                    )
+                    
+                    update_finance.save()
+                    
+                    return redirect("withdrawals")
+            else:
+                amount = request.POST.get("amount")
+                    
+                withdraw_request = models.WithdrawFunds.objects.create(
+                    amount=amount,
+                    account=account
+                )
+                withdraw_request.save()
+                
+                update_finance = models.MainFinanceAccount.objects.create(
+                        transaction_type = models.MainFinanceAccount.WITHDRAW,
+                        amount_balance = main_finance_account.amount_balance - Decimal(str(amount)),
+                        last_withdraw = Decimal(str(amount)),
+                        last_deposit_amount=main_finance_account.last_deposit_amount
+                        
+                        
+                    )
+                    
+                update_finance.save()
+                account.amount_balance = account.amount_balance-Decimal(amount)
+                account.save()
+                return redirect("withdrawals")
+            return redirect("withdrawals")
+        except models.WithdrawFunds.DoesNotExist:
+                
+            amount = request.POST.get("amount")
+            
+            withdraw_request = models.WithdrawFunds.objects.create(
+                amount=amount,
+                account=account
+            )
+            update_finance = models.MainFinanceAccount.objects.create(
+                        transaction_type = models.MainFinanceAccount.WITHDRAW,
+                        amount_balance = main_finance_account.amount_balance - Decimal(str(amount)),
+                        last_withdraw = Decimal(str(amount)),
+                        last_deposit_amount=main_finance_account.last_deposit_amount
+                        
+                        
+                    )
+                    
+            update_finance.save()
+            withdraw_request.save()
+            account.amount_balance = account.amount_balance-Decimal(amount)
+            account.save()
+            return redirect("withdrawals")
+    
+    else:
+        return redirect("saler_account_settings")
+
+def cancelWithdrawRequest(request,withdraw_id):
+    withdraw_request = models.WithdrawFunds.objects.get(id=withdraw_id)
+    user = request.user
+    account = models.TutorFinanceAccount.objects.get(last_deposit__booking__skill__tutor=user)
+    main_finance_account = models.MainFinanceAccount.objects.last()
+    
+    withdraw_request.status=withdraw_request.CANCELLED
+    account.amount_balance = account.amount_balance + withdraw_request.amount
+    
+    
+    withdraw_request.save()
+    account.save()
+    
+    update_finance = models.MainFinanceAccount.objects.create(
+                        transaction_type = models.MainFinanceAccount.WITHDRAW,
+                        amount_balance = main_finance_account.amount_balance + Decimal(str(withdraw_request.amount)),
+                        last_withdraw = Decimal(str(withdraw_request.amount)),
+                        last_deposit_amount=main_finance_account.last_deposit_amount
+                        
+                        
+                    )
+                    
+    update_finance.save()
+    
+    return redirect("withdrawals")
+    
+    
+    
 
 def tutorSessions(request):
     user=request.user

@@ -15,6 +15,16 @@ class BookingAdmin(admin.ModelAdmin):
     
 class BookingPaymentsAdmin(admin.ModelAdmin):
     list_display=("id","payment_method","amount","date","confirmation_code","payment_status_description","booking")
+
+class MainFinanceAccountAdmin(admin.ModelAdmin):
+    list_display=("id","last_deposit_amount","last_withdraw","last_deposit","amount_balance","get_transaction_type_display",)
+ 
+ 
+class TutorFinanceAccountAdmin(admin.ModelAdmin):
+    list_display=("id","last_deposit_amount","last_withdraw","last_deposit","amount_balance")   
+
+class WithdrawalRequestAdmin(admin.ModelAdmin):
+    list_display = ("id","date_initiated","amount","status")   
     
 # class TotorAccountAdmin(admin.ModelAdmin):
 #     list_display=("tutor","balance","last_deposit_amount")
@@ -25,5 +35,6 @@ admin.site.register(models.Booking,BookingAdmin)
 admin.site.register(models.BookingPayments,BookingPaymentsAdmin)
 # admin.site.register(models.TutorAccount,TotorAccountAdmin)
 
-admin.site.register(models.TutorFinanceAccount)
-admin.site.register(models.MainFinanceAccount)
+admin.site.register(models.TutorFinanceAccount,TutorFinanceAccountAdmin)
+admin.site.register(models.MainFinanceAccount,MainFinanceAccountAdmin)
+admin.site.register(models.WithdrawFunds,WithdrawalRequestAdmin)

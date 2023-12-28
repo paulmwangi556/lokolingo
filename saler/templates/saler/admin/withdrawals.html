@@ -4,29 +4,90 @@
 {% block dashboard %}
     <div class="withdrawals-container">
        <h4 class="card-title mb-4">Finances Management</h4>
-        
-       <div class="finance-wrapper">
-        <p class="fon-weight-bold">Account Balance: Ksh <span class="text-success">5200.20</span></p>
-        <p>Pending Withdrawals: Ksh <span class="font-weight-bold text-danger">0.00</span></p>
-        <hr>
-        <div class="mb-3 col-3">
-            <label for="" class="form-label">Amount To Withdraw</label>
-            <input
-                type="text"
-                class="form-control"
-                name=""
-                id=""
-                aria-describedby="helpId"
-                placeholder=""
-            />
+       <h6 class="text-black fon-weight-bold">Account Balance: Ksh <span class="text-success">{{saler_finances.amount_balance}}</span></h6>
+       <hr class="hr">
+       <div class="row">
+        <div class="col-md-6 col-sm-12">
+            
+         
 
-           
+            <h5 class="h5">Withdrawal History</h5>
+
+            {% if withdraw_history %}
+
+            {% for item in withdraw_history %}
+            <div class="container bg-light w-100 p-3 mb-2">
+                <p class="text-primary">ID: {{item.id}}</p>
+                <div class="row mb-4">
+                    <div class="col-md-6 col-sm-12">
+                        <p>Amount: Ksh {{item.amount}}</p>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <p>Status: <span class="{% if item.status == "processed" %} text-success {% else %} text-danger{% endif %}">{{item.status}}</span></p>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6 col-sm-12">
+                        <p>Date Initiated: {{item.date_initiated}}</p>
+                    </div>
+                    {% if item.status == "pending" %}
+                    <div class="col-md-6 col-sm-12">
+                        <a href="{% url 'cancelWithdrawRequest' withdraw_id=item.id %}" class="btn btn-danger">Cancel</a>
+                    </div>
+
+                    {% endif %}
+                </div>
+            </div>
+
+
+            {% endfor %}
+
+
+            {% else %}
+
+            <div class="container bg-warning p-4">
+                <p class="text-black fs-6">No Withdraw requests Made</p>
+            </div>
+
+            {% endif %}
+            
         </div>
-        <a href="" class="btn btn-primary">Initiate Withdrawal Process</a>
+        <div class="col-md-6 col-sm-12">
+            <form action="{% url 'withdrawFundsForm'%}" method="POST">
+                
+                
+                    {% for message in messages %}
 
-        <p class="mt-4 font-style-italic"><span class="text-danger">Note: </span>Payment Process takes takes 72hrs after Initiatation</p>
+                    <small class="text-danger">{{message}}</small>
+
+                    {% endfor %}
+                <div class="mb-3">
+                    <label for="" class="form-label">Amount To Withdraw</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        name="amount"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
         
+                    <input type="submit" value="Initiate Withdrawal Process" class="btn btn-outline-primary">
+        
+                    <p class="mt-4 font-style-italic"><span class="text-danger">Note: </span>Payment Process takes takes 72hrs after Initiatation</p>
+                </div>
+               </form>
+        </div>
        </div>
+        
+      
+       
+      
+       
+
+        
+        
+      
     </div>
 
 {% endblock %}
