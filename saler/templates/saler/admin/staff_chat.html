@@ -4,9 +4,10 @@
 {% block dashboard %}
   
  
-<div class="p-10 lg:p-20 text-center">
-    <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }}</h1>
-</div>
+
+    <h1 class="text-3xl lg:text-6xl">{{ room.name }}</h1>
+
+<div class="chat-section">
 
 <div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
     <div class="chat-messages space-y-3" id="chat-messages">
@@ -29,6 +30,7 @@
             id="chat-message-submit"
         >Submit</button>
     </form>
+</div>
 </div>
 
 
