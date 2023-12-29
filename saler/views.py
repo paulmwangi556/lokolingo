@@ -22,6 +22,9 @@ from django.contrib.auth import login, authenticate, logout
 from . import forms
 from . import models
 from asgiref.sync import sync_to_async
+
+
+from room import models as room_models
 # This is view of Index Page of Seller in which we Display Whole Sale Products
 
 
@@ -514,21 +517,25 @@ def account_settings(request):
     saler_finances=models.TutorFinanceAccount.objects.filter(last_deposit__booking__skill__tutor=user).first()
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
+    rooms = room_models.Room.objects.filter(tutor = request.user)
     
     
     context={
         "saler_finances":saler_finances,
         "skills":skills,
-        "withdrawals":withdrawal_history
+        "withdrawals":withdrawal_history,
+        "rooms":rooms
     }
     return render(request, 'saler/admin/home.html',context)
 
 def studentDashboard(request):
     user=request.user
     sessions = models.TutorSession.objects.filter(payments__booking__student=user)
-    print(sessions.count())
+    rooms = room_models.Room.objects.filter(student=user)
+    print("Student rooms count", rooms.count())
     context={
-        "sessions":sessions
+        "sessions":sessions,
+        "rooms":rooms
     }
     return render(request,"saler/student/student_home.html",context)
 
@@ -750,7 +757,7 @@ def logout_tutor(request):
 
 
 def tutor_profile(request,tutor_id):
-    print(tutor_id)
+    # print(tutor_id)
     tutor = main_models.UserDetail.objects.get(user = tutor_id)
     skills = models.Skill.objects.filter(tutor=tutor_id)
     print(tutor.country)
@@ -1311,3 +1318,60 @@ def admin2(request):
         return render(request, 'saler/admin2.html', params)
     else:
         return redirect("/")
+
+
+
+def chatView(request):
+    
+    
+    return render(request,'saler/frontpage.html')
+
+def studentChat(request,tutor_id):
+    # tutor = models.UserDetail.objects.get(id=skill_id)
+    tutor = main_models.UserDetail.objects.get(user = tutor_id)
+    try:
+        
+        room_name = 'myroom'
+    
+        student_room = room_models.Room.objects.create(
+            name = room_name,
+            slug=room_name,
+            student=request.user,
+            tutor=tutor.user
+        )
+        messages = room_models.Message.objects.filter(room=student_room)[0:25]
+        
+        context={
+            "room":student_room,
+            "messages":messages
+        }
+        
+        return render(request,"saler/student/chat_screen.html",context)
+        # return render(request, 'room/room.html', {'room':student_room,"messages":messages})
+    
+    except Exception as e:
+        print("Error creting room ",e)
+        return render(request,"saler/student/student_home.html")
+    
+def chatRoom(request,room_id):
+    room = room_models.Room.objects.get(id=room_id)
+    messages = room_models.Message.objects.filter(room=room)[0:25]
+        
+    context={
+        "room":room,
+        "messages":messages
+    }
+        
+    return render(request,"saler/student/chat_screen.html",context)
+
+def staffChatRoom(request,room_id):
+    print("room id is ",room_id)
+    room = room_models.Room.objects.get(id=room_id)
+    messages = room_models.Message.objects.filter(room=room)[0:25]
+        
+    context={
+        "room":room,
+        "messages":messages
+    }
+        
+    return render(request,"saler/admin/staff_chat.html",context)

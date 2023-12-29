@@ -53,7 +53,18 @@ urlpatterns = [
         path("submitOrder/<str:booking_id>",views.submitOrder,name="submitOrder"),
         path("transaction_status/<str:order_tracking_id>",views.getTransactionStatus,name="transactionStatus"),
             
-
+        # chat
+        path("chat",views.chatView,name="chat"),
+        path("studentChat/<str:tutor_id>",views.studentChat,name="studentChat"),
+        
+        path("staffChatRoom/<str:room_id>",views.staffChatRoom,name="staffChat"),
+        path("chatRoom/<str:room_id>",views.chatRoom,name="chatRoom"),
+        
+        
+        
+        
+        
+        
     	path('add_product/', views.add_product, name="add_product"),
     	path('view_products/', views.view_products, name="view_products"),
     	path('plus_element_cart/', views.plus_element_cart),

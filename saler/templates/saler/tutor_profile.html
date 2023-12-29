@@ -18,18 +18,21 @@
                     <img src="{{tutor.photo.url}}" alt="">
                 </div>
 
+               
                 <p class="name">{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
                 <p class="rate text-primary">Ksh:{{tutor.rate_per_hour}}/hr</p>
                 <p class="experience">Years of Experience: {{tutor.tutoring_experience}}</p>
                 <p class="country"> Country: {{tutor.country}}</p>
                 <p class="city">City: {{tutor.city}}</p>
+                 <p>Tor id is {{tutor.id}}</p>
+
                 <p class="rating text-success">Average Rating: 5/5</p>
                 {% for rate in rating%}
                 <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i>
                 {% endfor %}
 
                 <div class="mt-4">
-                    <buttton class="btn btn-outline-warning">Rate {{request.user.first_name}}</buttton>
+                    <a href="{% url 'studentChat' tutor_id=tutor.user.id %}" class="btn btn-primary">Message {{tutor.user.username}}</a>
                 </div>
 
                 <div class="rating-section mt-5">

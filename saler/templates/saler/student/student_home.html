@@ -4,6 +4,17 @@
 {% block student %}
 
     <div class="dashboard-home">
+        <div class="messages-container bg-light  p-3">
+           <div class="row">
+            {% for room in rooms %}
+           <a href="{% url 'chatRoom' room_id=room.id %}">
+            <div class="col-lg-3 col-md-6 col-sm-12 h-100 message-wrapper">
+                <h3 class="h3">{{room.name}}</h3>
+            </div>
+           </a>
+            {% endfor %}
+           </div>
+        </div>
         <h4 class="active-sessions">Active Sessions</h4>
         {% for session in sessions %}
             <div class="student-sessions p-3 mb-4">

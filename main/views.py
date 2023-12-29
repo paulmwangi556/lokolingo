@@ -686,3 +686,6 @@ def contact(request):
         messages.success(request, 'Your message has been sent. Thank you!')
 
     return render(request, 'main/contact.html', {'category': category.objects.all(), 'cart_element_no': len([p for p in Cart.objects.all() if p.user == request.user]), })
+
+
+

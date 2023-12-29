@@ -50,6 +50,18 @@
     </div>
 </div>
 
+<div class="chat-messages">
+    <div class="row">
+        {% for room in rooms %}
+            <a href="{% url 'staffChat' room_id=room.id %}">
+                <div class="col container bg-light mb-4 p-3">
+                    <p>{{room.name}}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
 
 
 
