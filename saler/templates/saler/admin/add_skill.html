@@ -4,58 +4,66 @@
 {% block dashboard %}
 
 <div class="skills-container">
-    <div class="skills">
-        <h2>My Skills</h2>
-        <hr>
-        {% for skill in skills%}
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="skills">
+                <h4>My Skills</h4>
+                <hr>
+                {% for skill in skills%}
+                
+                <div class="skill-wrapper">
+                    <div class="skill-details">
+                        <div class="skill-image">
+                            <img src="{{skill.thumbnail.url}}" alt="">
+                        </div>
+                        <div class="skill-data">
+                            <p class="skill-title">{{skill.title}}</p>
+                            <p class="skill-category">Category: <span>{{skill.category}}</span></p>
+                            <p class="desc-title">Description</p>
+                            <p class="description">
+                                {{skill.description}}
+                            </p>
+                        </div>
+                       
+                    </div>
         
-        <div class="skill-wrapper">
-            <div class="skill-details">
-                <div class="skill-image">
-                    <img src="{{skill.thumbnail.url}}" alt="">
+                    <!-- <div class="stats">
+                        <p class="students-enrolled">Students Enrolled: 30</p>
+                    </div> -->
                 </div>
-                <div class="skill-data">
-                    <p class="skill-title">{{skill.title}}</p>
-                    <p class="skill-category">Category: <span>{{skill.category}}</span></p>
-                    <p class="desc-title">Description</p>
-                    <p class="description">
-                        {{skill.description}}
-                    </p>
-                </div>
-               
+                {% endfor %}
             </div>
-
-            <!-- <div class="stats">
-                <p class="students-enrolled">Students Enrolled: 30</p>
-            </div> -->
+        
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+
+    <form method="POST" class="update-profvile-form" enctype="multipart/form-data"
+    action="{% url 'addTutorSkillsForm' %}">
+    {% csrf_token %}
+    <h5>Add Skill</h5>
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+
+    {% for field in skill_form %}
+    <p>
+        {% if field.errors %}
+    <ul class="errorlist">
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
         {% endfor %}
+    </ul>
+    {% endif %}
+    {{ field.label_tag }} {{ field }}
+    </p>
+    {% endfor %}
+    <input type="submit" value="Add Skill" class="btn btn-primary" id="auth-btn" />
+
+</form>
+        </div>
     </div>
+   
 
-
-    <form method="POST" class="update-profile-form" enctype="multipart/form-data"
-        action="{% url 'addTutorSkillsForm' %}">
-        {% csrf_token %}
-        <h2>Add Skill</h2>
-        {% for message in messages %}
-        <p>{{message}}</p>
-        {% endfor %}
-
-        {% for field in skill_form %}
-        <p>
-            {% if field.errors %}
-        <ul class="errorlist">
-            {% for error in field.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {{ field.label_tag }} {{ field }}
-        </p>
-        {% endfor %}
-        <input type="submit" value="Add Skill" class="btn btn-primary" id="auth-btn" />
-
-    </form>
 </div>
 
 

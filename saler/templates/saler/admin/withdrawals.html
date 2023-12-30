@@ -9,8 +9,35 @@
        <div class="row">
         <div class="col-md-6 col-sm-12">
             
-         
+            <form action="{% url 'withdrawFundsForm'%}" method="POST">
+                
+                
+                {% for message in messages %}
 
+                <small class="text-danger">{{message}}</small>
+
+                {% endfor %}
+            <div class="mb-3">
+                <label for="" class="form-label">Amount To Withdraw</label>
+                <input
+                    type="text"
+                    class="form-control mb-3"
+                    name="amount"
+                    id=""
+                    aria-describedby="helpId"
+                    placeholder=""
+                />
+    
+                <input type="submit" value="Initiate Withdrawal Process" class="btn btn-outline-primary">
+    
+                <p class="mt-4 font-style-italic"><span class="text-danger">Note: </span>Payment Process takes takes 72hrs after Initiatation</p>
+            </div>
+           </form>
+
+           
+            
+        </div>
+        <div class="col-md-6 col-sm-12">
             <h5 class="h5">Withdrawal History</h5>
 
             {% if withdraw_history %}
@@ -50,33 +77,8 @@
             </div>
 
             {% endif %}
-            
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <form action="{% url 'withdrawFundsForm'%}" method="POST">
-                
-                
-                    {% for message in messages %}
 
-                    <small class="text-danger">{{message}}</small>
 
-                    {% endfor %}
-                <div class="mb-3">
-                    <label for="" class="form-label">Amount To Withdraw</label>
-                    <input
-                        type="text"
-                        class="form-control mb-3"
-                        name="amount"
-                        id=""
-                        aria-describedby="helpId"
-                        placeholder=""
-                    />
-        
-                    <input type="submit" value="Initiate Withdrawal Process" class="btn btn-outline-primary">
-        
-                    <p class="mt-4 font-style-italic"><span class="text-danger">Note: </span>Payment Process takes takes 72hrs after Initiatation</p>
-                </div>
-               </form>
         </div>
        </div>
         

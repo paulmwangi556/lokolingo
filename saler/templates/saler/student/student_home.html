@@ -4,18 +4,31 @@
 {% block student %}
 
     <div class="dashboard-home">
-        <div class="messages-container bg-light  p-3">
-           <div class="row">
-            {% for room in rooms %}
-           <a href="{% url 'chatRoom' room_id=room.id %}">
-            <div class="col-lg-3 col-md-6 col-sm-12 h-100 message-wrapper">
-                <h3 class="h3">{{room.name}}</h3>
+
+        <div class="db-messages bg-light">
+            <h5>Messages</h5>
+            <div class="row pr-3">
+                {% if rooms %}
+                {% for room in rooms %}
+                <a href="{% url 'staffChat' room_id=room.id %}" class="db-message-item" style="text-decoration: none;">
+                    <p class="  "> <span>{{forloop.counter}}</span>. {{room.student}}</p>
+                    <p>{{room.message_count}} messages</p>
+                </a>
+                {% endfor %}
+
+                {% else %}
+                <h5 class="mt-4">No active Message Rooms</h5>
+                {% endif %}
             </div>
-           </a>
-            {% endfor %}
-           </div>
         </div>
+        
         <h4 class="active-sessions">Active Sessions</h4>
+        {% if sessions|length == 0 %}
+        <div class="container bg-primary p-4">
+            <p class="text-white">No Active Sessions</p>
+        </div>
+      
+        {% else %}
         {% for session in sessions %}
             <div class="student-sessions p-3 mb-4">
                 <p class="font-weight-bold text-primary">{{session.title}}</p>
@@ -42,6 +55,7 @@
                 </div>
             </div>
         {% endfor %}
+        {% endif %}
     </div>
 
 {% endblock %}

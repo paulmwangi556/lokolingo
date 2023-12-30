@@ -18,8 +18,9 @@ h1,h2,h3,h4,h5,h6{
 }
 .main-wrapper{
     /* margin-top: 13rem; */
-    padding-top: 6rem;
+    /* padding-top: 6rem; */
     /* background-color: red; */
+    padding: 0.4rem;
 }
 .card-wrapper{
     padding: 2rem;
@@ -31,6 +32,7 @@ h1,h2,h3,h4,h5,h6{
     padding: 1rem;
     background-color: rgb(255, 255, 255);
     margin-bottom: 1rem;
+   margin: auto;
 }
 
 .profile-image-wrapper{

@@ -22,6 +22,7 @@ from django.contrib.auth import login, authenticate, logout
 from . import forms
 from . import models
 from asgiref.sync import sync_to_async
+from django.db.models import Count
 
 
 from room import models as room_models
@@ -517,7 +518,7 @@ def account_settings(request):
     saler_finances=models.TutorFinanceAccount.objects.filter(last_deposit__booking__skill__tutor=user).first()
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
-    rooms = room_models.Room.objects.filter(tutor = request.user)
+    rooms = room_models.Room.objects.filter(tutor = request.user).annotate(message_count=Count('messages'))
     
     
     context={
@@ -531,7 +532,7 @@ def account_settings(request):
 def studentDashboard(request):
     user=request.user
     sessions = models.TutorSession.objects.filter(payments__booking__student=user)
-    rooms = room_models.Room.objects.filter(student=user)
+    rooms = room_models.Room.objects.filter(student=user).annotate(message_count=Count('messages'))
     print("Student rooms count", rooms.count())
     context={
         "sessions":sessions,
@@ -1331,7 +1332,7 @@ def studentChat(request,tutor_id):
     tutor = main_models.UserDetail.objects.get(user = tutor_id)
     try:
         
-        room_name = 'myroom'
+        room_name = str(tutor.user.username) + "-" + str(request.user.username)+"-Room"
     
         student_room = room_models.Room.objects.create(
             name = room_name,
@@ -1351,7 +1352,14 @@ def studentChat(request,tutor_id):
     
     except Exception as e:
         print("Error creting room ",e)
-        return render(request,"saler/student/student_home.html")
+        room = room_models.Room.objects.get(student=request.user,tutor=tutor.user)
+        messages = room_models.Message.objects.filter(room=room)[0:25]
+        context={
+            "room":room,
+            "messages":messages
+        }
+        return render(request,"saler/student/chat_screen.html",context)
+        # return render(request,"saler/student/student_home.html")
     
 def chatRoom(request,room_id):
     room = room_models.Room.objects.get(id=room_id)

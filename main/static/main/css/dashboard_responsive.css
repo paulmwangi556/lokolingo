@@ -1,178 +1,92 @@
+:root {
+	--background-color1: #fafaff;
+	--background-color2: #ffffff;
+	--background-color3: #ededed;
+	--background-color4: #cad7fda4;
+	--primary-color: #4b49ac;
+	--secondary-color: #060607;
+	--Border-color: #0cc0df;
+	--one-use-color: #3f0097;
+	--two-use-color: #0cc0df;
+	--primary: #0cdf95;
+	--secondary: #0cc0df;
+}
+
+
+
 /* Responsive CSS Here */
-@media screen and (max-width: 950px) {
-    .nav-img {
-        height: 25px;
+@media screen and (max-width: 1070px) {
+    .nav-toggler{
+        display: none;
+        font-size: 2rem;
     }
-    .nav-option {
-        gap: 30px;
-    }
-    .nav-option h3 {
-        font-size: 15px;
-    }
-    .report-topic-heading,
-    .item1,
-    .items {
-        width: 800px;
-    }
-    }
-    
-    @media screen and (max-width: 850px) {
-    .nav-img {
-        height: 30px;
-    }
-    .nav-option {
-        gap: 30px;
-    }
-    .nav-option h3 {
-        font-size: 20px;
-    }
-    .report-topic-heading,
-    .item1,
-    .items {
-        width: 700px;
-    }
-    .navcontainer {
-        width: 100vw;
-        position: absolute;
-        transition: all 0.6s ease-in-out;
-        top: 0;
-        left: -100vw;
-    }
-    .nav {
-        width: 100%;
-        position: absolute;
-    }
-    .navclose {
-        left: 00px;
-    }
-    .searchbar {
+
+    .user-name{
         display: none;
     }
-    .main {
-        padding: 40px 30px 30px 30px;
+    .navcontainer{
+        display: none;
+        transition: 0.5s ease;
+        z-index: 500;
+        position: fixed;
+       
     }
-    .searchbar2 {
-        width: 100%;
+    .top-nav{
         display: flex;
-        margin: 0 0 40px 0;
-        justify-content: center;
     }
-    .searchbar2 input {
-        width: 250px;
-        height: 42px;
-        border-radius: 50px 0 0 50px;
-        background-color: var(--background-color3);
-        padding: 0 20px;
-        font-size: 15px;
-        border: 2px solid var(--secondary-color);
+
+    .toggle-menu{
+        /* background-color: red; */
+        color: black !important;
+        gap: 1rem;
+        display: flex;
+        color: var(--secondary);
     }
+
+    .toggle-menu a{
+        color: var(--secondary);
+    }
+
+    .toggle-menu a:hover{
+        color: #0cdf95;
     }
     
-    @media screen and (max-width: 490px) {
-    .message {
-        display: none;
-    }
-    .logosec {
+/* 
+    .horizontal-nav{
+        height: 3rem;
         width: 100%;
-        justify-content: space-between;
-    }
-    .logo {
-        font-size: 20px;
-    }
-    .menuicn {
-        height: 25px;
-    }
-    .nav-img {
-        height: 25px;
-    }
-    .nav-option {
-        gap: 25px;
-    }
-    .nav-option h3 {
-        font-size: 12px;
-    }
-    .nav-upper-options {
-        gap: 15px;
-    }
-    .recent-Articles {
-        font-size: 20px;
-    }
-    .report-topic-heading,
-    .item1,
-    .items {
-        width: 550px;
-    }
+        background-color: blue;
+    } */
+}
+@media screen and (max-width: 850px) {
+    .nav-toggler{
+        display: block;
+        font-size: 2rem;
     }
     
-    @media screen and (max-width: 400px) {
-    .recent-Articles {
-        font-size: 17px;
-    }
-    .view {
-        width: 60px;
-        font-size: 10px;
-        height: 27px;
-    }
-    .report-header {
-        height: 60px;
-        padding: 10px 10px 5px 10px;
-    }
-    .searchbtn img {
-        height: 20px;
-    }
+    
+        .toggle-menu{
+
+           display: none;
+           flex-direction: column;
+
+        }
+        .toggle-menu a{
+            width: 100%;
+            background-color: red;
+        }
+   
     }
     
-    @media screen and (max-width: 320px) {
-    .recent-Articles {
-        font-size: 12px;
-    }
-    .view {
-        width: 50px;
-        font-size: 8px;
-        height: 27px;
-    }
-    .report-header {
-        height: 60px;
-        padding: 10px 5px 5px 5px;
-    }
-    .t-op {
-        font-size: 12px;
-    }
-    .t-op-nextlvl {
-        font-size: 10px;
-    }
-    .report-topic-heading,
-    .item1,
-    .items {
-        width: 300px;
-    }
-    .report-body {
-        padding: 10px;
-    }
-    .label-tag {
-        width: 70px;
-    }
-    .searchbtn {
-        width: 40px;
-    }
-    .searchbar2 input {
-        width: 180px;
-    }
-    }
-    @media only screen and (max-width: 600px) {
-        .nav-upper-options {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      
-        .nav-option {
-          margin-bottom: 10px;
-          text-align: center;
-        }
-        
-        .nav-img {
-          width: 50px; /* Adjust the size as needed */
-          height: 50px; /* Adjust the size as needed */
-        }
-      }
+@media screen and (max-width: 490px) {
+   
+}
+    
+@media screen and (max-width: 400px) {
+}
+@media screen and (max-width: 320px) {
+    
+}
+@media only screen and (max-width: 600px) {
+       
+}

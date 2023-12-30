@@ -16,12 +16,15 @@
     <div class="query-pacram mb-4 col-12">
         <p>Search results for: "{{request.GET.query}}" matched {{searched|length}} result(s)</p>
         <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">All Tutors</a>
+        <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Top Rated</a>
+        <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Recent</a>
+        <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Favourites</a>
         <hr class="hr">
     </div>
 
-    <div class=" main-wrapper container-fluid">
+    <div class=" main-wrapper ">
 
-        <div class="find-tuftors-container container-fluid row">
+        <div class="find-tutors-container row">
 
 
 
@@ -51,7 +54,7 @@
                         <div class="col-lg-12 col-md-6 col-sm-12">
                             <p class="mt-4">Country: {{search.tutor.userdetails.country}}</p>
                             <p class="mt-4">City: {{search.tutor.userdetails.city}}</p>
-                           
+
                             <a href="{% url 'tutor_profile' tutor_id=search.tutor.id %}">
                                 <button class=" btn btn-primary view-profile p-2">View Profile</button>
                             </a>
@@ -87,24 +90,24 @@
                     <p class="text-primary">Subjects</p>
                     <div class="row">
                         {% for skill in all_skills %}
-                            {% if forloop.parentloop.counter0 == forloop.counter0  %}
-                                {% for item in skill%}
-                                {% if forloop.parentloop.counter0 == forloop.counter0 %}
-                                    {% for element in item %}
-                                       <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-12 ">
-                                            <p class="">{{element.title}}</p>
-                                        </div>
-                                       </div>
-                                    {% endfor %}
-                                    {% endif %}
-                                {% endfor%}
+                        {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                        {% for item in skill%}
+                        {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                        {% for element in item %}
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-12 ">
+                                <p class="">{{element.title}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor%}
 
-                            {% endif %}
+                        {% endif %}
 
                         {% endfor %}
 
-                       
+
                     </div>
 
                     <!-- <hr> -->

@@ -9,17 +9,8 @@
             class="icn srchicn" alt="search-button">
     </div>
 </div>
-<div class="row mb-4">
-    <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
-        <div class="box box1">
-            <div class="text">
-                <h2 class="topic-heading">0.0k</h2>
-                <h2 class="topic">Profile Views</h2>
-            </div>
-            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
-                alt="Views"> -->
-        </div>
-    </div>
+<div class="row mb-4 ">
+
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
         <div class="box box2">
             <div class="text">
@@ -36,7 +27,7 @@
                 <h2 class="topic">Total Skills</h2>
             </div>
             <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png" -->
-                <!-- alt="comments"> -->
+            <!-- alt="comments"> -->
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
@@ -50,115 +41,123 @@
     </div>
 </div>
 
-<div class="chat-messages">
-    <div class="row">
-        {% for room in rooms %}
-            <a href="{% url 'staffChat' room_id=room.id %}">
-                <div class="col container bg-light mb-4 p-3">
-                    <p>{{room.name}}</p>
-                </div>
-            </a>
-        {% endfor %}
-    </div>
-</div>
+
 
 
 
 
 <div class="row mb-4">
-    <div class="col-lg-8 col-md-12 col-sm-12">
+    <div class="col-lg-5 col-md-12 col-sm-12">
+        <!-- start -->
+        <div class="account-data">
+            <div class="profile-data p-2">
+                <p class="name">{{request.user.first_name}} {{request.user.first_name}} </p>
+                <div class="row">
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        <p class="text-primary">@{{request.user.username}}</p>
+                        <p>Tutor</p>
+                        <p>Date Joined: {{request.user.date_joined}}</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <img src="{{request.user.userdetails.photo.url}}" alt="" class="profile-img">
+                    </div>
+                </div>
+
+                <div>
+
+
+                </div>
+
+            </div>
+            <div class="finances">
+                <h4 class="text-bold text-primary font-bold">Finances</h6>
+                    <div class="balances">
+                        <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Current
+                            Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
+                        <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Last Deposit:
+                            <span>Ksh {{saler_finances.last_deposit_amount}}</span>
+                        </p>
+                        <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Year
+                            Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
+                    </div>
+                    <div class="withdrawals">
+                        <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> Total
+                            Withdrawal Requests: <span> {{withdrawals|length}}</span></p>
+                        <p class="current-balance"><span><i class="fas fa-calendar-alt  fa-sm  "></i></span> Pending
+                            Withdrawals: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
+                        <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> This Year
+                            Balance: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 mb-3">
+                            <a href="{% url 'withdrawals' %}" class="btn btn-success">Request Withdrawal</a>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+        <!-- end -->
+
+    </div>
+    <div class="col-lg-7 col-md-12 col-sm-12">
+
+
         <div class="chart-section">
             <h6>Your Pregress: Overview</h6>
             <canvas id="myChart" width="400" height="200"></canvas>
 
-            <div class="students">
-                <h4>My Students</h4>
-                <p class="user-icons">
-                    <span>
-                        <i class="fas fa-user fa-3x  "></i>
-                    </span>
-                    <span>
-                        <i class="fas fa-user-ninja fa-3x  "></i>
-                    </span>
-                    <span>
-                        <i class="fas fa-user fa-3x  "></i>
-                    </span>
-                    <span>
-                        <i class="fas fa-user-ninja fa-3x  "></i>
-                    </span>
-                    <span>
-                        <i class="fas fa-user fa-3x  "></i>
-                    </span>
-                   
-                   
-                    
-                </p>
+
+        </div>
+
+        <div class="db-messages bg-light">
+            <h5>Messages</h5>
+            <div class="row pr-3">
+                {% if rooms %}
+                {% for room in rooms %}
+                <a href="{% url 'staffChat' room_id=room.id %}" class="db-message-item" style="text-decoration: none;">
+                    <p class="  "> <span>{{forloop.counter}}</span>. {{room.student}}</p>
+                    <p>{{room.message_count}} messages</p>
+                </a>
+                {% endfor %}
+
+                {% else %}
+                <h5 class="mt-4">No active Message Rooms</h5>
+                {% endif %}
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-md-12 col-sm-12">
-        <div class="account-data">
-           <div class="profile-data">
-           <div>
-            <p class="name">{{request.user.first_name}} {{request.user.first_name}} </p>
-            <p class="text-primary">@{{request.user.username}}</p>
-            <p>Tutor</p>
-            <p>Date Joined: {{request.user.date_joined}}</p>
-           </div>
-            <img src="{{request.user.userdetails.photo.url}}" alt="" class="profile-img">
-           </div>
-           <div class="finances">
-            <h4 class="text-bold text-primary font-bold">Finances</h6>
-            <div class="balances">
-                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Current Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
-                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Last Deposit: <span>Ksh {{saler_finances.last_deposit_amount}}</span></p>
-                <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Year Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
-            </div>
-            <div class="withdrawals">
-                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> Total Withdrawal Requests: <span> {{withdrawals|length}}</span></p>
-                <p class="current-balance"><span><i class="fas fa-calendar-alt  fa-sm  "></i></span> Pending Withdrawals: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
-                <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> This Year Balance: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 mb-3">
-                    <a href="{% url 'withdrawals' %}" class="btn btn-success">Request Withdrawal</a>
-                </div>
-               
-            </div>
-           </div>
-        </div>
+
     </div>
 </div>
 
 <script>
     var data = {
-      labels: ['January', 'February', 'March', 'April', 'May','June','July','August','September','October','November','December'],
-      datasets: [
-        {
-          label: 'Profile Visits',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-          data: [65, 59, 80, 81, 56,88,95,36,90,37,66,83],
-        },
-        {
-          label: 'Bookings',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-          data: [45, 34, 44, 90, 65,66,87,32,14,43,26,55],
-        }
-      ]
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [
+            {
+                label: 'Profile Visits',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                data: [65, 59, 80, 81, 56, 88, 95, 36, 90, 37, 66, 83],
+            },
+            {
+                label: 'Bookings',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+                data: [45, 34, 44, 90, 65, 66, 87, 32, 14, 43, 26, 55],
+            }
+        ]
     };
 
     // Configuration options
     var options = {
-      scales: {
-        y: {
-          beginAtZero: true
+        scales: {
+            y: {
+                beginAtZero: true
+            }
         }
-      }
     };
 
     // Get the canvas element
@@ -166,9 +165,9 @@
 
     // Create the chart
     var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: data,
-      options: options
+        type: 'bar',
+        data: data,
+        options: options
     });
 </script>
 

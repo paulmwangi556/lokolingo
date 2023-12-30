@@ -30,26 +30,7 @@
 	<script src="https://cdn.tailwindcss.com"></script>
     
 
-	<style>
-		@media only screen and (max-width: 600px) {
-  .nav-upper-options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-option {
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .nav-img {
-    width: 50px; /* Adjust the size as needed */
-    height: 50px; /* Adjust the size as needed */
-  }
-  
-}
-	</style>
+	
 </head>
 
 <body>
@@ -57,26 +38,39 @@
 	<!-- for header part -->
 
 
-	<header class="top_nav">
-
-		<div class="row mt-2 mb-2">
-			<div class="col">
-				<a href="{% url 'home'%}">
-					<i class="fas fa-home fa-2x  "></i></a>
-			</div>
-			<div class="col">
-				
-			</div>
-			<div class="col">
-				
-			</div>
-			<div class="col">
-				<p>Welcome:  <span class="text-primary">{{request.user.username}}</span></p>
-			</div>
-		</div>
-
+	<header class="top-nav">
+		<a href="{% url 'home'%}">
+			<!-- <p class="fs-4 font-weight-bold">SKULI</p> -->
+			<img class="img-responsive custom-logo" src="{% static 'main/images/nav_logo.png'%}" alt="SKULI">
+		</a>
 		
+		<div class="toggle-menu">
+			<a href="{% url 'studentDashboard'%}">
+				Dashboard
+			</a>
+			<a href="{% url 'studentProfile'%}">
+				My Profile
+			</a>
+			<a href="{% url 'studentBookings'%}">
+				Bookings
+			</a>
+			
+			<a href="{% url 'studentTransactionHistory'%}">
+				Payment History
+			</a>
+			<a href="{% url 'logout_tutor'%}">
+				Logout
+			</a>
+			
+		</div>
+		<button onclick="toggleMenu()" class="nav-toggler">
+			&#9776; 
+		</button>
 
+		<p class="user-name">Hello <span class="text-primary">{{request.user.username}}</span> </p>
+	
+		
+	
 	</header>
 
 	<div class="main-container">
@@ -85,33 +79,29 @@
 				<div class="nav-upper-options">
 					<a href="{%url 'studentDashboard' %}">
 					<div class="nav-option option1">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
-							class="nav-img" alt="dashboard">
-						<h5> Dashboard</h5>
+						<i class="fa fa-home fa-2x" aria-hidden="true"></i>
+						<h5> Home</h5>
 					</div>
 					</a>
 					
 					<a href="{% url 'studentProfile' %}">
-					<div class="option2 nav-option">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
-							class="nav-img" alt="my profile">
+					<div class="option1 nav-option">
+						<i class="fa fa-users fa-2x" aria-hidden="true"></i>
 						<h5> My Profile</h5>
 					</div>
 					</a>
 					
 
 					<a href="{% url 'studentBookings'%}">
-					<div class="nav-option option3">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
-							class="nav-img" alt="reviews">
+					<div class="nav-option option1">
+						<i class="fas fa-calendar fa-2x  "></i>
 						<h5> Bookings</h5>
 					</div>
 				</a>
 
 				<a href="{% url 'studentTransactionHistory'%}">
-					<div class="nav-option option3">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
-							class="nav-img" alt="reviews">
+					<div class="nav-option option1">
+						<i class="fa fa-history fa-2x" aria-hidden="true"></i>
 						<h5> Payments History</h5>
 					</div>
 				</a>
@@ -119,11 +109,7 @@
 				
 
 
-					<div class="nav-option option6">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
-							class="nav-img" alt="settings">
-						<h5> Settings</h5>
-					</div>
+					
 					<a  href="{%url 'logout_tutor' %}">
 					<div class="nav-option logout">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
@@ -141,6 +127,24 @@
 		</div>
 	</div>
 	</div>
+	<script>
+		function toggleMenu() {
+   var nav = document.querySelector('.toggle-menu');
+   var nav2 = document.querySelector('.navcontainer');
+   // nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
+   nav2.style.display = (nav.style.display === 'block') ? 'none' : 'block';
+ }
+	   // 	function highlight(element) {
+	   //   // Remove the 'active' class from all navigation items
+	   //   var items = document.querySelectorAll('.nav-option');
+	   //   items.forEach(function (item) {
+	   //     item.classList.remove('active');
+	   //   });
+
+	   //   // Add the 'active' class to the clicked item
+	   //   element.parentNode.classList.add('active');
+	   // }
+   </script>
 
 	<script src="{% static 'main/js/dashboard.js' %}"></script>
 

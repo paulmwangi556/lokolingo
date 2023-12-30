@@ -2,9 +2,7 @@
     width: 100%;
     /* background-color:    rebeccapurple; */
     padding-top: 1rem;
-    display: flex;
-    flex-direction: row;
-    gap: 4rem;
+    
     /* justify-content: space-evenly; */
 }
 
@@ -12,7 +10,7 @@
     width: 100%;
     /* background-color: red; */
     height: 90vh;
-    background-color: rgba(49, 71, 71, 0.068);
+    /* background-color: rgba(49, 71, 71, 0.068); */
     border-radius: 1rem;
     padding: 2rem;
     overflow: scroll;
@@ -103,4 +101,33 @@
 .add-slot:hover{
     background-color: rgb(4, 4, 119);
     transition: 0.1s ease-in;
+}
+
+form{
+    /* background-color: blue; */
+}
+
+form p{
+    display: flex;
+    flex-direction: column;
+}
+
+form p input{
+        width: 100%;
+        border: 1px solid;
+        padding: 0.7rem;
+        border-radius: 0.5rem;
+        /* background-color: red; */
+}
+
+form p select{
+    width: 100%;
+    padding: 0.7rem;
+    
+    /* background-color: red; */
+}
+
+form p textarea{
+    
+    border: 1px solid;
 }

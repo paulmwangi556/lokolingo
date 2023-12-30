@@ -5,11 +5,22 @@
 {% for booking in bookings %}
     <div class="bookings">
       <div class="booking-data">
+        <div class="row">
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <p>Date: {{booking.date}}  @{{booking.time}}</p>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <p>Duration: {{booking.duration}} hrs</p>
+          </div>
+        </div>
          
-        <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
-        <p>Date: {{booking.date}}  @{{booking.time}}</p>
        
-        <p>Duration: {{booking.duration}} hrs</p>
+       
+       
+       
         
       
       </div>
@@ -24,7 +35,7 @@
           <div class="col-lg-4 col-md-6 col-sm-12">
             <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}  
               {% if booking.payment_status == 'payment_not_initiated' %}
-             <button class="btn btn-primary ml-3 update_booking">Change</button>
+             <button class="btn btn-primary ml-3 update_booking" onclick="triggerBtn('{{forloop.counter}}')">Change</button>
              {% else %}
   
              {% endif %}

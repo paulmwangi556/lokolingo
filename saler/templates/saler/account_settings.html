@@ -19,109 +19,153 @@
 	<link rel="stylesheet" href="{% static  'saler/css/slots.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/payment_history.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/tutor_sessions.css' %}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Domine">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Domine">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 
 <body>
 
 	<!-- for header part -->
-	<header>
+	
+	
 
-		<div class="home">
+	<header class="top-nav">
+
+		
 			<a href="{% url 'home'%}">
-			<i class="fas fa-home fa-2x  "></i>
-		</a> 
-		</div>
+				<img class="img-responsive custom-logo" src="{% static 'main/images/nav_logo.png'%}" alt="SKULI">
+			</a>
+			
+			<div class="toggle-menu">
+				<a class="nav-item" href="{% url 'saler_account_settings'%}">
+					Dashboard
+				</a>
+				<a class="nav-item" href="{% url 'updateProfile'%}">
+				Profile
+				</a>
+				<a class="nav-item" href="{% url 'reviews'%}">
+					Reviews
+				</a>
+				<a class="nav-item" href="{% url 'addSkill'%}">
+					Skills
+				</a>
+				<a class="nav-item" href="{% url 'withdrawals'%}">
+					Withdrawals
+				</a>
+				<a class="nav-item" href="{% url 'staffBookings'%}">
+					Bookings
+				</a>
+				<a class="nav-item" href="{% url 'tutorSessions'%}">
+					Sessions
+				</a>
+				<a class="nav-item" href="{% url 'studentTransactionHistory'%}">
+					Payments History
+				</a>
+				<a class="nav-item" href="{% url 'logout_tutor'%}">
+					Logout
+				</a>
+			</div>
+			<button onclick="toggleMenu()" class="nav-toggler">
+				&#9776; 
+			</button>
+
+			<p class="user-name">Hello <span class="text-primary">{{request.user.username}}</span> </p>
+		
+			
+		
 
 	</header>
 
+
 	<div class="main-container">
+		
 		<div class="navcontainer">
 			<nav class="nav">
 				<div class="nav-upper-options">
 					<a href="{%url 'saler_account_settings' %}" onclick="highlight(this)">
-					<div class="nav-option option1">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
-							class="nav-img" alt="dashboard">
-						<h5> Dashboard</h5>
-					</div>
+						<div class="nav-option option1">
+							
+								<i class="fa fa-home fa-2x" aria-hidden="true"></i>
+							<h5> Home</h5>
+						</div>
 					</a>
-					
-					<a  href="{% url 'updateProfile' %}" onclick="highlight(this)">
-					<div class="option2 nav-option">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
-							class="nav-img" alt="my profile">
-						<h5> My Profile</h5>
-					</div>
+
+					<a href="{% url 'updateProfile' %}" onclick="highlight(this)">
+						<div class="option1 nav-option">
+							
+								<i class="fa fa-users fa-2x" aria-hidden="true"></i>
+							<h5> My Profile</h5>
+						</div>
 					</a>
 
 					<a href="{% url 'reviews' %}" onclick="highlight(this)">
-					<div class="nav-option option3">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
-							class="nav-img" alt="reviews">
-						<h5> Reviews</h5>
-					</div>
+						<div class="nav-option option1">
+							
+								<i class="fa fa-address-book fa-2x" aria-hidden="true"></i>
+							<h5> Reviews</h5>
+						</div>
 					</a>
-				
-				<a href="{% url 'addSkill' %}" onclick="highlight(this)">
-					<div class="nav-option option4">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
-							class="nav-img" alt="my skills">
-						<h5> My Skills</h5>
-					</div>
-				</a>
 
-				<a href="{% url 'withdrawals' %}">
-					<div class="nav-option option5" onclick="highlight(this)">
-						<img src="{% static 'main/images/withdrawals.webp' %}"
-							class="nav-img" alt="withdrawals">
-						<h5> Withdrawals</h5>
-					</div>
+					<a href="{% url 'addSkill' %}" onclick="highlight(this)">
+						<div class="nav-option option1">
+							
+								<i class="fa fa-university fa-2x" aria-hidden="true"></i>
+							<h5> My Skills</h5>
+						</div>
+					</a>
+
+					<a href="{% url 'withdrawals' %}">
+						<div class="nav-option option1" onclick="highlight(this)">
+							
+							<i class="fas fa-money-bill-wave fa-2x  "></i>
+							<h5> Withdrawals</h5>
+						</div>
 					</a>
 					<a href="{% url 'staffBookings' %}" onclick="highlight(this)">
-					<div class="nav-option option5">
-						
-						<i class="fas fa-calendar fa-2x  "></i>
-							
-						<h5>Bookings</h5>
-					</div>
+						<div class="nav-option option1">
+
+							<i class="fas fa-calendar fa-2x  "></i>
+
+							<h5>Bookings</h5>
+						</div>
 					</a>
 
 					<a href="{% url 'tutorSessions' %}" onclick="highlight(this)">
-						<div class="nav-option option5">
-							
+						<div class="nav-option option1">
+
 							<i class="fas fa-bookmark fa-2x  "></i>
-								
+
 							<h5>Sessions</h5>
 						</div>
-						</a>
-	
-					
-				<a href="{% url 'studentTransactionHistory'%}" onclick="highlight(this)">
-					<div class="nav-option option3">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
-							class="nav-img" alt="reviews">
-						<h5> Payments History</h5>
-					</div>
-				</a>
-					<a  href="{%url 'logout_tutor' %}" onclick="highlight(this)">
-					<div class="nav-option logout">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
-							class="nav-img" alt="logout">
-						<h5>Logout</h5>
-					</div>
+					</a>
+
+
+					<a href="{% url 'studentTransactionHistory'%}" onclick="highlight(this)">
+						<div class="nav-option option1">
+						
+								<i class="fa fa-history fa-2x" aria-hidden="true"></i>
+							<h5> Payments History</h5>
+						</div>
+					</a>
+					<a href="{%url 'logout_tutor' %}" onclick="highlight(this)">
+						<div class="nav-option logout">
+							<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+								class="nav-img" alt="logout">
+								
+							<h5>Logout</h5>
+						</div>
 					</a>
 				</div>
 			</nav>
 		</div>
+
 		<div class="main">
 			{% block dashboard %}
 
@@ -130,37 +174,59 @@
 	</div>
 	</div>
 	<script>
-	// 	function highlight(element) {
-    //   // Remove the 'active' class from all navigation items
-    //   var items = document.querySelectorAll('.nav-option');
-    //   items.forEach(function (item) {
-    //     item.classList.remove('active');
-    //   });
 
-    //   // Add the 'active' class to the clicked item
-    //   element.parentNode.classList.add('active');
-    // }
-	  </script>
+
+document.getElementById('toggle-menu').addEventListener('click', function(event) {
+    var clickedItem = event.target;
+
+    // Remove 'active' class from all items
+    var navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(function(item) {
+      item.classList.remove('active');
+    });
+
+    // Add 'active' class to the clicked item
+    clickedItem.classList.add('active');
+  });
+
+
+		 function toggleMenu() {
+    var nav = document.querySelector('.toggle-menu');
+	var nav2 = document.querySelector('.navcontainer');
+    // nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
+	nav2.style.display = (nav.style.display === 'block') ? 'none' : 'block';
+  }
+		// 	function highlight(element) {
+		//   // Remove the 'active' class from all navigation items
+		//   var items = document.querySelectorAll('.nav-option');
+		//   items.forEach(function (item) {
+		//     item.classList.remove('active');
+		//   });
+
+		//   // Add the 'active' class to the clicked item
+		//   element.parentNode.classList.add('active');
+		// }
+	</script>
 	<script src="{% static 'main/js/dashboard.js' %}"></script>
 
 	<script src="{% static 'saler/js/index.js' %}"></script>
-	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>
