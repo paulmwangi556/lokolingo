@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="profile-wrapper">
+<div class="profifdvle-wrapper">
     
 
     <div class="profile-section container bg-light">
@@ -26,17 +26,21 @@
                 <p class="city">City: {{tutor.city}}</p>
                  <p>Tor id is {{tutor.id}}</p>
 
-                <p class="rating text-success">Average Rating: 5/5</p>
-                {% for rate in rating%}
-                <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i>
-                {% endfor %}
+                {% if avg_rating == 0 %}
+                <p class="rating text-success">Average Rating: No ratings yet</p>
+                {% else %}
+                <p class="rating text-success">Average Rating: {{avg_rating}}/5</p>
+                {% endif %}
+
+
+               
 
                 <div class="mt-4">
                     <a href="{% url 'studentChat' tutor_id=tutor.user.id %}" class="btn btn-primary">Message {{tutor.user.username}}</a>
                 </div>
 
                 <div class="rating-section mt-5">
-                    <h6 class="h4">Add A review</h6>
+                    <h5 class="">Add A Review</h5>
                     <form method="POST" action="{% url 'rateTutor' tutor_id=tutor.user.id %}">
                         <div class="form-group">
                           <label for="Review">Write a Review</label>
@@ -142,6 +146,43 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="ratings">
+           <h4>Tutor Ratings and Reviews</h4>
+
+           {% if tutor_reviews|length == 0 %}
+           <div class="card mb-2">
+            <div class="card-header">
+              No Reviews Yet
+              <!-- <p>{{review.rating}}/5</p> -->
+            </div>
+            <div class="card-body">
+              <!-- <h5 class="card-title">sdvdvdv</h5>
+              <p class="card-text">dsvsv</p>
+             <p class="text-primary">vdsvsd</p> -->
+            </div>
+          </div>
+           {% else %}
+
+            {% for review in tutor_reviews %}
+            <div class="card mb-2">
+                <div class="card-header">
+                  {% for rate in review.rating %}
+                        <span>  <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                  {% endfor %}
+                  <!-- <p>{{review.rating}}/5</p> -->
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{review.student}}</h5>
+                  <p class="card-text">{{review.review}}</p>
+                 <p class="text-primary">{{review.date_added}}</p>
+                </div>
+              </div>
+            {% endfor %}
+
+            {% endif %}
+
         </div>
     </div>
 </div>

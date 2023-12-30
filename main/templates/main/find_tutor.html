@@ -14,7 +14,7 @@
     </form>
 
     <div class="query-pacram mb-4 col-12">
-        <p>Search results for: "{{request.GET.query}}" matched {{searched|length}} result(s)</p>
+        <p class="search-result">Search results for: <span class="query"> "{{request.GET.query}}"</span> matched {{searched|length}} result(s)</p>
         <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">All Tutors</a>
         <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Top Rated</a>
         <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Recent</a>
@@ -33,8 +33,10 @@
                 You might be interested in:
                 <div class="row">
                     {% for skill in skills %}
+                   <div class="col">
                     <a class="btn btn-outline-primary mb-3"
-                        href="{% url 'findTutors' query=skill.title %}">{{skill.title}}</a>
+                    href="{% url 'findTutors' query=skill.title %}">{{skill.title}}</a>
+                   </div>
                     {% endfor %}
                 </div>
             </div>
@@ -94,11 +96,11 @@
                         {% for item in skill%}
                         {% if forloop.parentloop.counter0 == forloop.counter0 %}
                         {% for element in item %}
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12 ">
+                       
+                            <div class="col ">
                                 <p class="">{{element.title}}</p>
                             </div>
-                        </div>
+                        
                         {% endfor %}
                         {% endif %}
                         {% endfor%}

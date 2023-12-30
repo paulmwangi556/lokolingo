@@ -2,7 +2,7 @@
     /* background-color: blue; */
     /* height: 100vh; */
     width: 100vw;
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
 }
 
 .account-details{
@@ -94,4 +94,10 @@
     width: 100%;
     text-align: end;
     background-color: red;
+}
+
+.ratings{
+    border-top: 1px solid;
+    padding-top: 0.5rem;
+    margin-top: 2rem;
 }

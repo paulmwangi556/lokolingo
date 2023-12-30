@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 import json
+import math
 import uuid
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse
@@ -761,12 +762,36 @@ def tutor_profile(request,tutor_id):
     # print(tutor_id)
     tutor = main_models.UserDetail.objects.get(user = tutor_id)
     skills = models.Skill.objects.filter(tutor=tutor_id)
-    print(tutor.country)
-    rating=range(0,5)
+    tutor_rating = main_models.TutorRating.objects.filter(tutor=tutor.user)
+    
+    if tutor_rating.count() == 0:
+        rating=0,
+        average_rating=0
+    else:
+    
+        total_rating = 0
+        for item in tutor_rating:
+            total_rating+=item.rating
+            
+        for item in tutor_rating:
+            item.rating =range(0,item.rating)
+        
+        # if tutor_rating.count() == 0:
+        
+        
+        average_rating = math.ceil(total_rating/tutor_rating.count())
+    
+        
+        
+        rating=range(0,average_rating)
+        
+        
     context={
         "tutor":tutor,
         "skills":skills,
-        "rating":rating
+        "rating":rating,
+        "avg_rating":average_rating,
+        "tutor_reviews":tutor_rating
     }
     return render(request,"saler/tutor_profile.html",context)
 

@@ -61,23 +61,7 @@ def find_tutor(request, query: str):
         strr = request.GET.get("query") if request.GET.get(
             'query') != None else ''
         searched = perform_search(strr)
-    # skills = saler_models.Skill.objects.all().order_by("?")
-    # individual_skills=[]
-    # skill_set_list = []
-    
-    # for search in searched:
-    #     skill = saler_models.Skill.objects.filter(tutor = search.tutor)
-    #     individual_skills.append(skill)
-    #     skill_set_list.append(individual_skills)
-        
-    #     context = {
-    #         "searched": searched,
-    #         "query": strr,
-    #         "skills": skills,
-    #          "all_skills":skill_set_list
-    #     }
-    #     print(searched.count())
-    #     return render(request, "main/find_tutor.html", context)
+   
 
     else:
         searched = perform_search(query)
