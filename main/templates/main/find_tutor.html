@@ -68,7 +68,7 @@
                                 <a href="" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
                                 {% endif %}
                             {%  else  %}
-                            <a href="{% url 'tutor_login' %}" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
+                            <a href="{% url 'tutor_login' %}" class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
 
                             {% endif  %}
                             
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="row">
-                        <div class="col-lg-8 col-sm-12">
+                        <div class="col-lg-8 col-sm-12 mb-4">
                             <a href="{% url 'tutor_profile' tutor_id=search.tutor.id %}">
                                 <button class=" btn text-black btn-primary view-profile p-2">View Profile</button>
                             </a>
