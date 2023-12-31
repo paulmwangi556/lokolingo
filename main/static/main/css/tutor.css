@@ -10,6 +10,15 @@ h1,h2,h3,h4,h5,h6{
     color: var(--secondary) !important;
 }
 
+#query-form{
+    width: 90vw;
+    margin: auto;
+}
+
+.view-profile:hover{
+    color: black;
+}
+
 .search-result{
     margin-top: 1rem;
 }
@@ -17,6 +26,9 @@ h1,h2,h3,h4,h5,h6{
 .query{
     color: var(--secondary) ;
     /* font-size: 2rem; */
+}
+.query-params{
+    margin-left: 1rem;
 }
 
 .find-tutors-container{
@@ -42,6 +54,7 @@ h1,h2,h3,h4,h5,h6{
     background-color: rgb(255, 255, 255);
     margin-bottom: 1rem;
    margin: auto;
+   width: 95vw !important;
 }
 
 .profile-image-wrapper{
@@ -102,11 +115,15 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .query-param{
-    height: 3rem;
+    /* height: 3rem; */
     /* background-color: red; */
     display: flex;
     justify-content: space-evenly   ;
+    flex-direction: column;
     margin-top: 1rem;
     align-items: center;
     margin-bottom: 1rem;
+}
+.alt-links{
+    padding-left: 1rem !important;
 }

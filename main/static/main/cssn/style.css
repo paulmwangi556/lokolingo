@@ -4,6 +4,10 @@
     --light: #F0FBFC;
     --dark: #181d38;
 }
+.container{
+    padding: 0;
+}
+
 
 .fw-medium {
     font-weight: 600 !important;
@@ -35,6 +39,7 @@
     visibility: visible;
     opacity: 1;
 }
+
 
 
 /*** Button ***/
@@ -201,6 +206,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    width: 100vw;
 }
 
 .page-header-inner {

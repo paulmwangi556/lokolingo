@@ -85,9 +85,9 @@
 }
 
 
-.rating-section{
+.rating-section,.other-ratings{
     /* border: 1px solid ; */
-    margin-bottom: 2rem;
+    margin: 1rem;
     padding-bottom: 1rem;
 }
 .rated_value{

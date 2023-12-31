@@ -3,59 +3,112 @@
 
 {% block student %}
 
-    <div class="dashboard-home">
+<div class="dashboard-home">
 
-        <div class="db-messages bg-light">
-            <h5>Messages</h5>
-            <div class="row pr-3">
-                {% if rooms %}
-                {% for room in rooms %}
-                <a href="{% url 'staffChat' room_id=room.id %}" class="db-message-item" style="text-decoration: none;">
-                    <p class="  "> <span>{{forloop.counter}}</span>. {{room.student}}</p>
-                    <p>{{room.message_count}} messages</p>
-                </a>
-                {% endfor %}
+    <div class="quick-actions">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="find-tutors">
+                    <p>Quick Tutor Search </p>
+                    <form method="POST" action="{% url 'home'%}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="" class="form-label"></label>
+                            <input type="text" class="form-control" name="q" id="" aria-describedby="helpId"
+                                placeholder="" />
+                            <small id="helpId" class="form-text text-muted"></small>
+                        </div>
 
-                {% else %}
-                <h5 class="mt-4">No active Message Rooms</h5>
-                {% endif %}
+                        <button class="btn  btn-primary">Find Tutor</button>
+
+                    </form>
+                </div>
             </div>
-        </div>
-        
-        <h4 class="active-sessions">Active Sessions</h4>
-        {% if sessions|length == 0 %}
-        <div class="container bg-primary p-4">
-            <p class="text-white">No Active Sessions</p>
-        </div>
-      
-        {% else %}
-        {% for session in sessions %}
-            <div class="student-sessions p-3 mb-4">
-                <p class="font-weight-bold text-primary">{{session.title}}</p>
-                <p class="font-weight-bold">Skill: {{session.payments.booking.skill.title}}</p>
-                <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        <p class="">Tutor: {{session.payments.booking.skill.tutor.first_name}} {{session.payments.booking.skill.tutor.last_name}}</p>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <p class="">{{session.payments.booking.date}} at {{session.payments.booking.time}} for {{session.payments.booking.duration}} hrs</p>
-                    </div>
-                   <div class="session-status mt-3">
-                    <dic class="row">
-                        <div class="col-lg-6 col-md-12 mb-2">
-                            <a href="{{session.meet_url}}" class="btn btn-danger mb-4" target="_blank">Join Meeting</a>
-                            <p class="tex-primary">{{session.meet_url}}</p>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="find-tutors">
+                    <p>Add To  Do Tasks </p>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="" class="form-label"></label>
+                            <input type="text" class="form-control" name="q" id="" aria-describedby="helpId"
+                                placeholder="" />
+                            <small id="helpId" class="form-text text-muted"></small>
                         </div>
-                        <div class="col-lg-6 col-md-12 mb-2">
-                            <p>Session Status</p>
-                            <button class="btn btn-outline-secondary">{{session.session_status}}</button>
-                        </div>
-                    </dic>
+
+                        <button class="btn  btn-primary">Add Task</button>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="find-tutors">
+                   <h4>Tasks</h4>
+                   <hr>
+                   <div class="task-wrapper">
+                    <p>1. Finish Math Assignment</p>
+                    <p>2. Renew Allan's Subscription</p>
+                    <p>3. Attend  Session at 6:00pm</p>
                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="db-messages bg-light">
+    <h5>Messages</h5>
+    <div class="row pr-3">
+        {% if rooms %}
+        {% for room in rooms %}
+        <a href="{% url 'chatRoom' room_id=room.id %}" class="db-message-item" style="text-decoration: none;">
+            <p class="  "> <span>{{forloop.counter}}</span>. {{room.student}}</p>
+            <p>{{room.message_count}} message(s)</p>
+        </a>
         {% endfor %}
+
+        {% else %}
+        <h5 class="mt-4">No active Message Rooms</h5>
         {% endif %}
     </div>
+</div>
+
+<h4 class="active-sessions">Active Sessions</h4>
+{% if sessions|length == 0 %}
+<div class="container bg-primary p-4">
+    <p class="text-white">No Active Sessions</p>
+</div>
+
+{% else %}
+{% for session in sessions %}
+<div class="student-sessions p-3 mb-4">
+    <p class="font-weight-bold text-primary">{{session.title}}</p>
+    <p class="font-weight-bold">Skill: {{session.payments.booking.skill.title}}</p>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <p class="">Tutor: {{session.payments.booking.skill.tutor.first_name}}
+                {{session.payments.booking.skill.tutor.last_name}}</p>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <p class="">{{session.payments.booking.date}} at {{session.payments.booking.time}} for
+                {{session.payments.booking.duration}} hrs</p>
+        </div>
+        <div class="session-status mt-3">
+            <dic class="row">
+                <div class="col-lg-6 col-md-12 mb-2">
+                    <a href="{{session.meet_url}}" class="btn btn-danger mb-4" target="_blank">Join Meeting</a>
+                    <p class="tex-primary">{{session.meet_url}}</p>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-2">
+                    <p>Session Status</p>
+                    <button class="btn btn-outline-secondary">{{session.session_status}}</button>
+                </div>
+            </dic>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+</div>
 
 {% endblock %}
