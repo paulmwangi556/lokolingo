@@ -23,14 +23,24 @@ def index(request):
     # 	return redirect("home")
     # else:
     # 	pass
-    if request.method == "GET" and 'q' in request.GET:
-        query = request.GET.get("q") if request.GET.get('q') != None else 'pp'
+    
+    query_param = request.POST.get("q")
+    
+    
+    if request.method == "POST" :
+        query = request.POST.get("q") if request.POST.get('q') != None else 'all'
 
-        result = perform_search(query)
+        result = perform_search(query_param)
 
         if (query != ""):
 
             return redirect("findTutors", query=query)
+        
+        else:
+                return redirect("findTutors", query="all")
+    else:
+
+        return render(request, 'main/index3.html', )
 
     return render(request, 'main/index3.html', )
 
