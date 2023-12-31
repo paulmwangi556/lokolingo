@@ -3,6 +3,11 @@
     /* height: 500px; */
     padding: 10rem;
 }
+.custom-logo{
+    height: 5rem;
+    width: 40vw;
+    background-color: red ;
+ }
 
 #query-input{
     border: 1px  solid rgba(0, 0, 0, 0.316);
