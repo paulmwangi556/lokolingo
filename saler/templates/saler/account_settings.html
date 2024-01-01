@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="{% static  'saler/css/student_bookings.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/student_home.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/slots.css' %}">
+	<link rel="stylesheet" href="{% static  'saler/css/.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/payment_history.css' %}">
 	<link rel="stylesheet" href="{% static  'saler/css/tutor_sessions.css' %}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -89,60 +90,64 @@
 		<div class="navcontainer">
 			<nav class="nav">
 				<div class="nav-upper-options">
+					<div class="nav-option top-bar">
+						<h6 class="text-white">Dashboard</h6>
+					</div>
+
 					<a href="{%url 'saler_account_settings' %}" onclick="highlight(this)">
 						<div class="nav-option option1">
 							
-								<i class="fa fa-home fa-2x" aria-hidden="true"></i>
-							<h5> Home</h5>
+								<i class="fa fa-home fa-md" aria-hidden="true"></i>
+							<h6> Home</h6>
 						</div>
 					</a>
 
 					<a href="{% url 'updateProfile' %}" onclick="highlight(this)">
 						<div class="option1 nav-option">
 							
-								<i class="fa fa-users fa-2x" aria-hidden="true"></i>
-							<h5> My Profile</h5>
+								<i class="fa fa-users fa-md" aria-hidden="true"></i>
+							<h6> My Profile</h6>
 						</div>
 					</a>
 
 					<a href="{% url 'reviews' %}" onclick="highlight(this)">
 						<div class="nav-option option1">
 							
-								<i class="fa fa-address-book fa-2x" aria-hidden="true"></i>
-							<h5> Reviews</h5>
+								<i class="fa fa-address-book fa-md" aria-hidden="true"></i>
+							<h6> Reviews</h6>
 						</div>
 					</a>
 
 					<a href="{% url 'addSkill' %}" onclick="highlight(this)">
 						<div class="nav-option option1">
 							
-								<i class="fa fa-university fa-2x" aria-hidden="true"></i>
-							<h5> My Skills</h5>
+								<i class="fa fa-university fa-md" aria-hidden="true"></i>
+							<h6> My Skills</h6>
 						</div>
 					</a>
 
 					<a href="{% url 'withdrawals' %}">
 						<div class="nav-option option1" onclick="highlight(this)">
 							
-							<i class="fas fa-money-bill-wave fa-2x  "></i>
-							<h5> Withdrawals</h5>
+							<i class="fas fa-money-bill-wave fa-md  "></i>
+							<h6> Withdrawals</h6>
 						</div>
 					</a>
 					<a href="{% url 'staffBookings' %}" onclick="highlight(this)">
 						<div class="nav-option option1">
 
-							<i class="fas fa-calendar fa-2x  "></i>
+							<i class="fas fa-calendar fa-md  "></i>
 
-							<h5>Bookings</h5>
+							<h6>Bookings</h6>
 						</div>
 					</a>
 
 					<a href="{% url 'tutorSessions' %}" onclick="highlight(this)">
 						<div class="nav-option option1">
 
-							<i class="fas fa-bookmark fa-2x  "></i>
+							<i class="fas fa-bookmark fa-md  "></i>
 
-							<h5>Sessions</h5>
+							<h6>Sessions</h6>
 						</div>
 					</a>
 
@@ -150,8 +155,8 @@
 					<a href="{% url 'studentTransactionHistory'%}" onclick="highlight(this)">
 						<div class="nav-option option1">
 						
-								<i class="fa fa-history fa-2x" aria-hidden="true"></i>
-							<h5> Payments History</h5>
+								<i class="fa fa-history fa-md" aria-hidden="true"></i>
+							<h6> Payments History</h6>
 						</div>
 					</a>
 					<a href="{%url 'logout_tutor' %}" onclick="highlight(this)">
@@ -159,7 +164,7 @@
 							<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
 								class="nav-img" alt="logout">
 								
-							<h5>Logout</h5>
+							<h6>Logout</h6>
 						</div>
 					</a>
 				</div>

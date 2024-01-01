@@ -1,0 +1,44 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+<div class="courses">
+    <h4>My Courses</h4>
+    <hr>
+
+    {% if courses %}
+        <div class="row">
+            <div class="col-lg-10 col-md-12 col-sm-12">
+                {% for course in courses %}
+                <div class="course-item">
+                    <h4 class="course-title">{{course.name}}</h4>
+                    <div class="row mt-4">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <img class="course-thumbnail" src="{{course.thumbnail.url}}" alt="course-thumbnail">
+                            <p class="course-cost mt-4">Ksh: <span>{{course.cost}}</span></p>
+                        </div>
+                        <div class="col-lg-8 col-md-4 col-sm-12">
+                            <p class="course-description">
+                                {{course.description}}
+                            </p>
+                            <p class="main-language">Main Language: {{course.language}}</p>
+                            <p class="other-languages">Other Languages/Subtitles: <span>{{course.subtitles}}</span> </p>
+                            <a href="{{course.preview.url }}"  target="_blank">Preview Course</a>
+                        </div>
+                    </div>
+                </div>
+                   
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+    <h6>No Courses Availble</h6>
+
+    <a href="{% url 'addCourse' %}" class="btn btn-primary mt-4">Add A Course</a>
+
+</div>
+{% endif %}
+
+
+
+{% endblock %}

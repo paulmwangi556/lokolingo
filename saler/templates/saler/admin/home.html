@@ -17,7 +17,7 @@
                 <h2 class="topic-heading">0</h2>
                 <h2 class="topic">Total Students</h2>
             </div>
-            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png" alt="likes"> -->
+          
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
@@ -26,8 +26,7 @@
                 <h2 class="topic-heading">{{skills|length}}</h2>
                 <h2 class="topic">Total Skills</h2>
             </div>
-            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png" -->
-            <!-- alt="comments"> -->
+           
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
@@ -36,8 +35,19 @@
                 <h2 class="topic-heading">Ksh {{saler_finances.amount_balance}}</h2>
                 <h2 class="topic">Total Earnings</h2>
             </div>
-            <!-- <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published"> -->
+           
         </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+        <a href="{% url 'courseManagement'%}" style="text-decoration: none;">
+            <div class="box box4">
+                <div class="text">
+                    <h2 class="topic-heading">Courses  </h2>
+                    <h4 class="text-white">0 <i class="fa fa-arrow-right fa-1x" aria-hidden="true"></i></h4>
+                </div>
+               
+            </div>
+        </a>
     </div>
 </div>
 
@@ -46,8 +56,8 @@
 
 
 
-<div class="row mb-4">
-    <div class="col-lg-5 col-md-12 col-sm-12">
+<div class="row ">
+    <div class="col-lg-6 col-md-12 col-sm-12">
         <!-- start -->
         <div class="account-data">
             <div class="profile-data p-2">
@@ -70,37 +80,58 @@
 
             </div>
             <div class="finances">
-                <h4 class="text-bold text-primary font-bold">Finances</h6>
+                <h5 class="text-bold ">Financial Breakdown</h5>
                     <div class="balances">
-                        <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Current
+                        <p class="current-balance"></span> Current
                             Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
-                        <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Last Deposit:
+                        <p class="current-balance">Last Deposit:
                             <span>Ksh {{saler_finances.last_deposit_amount}}</span>
                         </p>
-                        <p class="current-balance"><span><i class="fas fa-money-bill fa-sm  "></i></span> Earnings Year
+                        <p class="current-balance"> Earnings Year
                             Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
                     </div>
-                    <div class="withdrawals">
-                        <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> Total
-                            Withdrawal Requests: <span> {{withdrawals|length}}</span></p>
-                        <p class="current-balance"><span><i class="fas fa-calendar-alt  fa-sm  "></i></span> Pending
-                            Withdrawals: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
-                        <p class="current-balance"><span><i class="fas fa-money-bill-wave fa-sm  "></i></span> This Year
-                            Balance: <span>Ksh {{saler_finances.last_withdraw}}</span></p>
-                    </div>
+                    
                     <hr>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 mb-3">
-                            <a href="{% url 'withdrawals' %}" class="btn btn-success">Request Withdrawal</a>
+                            <a href="{% url 'withdrawals' %}" class="btn" id="withdraw-btn">Request Withdrawal</a>
                         </div>
 
                     </div>
+            </div>
+
+            <div class="finances2 p-2">
+                <h5>Recent Transaction Summary</h5>
+
+                <div class="row">
+                    <div class="col-3"><p class="font-weight-bold">Code</p></div>
+                   
+                    <div class="col-2"><p class="font-weight-bold">Amount</p></div>
+                    <div class="col-3"><p class="font-weight-bold">Payer</p></div>
+                    <div class="col-2"><p class="font-weight-bold">Status</p></div>
+                </div>
+
+                {% for transaction in transactions %}
+                <div class="row">
+                    <div class="col-3"><p class="">{{transaction.confirmation_code}}</p></div>
+                    
+                    <div class="col-2"><p class="">{{transaction.amount}}</p></div>
+                    <div class="col-3"><p class="text-primary">{{transaction.payment_account}}</p></div>
+                    <div class="col-2"><p class="p-description">{{transaction.payment_status_description}}</p></div>
+                </div>
+
+                {% endfor %}
+                <div class="row">
+                    <div class="col-10">
+                        <a href="{% url 'studentTransactionHistory'%}" class="btn btn-primary">See Detailed Report</a>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- end -->
 
     </div>
-    <div class="col-lg-7 col-md-12 col-sm-12">
+    <div class="col-lg-6 col-md-12 col-sm-12">
 
 
         <div class="chart-section">
@@ -115,10 +146,20 @@
             <div class="row pr-3">
                 {% if rooms %}
                 {% for room in rooms %}
-                <a href="{% url 'staffChat' room_id=room.id %}" class="db-message-item" style="text-decoration: none;">
-                    <p class="  "> <span>{{forloop.counter}}</span>. {{room.student}}</p>
-                    <p>{{room.message_count}} messages</p>
-                </a>
+                <a href="{% url 'staffChat' room_id=room.id %}" class="bg-light mb-3 p-2" style="text-decoration: none; border: 1px solid rgba(0, 0, 0, 0.153);">
+                <div class="row">
+                    <div class="col-1">{{forloop.counter}}</div>
+                    <div class="col-2">
+                        <img style="height: 3rem; width: 3rem; border-radius: 50%;" src="{{room.student.userdetails.photo.url}}" alt="{{room.message}}">
+                    </div>
+                    <div class="col-2">
+                        {{room.student}}
+                    </div>
+                    <div class="col-6">
+                        <p>{{room.message_count}} messages</p>
+                    </div>
+                </div>
+            </a>
                 {% endfor %}
 
                 {% else %}

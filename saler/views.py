@@ -520,13 +520,14 @@ def account_settings(request):
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
     rooms = room_models.Room.objects.filter(tutor = request.user).annotate(message_count=Count('messages'))
-    
+    transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user).order_by("-id")
     
     context={
         "saler_finances":saler_finances,
         "skills":skills,
         "withdrawals":withdrawal_history,
-        "rooms":rooms
+        "rooms":rooms,
+        "transactions":transactions
     }
     return render(request, 'saler/admin/home.html',context)
 
@@ -1281,8 +1282,35 @@ def cancelWithdrawRequest(request,withdraw_id):
     
     return redirect("withdrawals")
     
+def courseManagement(request):
+    user = request.user
+    courses = models.Course.objects.filter(tutor=user)
+    context={
+        "courses":courses
+    }
     
+    return render(request,"saler/admin/courses.html",context)
+
+def addCourse(request):
+    course_form = forms.AddCourseForm(request.POST,request.FILES)
+    context = {
+    "form":course_form
+    }
     
+    if request.method == "POST":
+        
+        if course_form.is_valid():
+                form = course_form.save(commit=False)
+                form.tutor=request.user
+                form.save()
+                messages.success(request,"Course Added")
+                return redirect("courseManagement")
+
+   
+    
+    return render(request,"saler/admin/add_course.html",context)  
+
+ 
 
 def tutorSessions(request):
     user=request.user

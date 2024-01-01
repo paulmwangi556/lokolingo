@@ -38,6 +38,8 @@ urlpatterns = [
         path("createSession/<str:booking_id>",views.createSession,name="createSession"),
         path("withdrawFundsForm",views.withdrawFundsForm,name="withdrawFundsForm"),
         path("cancelWithdrawRequest/<str:withdraw_id>",views.cancelWithdrawRequest,name="cancelWithdrawRequest"),
+        path("courseManagement",views.courseManagement,name="courseManagement"),
+        path("addCourse",views.addCourse,name="addCourse"),  
         
         
         # booking

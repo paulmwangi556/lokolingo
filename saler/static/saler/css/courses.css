@@ -1,0 +1,45 @@
+:root {
+    --primary: #0cdf95;
+    --light: #F0FBFC;
+    --dark: #181d38;
+    --secondary: #0cc0df;
+}
+
+
+.course-item{
+    /* height: 10rem; */
+    background-color: rgba(0, 255, 255, 0.037);
+    width: 100%;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.075);
+}
+.course-title{
+    color: var(--secondary);
+    font-size: 1rem;
+}
+
+.course-thumbnail{
+    height: 12rem;
+    width: 8rem;
+    object-fit: contain;
+}
+
+.course-description{
+    font-size: 0.9rem;
+}
+
+.course-cost{
+    font-weight: bold;
+    color: black;
+}
+
+.main-language{
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.other-languages span{
+    color: var(--primary);
+}
+

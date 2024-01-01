@@ -104,3 +104,13 @@ class BookingStatusUpdateForm(forms.ModelForm):
     class Meta:
         model = models.Booking
         fields = ['booking_status']
+        
+        
+
+class AddCourseForm(forms.ModelForm):
+    
+	class Meta:
+		model=models.Course
+		exclude=["id","customers","tutor"]
+		
+        

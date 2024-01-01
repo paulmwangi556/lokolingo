@@ -267,6 +267,26 @@ class WithdrawFunds(models.Model):
     amount = models.DecimalField(max_digits=10,decimal_places=2)
     account = models.ForeignKey(TutorFinanceAccount,on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
+
+class Course(models.Model):
+    name=models.CharField(max_length=100,blank=True,null=True)
+    description=models.TextField(blank=True,null=True)
+    thumbnail=models.FileField(upload_to="course_images",blank=True,null=True)
+    cost = models.DecimalField(max_digits=10,decimal_places=2,blank=True,null=True)
+    language = models.CharField(max_length=100,blank=True,null=True)
+    subtitles=models.TextField(null=True,blank=True)
+    tutor=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="course_tutor")
+    course_content=models.TextField(blank=True,null=True)
+    preview = models.FileField(upload_to="course_previews",blank=True,null=True)
+    prerequisite=models.TextField(blank=True,null=True)
+    date_uploaded = models.DateField(auto_now_add=True)
+    customers = models.ManyToManyField(User,)
+    course_files = models.FileField(upload_to="course_files",blank=True,null=True)
+    other_information=models.TextField(blank=True,null=True)
+    
+
+
+    
 class Product(models.Model):
 	GST_CHOICES = (("0",'0'),("3",'3'),("5",'5'),("12",'12'),("18",'18'),("28",'28'))
 	product_id = models.BigAutoField(primary_key=True)

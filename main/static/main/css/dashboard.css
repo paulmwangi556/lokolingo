@@ -178,6 +178,16 @@ header {
 	display: none;
 	font-size: 2rem;
 }
+.top-bar{
+	background-color: var(--primary);
+	height: 10rem;
+}
+
+.top-bar h6{
+	font-weight: bolder;
+	font-size: 1.5rem;
+	color: white;
+}
 
 .top-nav{
 	display: flex;
@@ -227,7 +237,7 @@ header {
 
 .nav-option {
 	width: 250px;
-	height: 60px;
+	height: 50px;
 	display: flex;
 	align-items: center;
 	padding: 0 30px 0 20px;
@@ -268,14 +278,14 @@ header {
 }
 
 .option1 {
-	border-left: 5px solid var(--primary);
+	/* border-left: 5px solid var(--primary); */
 	/* background-color: var(--Border-color); */
 	color: #0cc0df;
 	cursor: pointer;
 }
 
 .option1:hover {
-	border-left: 5px solid var(--secondary);
+	/* border-left: 5px solid var(--secondary); */
 	/* background-color: var(--primary	); */
 }
 
@@ -290,6 +300,10 @@ header {
 	justify-content: space-around;
 	cursor: pointer;
 	transition: transform 0.3s ease-in-out;
+	color: white;
+}
+.box h2{
+	color: white !important;
 }
 
 .box:hover {
@@ -297,7 +311,8 @@ header {
 }
 
 .box:nth-child(1) {
-	/* background-color: var(--two-use-color); */
+	background-color: var(--primary);
+	color: white;
 }
 
 .box:nth-child(2) {
@@ -349,6 +364,15 @@ header {
 	justify-content: space-between;
 	padding: 20px 20px 10px 20px;
 	border-bottom: 2px solid rgba(0, 20, 151, 0.59);
+}
+.finances2{
+	background-color: #007bff0f;
+}
+.finances2 p{
+	font-size: 0.8rem;
+}
+.p-description{
+	color: var(--Border-color);
 }
 
 .recent-Articles {
@@ -435,7 +459,7 @@ header {
 	/* height: 90vh; */
 	/* background-color: rebeccapurple; */
 	box-shadow: 3px 3px 10px rgb(188, 188, 188);
-	padding-bottom: 3rem;
+	/* padding-bottom: 3rem; */
 	border-radius: 0.4rem;
 }
 
@@ -459,10 +483,18 @@ header {
 	width: 6rem;
 	border-radius: 50%;
 }
+#withdraw-btn{
+	background-color: #0cc0df;
+}
+
+#withdraw-btn:hover{
+	background-color: white;
+	border: 2px solid #0cc0df;
+}
 
 .finances {
 	/* border-top: 1px solid ; */
-	margin: 2rem;
+	margin-bottom: 1rem;
 	padding-top: 1rem;
 	background-color: #26027a0b;
 	padding: 1rem;
