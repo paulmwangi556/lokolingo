@@ -135,7 +135,42 @@ def contactus(request):
     return render(request, 'main/contact3.html')
 
 
-@login_required
+def courses(request,order=None,query=None):
+    if request.method == "POST":
+        q=request.POST.get("query")
+        print("query is",q)
+        courses = saler_models.Course.objects.filter(name__icontains=q)
+        context={
+            "courses":courses
+        }
+        
+        
+        return render(request,"main/courses3.html",context)
+        
+    else:
+        query=str(order)
+        prev=""
+        if order == None or order == "?":
+            courses = saler_models.Course.objects.all().order_by(query)
+            print("query is None")
+        else:
+            if query == prev:
+                q=f'-{query}'
+                courses = saler_models.Course.objects.all().order_by(q)      
+            else:
+                courses = saler_models.Course.objects.all().order_by(query)
+                prev=query
+                
+        
+        context={
+            "courses":courses
+        }
+        
+        
+        return render(request,"main/courses3.html",context)
+
+
+
 def account_settings(request):
     # if request.method == 'POST':
     # 	#User Details Update

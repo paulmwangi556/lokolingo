@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="{% static 'saler/css/tutor_profile.css' %}">
     <link rel="stylesheet" href="{% static 'saler/css/tutor_signup.css' %}">
     <link rel="stylesheet" href="{% static 'main/css/main_responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/base_course.css' %}">
     
 
 </head>
@@ -55,7 +56,7 @@
     <!-- Spinner End -->
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg w-100 pl-0 pr-0 bg-white navbar-light shadow sticky-top p-0" style="overflow: hidden;" id="main-nav">
+    <nav class="navbar navbar-expand-lg  pl-0 pr-0 bg-white navbar-light shadow sticky-top "  id="mainn-nav">
         <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <img class="img-responsive custom-logo" src="{% static 'main/images/nav_logo.png'%}" alt="SKULI">
         </a>
@@ -68,6 +69,7 @@
                
                 <a href="{% url 'home'%}" class="nav-item nav-link active">Home</a>
                 <a href="{% url 'aboutus' %}" class="nav-item nav-link">About Us</a>
+                <a href="{% url 'courses' order='?' %}" class="nav-item nav-link">Courses</a>
                 <a href="{% url 'findTutors' query='all' %}" class="nav-item nav-link">Find Tutor</a>
                 <a href="{% url 'contactus'%}" class="nav-item nav-link">Contact Us</a>
                 <a href="{% url 'tutor_signup'%}" class="nav-item nav-link">Dashboard<i class="fa fa-arrow-right ms-3"></i></a>
@@ -87,6 +89,7 @@
                     <h4 class="text-white mb-3">QUICK LINKS</h4>
                     <a class="btn btn-link" href="{% url 'home'%}">Home</a>
                     <a class="btn btn-link" href="{% url 'aboutus' %}">About Us</a>
+                    <a class="btn btn-link" href="{% url 'aboutus' %}">Courses</a>
                     <a class="btn btn-link" href="{% url 'findTutors' query='all' %}">Find Tutor</a>
                     <a class="btn btn-link" href="{% url 'contactus'%}">Contact Us</a>
                     <a class="btn btn-link" href="{% url 'tutor_signup'%}">Become A Tutor</a>

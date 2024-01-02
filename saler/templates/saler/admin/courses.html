@@ -4,6 +4,7 @@
 {% block dashboard %}
 <div class="courses">
     <h4>My Courses</h4>
+    <a href="{% url 'addCourse' %}" class="btn btn-primary mt-4">Add A Course</a>
     <hr>
 
     {% if courses %}

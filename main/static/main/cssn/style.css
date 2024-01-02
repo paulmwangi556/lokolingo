@@ -1,4 +1,6 @@
 
+
+
 :root {
     --primary: #0cdf88;
     --light: #F0FBFC;
@@ -6,6 +8,10 @@
 }
 .container{
     padding: 0;
+}
+
+html {
+    width: 100% !important;
 }
 
 

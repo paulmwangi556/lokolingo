@@ -1012,7 +1012,7 @@ async def submitOrder(request,booking_id):
         url = "https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest"
         callback_url= await sync_to_async(reverse)("payments")
         named_url_absolute = request.build_absolute_uri(callback_url)
-        print("callback url is ", named_url_absolute)
+
 
         
         
@@ -1020,8 +1020,7 @@ async def submitOrder(request,booking_id):
         ipn_data=await registerIpnUrl(request)
         ipn_vals=json.loads(ipn_data)
         ipn_id_value = ipn_vals.get('ipn_id')
-        print("ipn value is ", ipn_id_value)
-        print("----------------------------")
+        
         uid = str(uuid.uuid4())
         current_datetime = str(datetime.now())
         
@@ -1082,9 +1081,7 @@ async def submitOrder(request,booking_id):
         
         async with httpx.AsyncClient() as client:
             response = await client.post(url, headers=headers, data=payload)
-            print("------------------------------")
-            print(response.text)
-            print("-----------------------")
+            
 
         json_response = response.json()
         redirect_url = json_response.get("redirect_url")
@@ -1108,26 +1105,17 @@ async def submitOrder(request,booking_id):
             await sync_to_async(booking_payment.save)()
             
             
-            
-        print("Tracking ID:", tracking_id_value)
-        print("Redirect url is ",redirect_url)
+     
        
         
-        # save the data in the booking payment model
-        
-        # confirmed_payment_json=json.loads(status)
-        # reference=confirmed_payment_json.get("confirmation_code")
-        # print("-----------------------------------------------------")
-        # print("Reference code is ",reference)
-        # print("--------------------------------------")
-        # return redirect(redirect_url)
+    
         
         if redirect_url:
           
             return render(request, 'saler/student/payments.html',{"redirect_url":redirect_url})
         else:
             # status = await getTransactionStatus(request,token_value,tracking_id_value)
-            print("status >>>>>>>>")
+            
             return render(request, 'saler/student/payments.html',{"tracking_id":tracking_id_value})
     except Exception as e:
         print(f"Error fetching data: {e}")
