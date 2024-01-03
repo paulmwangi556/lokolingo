@@ -135,10 +135,10 @@ def contactus(request):
     return render(request, 'main/contact3.html')
 
 
-def courses(request,order=None,query=None):
+def courses(request,order=None,):
     if request.method == "POST":
         q=request.POST.get("query")
-        print("query is",q)
+        
         courses = saler_models.Course.objects.filter(name__icontains=q)
         context={
             "courses":courses
@@ -148,13 +148,14 @@ def courses(request,order=None,query=None):
         return render(request,"main/courses3.html",context)
         
     else:
+        
         query_param=str(order)
         
         if query_param == None or query_param == "?":
             courses = saler_models.Course.objects.all()
             print("query is None")
         else:
-           
+            print("Query param is ", query_param)
             courses = saler_models.Course.objects.all().order_by(query_param)      
            
                 
