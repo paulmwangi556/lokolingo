@@ -64,7 +64,7 @@ def perform_search(q):
     return searched
 
 
-def find_tutor(request, query: str):
+def find_tutor(request, query=None):
     # skills = saler_models.Skill.objects.all().order_by("?")
     skills = perform_search("all")
     if request.method == "GET" and "query" in request.GET:

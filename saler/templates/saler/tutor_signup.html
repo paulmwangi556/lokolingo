@@ -18,9 +18,11 @@
   <div class="auth-container-wrapper">
     <h3 style="text-align: center;">Welcome</h3>
 
-    <!-- {% for message in messages %}
+    {% for message in messages %}
 		<small >{{message}}</small>
-		{% endfor %} -->
+		{% endfor %}
+
+    <p>{{request.GET.next_page}} v</p>
   <div class="auth-container">
    
     <!-- upper button section to select
@@ -29,14 +31,16 @@
     <div class="slider-btn">
       <button class="login-btn">Login</button>
       <button class="signup-btn">Signup</button>
-    </div>
+    </div>x
 
     <!-- Form section that contains the
     login and the signup form -->
     <div class="form-section">
 
+     
+
       <!-- login form -->
-      <form action="{% url 'tutor_login' %}" method="post" class="login-form">
+      <form action="{% url 'tutor_login' next_page=request.GET.next_page  %}" method="post" class="login-form">
         {% csrf_token %}
         <div class="login-box">
 

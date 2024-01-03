@@ -485,30 +485,37 @@ def tutor_signup(request):
     return render(request, 'saler/tutor_signup.html')
 
 
-def tutor_login(request):
+def tutor_login(request,next_page=None):
     username = request.POST.get('username')
     password = request.POST.get('password')
-   
-  
+    ab = request.build_absolute_uri(reverse("home"))
+    print("next page us ",ab)
+    referring_url = request.META.get('HTTP_REFERER', None)
+    request.session["previous_page"] = referring_url
     user = authenticate(request, username=username, password=password)
+    
     if user:
         login(request, user)
         messages.success(request, f'Hi {username.title()}, welcome back!')
-        print("Authenticated")
-        # group = user.groups.first()
-        # print("User group is ", group.name)
         user_groups = request.user.groups.values_list('name', flat=True)
-        if 'student' in user_groups:
-            return redirect("studentDashboard")
-        
+        if next_page == ab:
+            print("Next paaage is ",next_page)
+            if 'student' in user_groups:
+                return redirect("studentDashboard")
+            else:
+                return redirect('saler_account_settings')
         else:
-            
-            return redirect('saler_account_settings')
-    # studentDashboard
-
+            print("Next paaadfdge is ",next_page)
+            return redirect(next_page)
     messages.error(request, f'Invalid username or password')
     print("Not Authenticated")
-    return redirect("tutor_signup")
+    url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
+    return redirect(url)
+
+
+
+
+
 
 # Seller Account Settings
 

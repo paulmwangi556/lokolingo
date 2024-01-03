@@ -6,7 +6,7 @@ urlpatterns = [
 		# path('', views.index, name = 'home'),
         # path('withdrawal/', views.withdrawal, name = 'withdrawal'),
         path('tutor_signup/', views.tutor_signup, name="tutor_signup"),
-		path('tutor_login/', views.tutor_login, name="tutor_login"),
+		path('tutor_login/<path:next_page>/', views.tutor_login, name="tutor_login"),
 
 
         

@@ -68,7 +68,7 @@
                                 <a href="" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
                                 {% endif %}
                             {%  else  %}
-                            <a href="{% url 'tutor_login' %}" class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
+                            <a href="{% url 'tutor_login' next_page='findTutors' %}" class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
 
                             {% endif  %}
                             

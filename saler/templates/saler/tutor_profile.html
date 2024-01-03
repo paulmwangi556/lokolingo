@@ -32,11 +32,25 @@
                 <p class="rating text-success">Average Rating: {{avg_rating}}/5</p>
                 {% endif %}
 
+<div class="mt-4">
+
+                {%   if request.user.is_authenticated %}
+                                {% if request.user.groups.first.name == "student" %}
+                                <div class="mt-4 mb-4">
+                                    <a href="{% url 'studentChat' tutor_id=tutor.user.id %}" class="btn btn-primary">Message {{tutor.user.username}}</a>
+                                </div>
+                                {% else %}
+                                <a href="" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
+                                {% endif %}
+                            {%  else  %}
+                            <a href="{% url 'tutor_login' next_page='findTutors' %}" class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
+
+                            {% endif  %}
 
                
 
-                <div class="mt-4">
-                    <a href="{% url 'studentChat' tutor_id=tutor.user.id %}" class="btn btn-primary">Message {{tutor.user.username}}</a>
+                
+                  
                 </div>
 
                 
@@ -121,7 +135,7 @@
                                 {% endif%}
                                 {% endif%}
                             {% else %}
-                            <a href="{% url 'tutor_login' %}" class="btn btn-primary">Login To Continue Booking</a>
+                            <a href="{% url 'tutor_login' next_page='findTutors'%}" class="btn btn-primary">Login To Continue Booking</a>
                             {% endif %}
                         </form>
                     </div>
