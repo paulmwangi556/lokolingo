@@ -148,18 +148,15 @@ def courses(request,order=None,query=None):
         return render(request,"main/courses3.html",context)
         
     else:
-        query=str(order)
-        prev=""
-        if order == None or order == "?":
-            courses = saler_models.Course.objects.all().order_by(query)
+        query_param=str(order)
+        
+        if query_param == None or query_param == "?":
+            courses = saler_models.Course.objects.all()
             print("query is None")
         else:
-            if query == prev:
-                q=f'-{query}'
-                courses = saler_models.Course.objects.all().order_by(q)      
-            else:
-                courses = saler_models.Course.objects.all().order_by(query)
-                prev=query
+           
+            courses = saler_models.Course.objects.all().order_by(query_param)      
+           
                 
         
         context={
