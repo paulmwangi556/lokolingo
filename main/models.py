@@ -28,7 +28,64 @@ class UserDetail(models.Model):
     address = models.CharField(max_length=100,blank=True,null=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     sex = models.CharField(max_length=6, choices=SEX_CHOICES, null=True)
+
+
+
+class TutorUserDetails(models.Model):
+    DAYS_OF_WEEK = [
+        ('monday', 'Monday'),
+        ('tuesday', 'Tuesday'),
+        ('wednesday', 'Wednesday'),
+        ('thursday', 'Thursday'),
+        ('friday', 'Friday'),
+        ('saturday', 'Saturday'),
+        ('sunday', 'Sunday'),
+    ]
     
+    TEACHING_MODE=[
+        ("one on one",'One on One'),
+        ("group sessions",'Group Sessions')
+    ]
+    
+    
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name="tutordetails",primary_key=True)
+    contact_number=models.CharField(max_length=30,null=True,blank=True)
+    profile_picture=models.FileField(upload_to="tutor_images",verbose_name="Upload A Professional Headshot")
+    
+    highiest_qualification=models.CharField(max_length=200,blank=True,null=True)
+    specialization=models.TextField()
+    years_of_experience = models.CharField(max_length=10)
+    
+    
+    teaching_style=models.TextField()
+    teaching_philosophy=models.TextField(blank=True,null=True)
+    
+    availability = models.CharField(max_length=50,choices=DAYS_OF_WEEK)
+    preferred_teaching_method=models.CharField(max_length=50,choices=TEACHING_MODE)
+    
+    hourly_rate=models.CharField(max_length=50)
+    preferred_payment_method=models.TextField()
+    
+    education_materials_link=models.TextField()
+    
+    
+    languages_spoken=models.CharField(max_length=100)
+    special_certificate_skills=models.TextField()
+    # special_certificate_files=models.FileField(upload_to="special_certs")
+    
+    cancellation_policy=models.TextField(blank=True,null=True)
+    terms_acceptance=models.BooleanField(default=False)
+    
+    
+    
+    def get_days_list(self):
+        return self.days.split(',')
+
+class CertificateFile(models.Model):
+    tutor_user_details = models.ForeignKey(TutorUserDetails, on_delete=models.CASCADE, related_name='special_certificate_files')
+    file = models.FileField(upload_to="special_certs")
+
+
 class TutorRating(models.Model):
     rating = models.IntegerField()
     review = models.CharField(max_length=200)

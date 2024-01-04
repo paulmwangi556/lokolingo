@@ -76,38 +76,50 @@
 	<div class="main-container">
 		<div class="navcontainer">
 			<nav class="nav">
+
+
+				<!--  -->
 				<div class="nav-upper-options">
-					<a href="{%url 'studentDashboard' %}">
-					<div class="nav-option option1">
-						<i class="fa fa-home fa-2x" aria-hidden="true"></i>
-						<h5> Home</h5>
-					</div>
-					</a>
-					
-					<a href="{% url 'studentProfile' %}">
-					<div class="option1 nav-option">
-						<i class="fa fa-users fa-2x" aria-hidden="true"></i>
-						<h5> My Profile</h5>
-					</div>
-					</a>
-					
-
-					<a href="{% url 'studentBookings'%}">
-					<div class="nav-option option1">
-						<i class="fas fa-calendar fa-2x  "></i>
-						<h5> Bookings</h5>
+					<a href="{% url 'home'%}">
+					<div class="nav-option top-bar">
+						
+						<h6 class="text-white"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>  Home</h6>
 					</div>
 				</a>
 
-				<a href="{% url 'studentTransactionHistory'%}">
-					<div class="nav-option option1">
-						<i class="fa fa-history fa-2x" aria-hidden="true"></i>
-						<h5> Payments History</h5>
-					</div>
-				</a>
-				
-				
+					<a href="{%url 'studentDashboard' %}" onclick="highlight(this)">
+						<div class="nav-option option1">
+							
+								<i class="fa fa-home fa-md" aria-hidden="true"></i>
+							<h6> Dashboard</h6>
+						</div>
+					</a>
 
+					<a href="{% url 'studentProfile' %}" onclick="highlight(this)">
+						<div class="option1 nav-option">
+							
+								<i class="fa fa-users fa-md" aria-hidden="true"></i>
+							<h6> My Profile</h6>
+						</div>
+					</a>
+
+					<a href="{% url 'studentBookings' %}" onclick="highlight(this)">
+						<div class="nav-option option1">
+
+							<i class="fas fa-calendar fa-md  "></i>
+
+							<h6>Bookings</h6>
+						</div>
+					</a>
+
+
+					<a href="{% url 'studentTransactionHistory'%}" onclick="highlight(this)">
+						<div class="nav-option option1">
+						
+								<i class="fa fa-history fa-md" aria-hidden="true"></i>
+							<h6> Payments History</h6>
+						</div>
+					</a>
 
 					
 					<a  href="{%url 'logout_tutor' %}">

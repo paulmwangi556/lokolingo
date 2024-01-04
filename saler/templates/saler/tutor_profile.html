@@ -4,27 +4,27 @@
 {% block content %}
 
 <div class="profifdvle-wrapper">
-    
+
 
     <div class="profile-section container bg-light">
         <!-- <div class="quick-actions">
             <button class="btn btn-primary">Book A Session</button>
             <button class="btn btn-primary">Message Me</button>
         </div> -->
-       
+
         <div class="row p-2">
             <div class="col-lg-4 col-md-6 col-sm-12 account-details">
                 <div class="profile-image">
-                    <img src="{{tutor.photo.url}}" alt="">
+                    <img src="{{tutor.profile_picture.url}}" alt="">
                 </div>
 
-               
+
                 <p class="name">{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
-                <p class="rate text-primary">Ksh:{{tutor.rate_per_hour}}/hr</p>
-                <p class="experience">Years of Experience: {{tutor.tutoring_experience}}</p>
+                <p class="rate text-primary">Ksh:{{tutor.hourly_rate}}/hr</p>
+                <p class="experience">Years of Experience: {{tutor.years_of_experience}}</p>
                 <p class="country"> Country: {{tutor.country}}</p>
                 <p class="city">City: {{tutor.city}}</p>
-                 
+
 
                 {% if avg_rating == 0 %}
                 <p class="rating text-success">Average Rating: No ratings yet</p>
@@ -32,32 +32,55 @@
                 <p class="rating text-success">Average Rating: {{avg_rating}}/5</p>
                 {% endif %}
 
-<div class="mt-4">
+                <div class="mt-4">
 
-                {%   if request.user.is_authenticated %}
-                                {% if request.user.groups.first.name == "student" %}
-                                <div class="mt-4 mb-4">
-                                    <a href="{% url 'studentChat' tutor_id=tutor.user.id %}" class="btn btn-primary">Message {{tutor.user.username}}</a>
-                                </div>
-                                {% else %}
-                                <a href="" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
-                                {% endif %}
-                            {%  else  %}
-                            <a href="{% url 'tutor_login' next_page='findTutors' %}" class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
+                    {% if request.user.is_authenticated %}
+                    {% if request.user.groups.first.name == "student" %}
+                    <div class="mt-4 mb-4">
+                        <a href="{% url 'studentChat' tutor_id=tutor.user.id %}" class="btn btn-primary">Message
+                            {{tutor.user.username}}</a>
+                    </div>
+                    {% else %}
+                    <a href="" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="{% url 'tutor_login' next_page='findTutors' %}"
+                        class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
 
-                            {% endif  %}
+                    {% endif %}
 
-               
 
-                
-                  
+
+
+
                 </div>
 
-                
+
             </div>
             <div class="col-lg-8 col-md-6 col-sm-12 profile-details">
                 <p class="about-title">About Me</p>
-                <p class="about" style="font-size: 0.9rem;">{{tutor.profile_description}}</p>
+                <div class="row">
+                    <h5>Educational Details</h5>
+                    <div class="col-12">
+                        <p>Highiest Qualification: {{tutor.highiest_qualification}}</p>
+
+                        <h6>Areas of Specialization</h6>
+                        <p>{{tutor.specialization}}</p>
+
+                    </div>
+
+                    <h5 class="mt-4">Tutoring Details</h5>
+                    <h6>Teaching Style</h6>
+                    <p>{{tutor.teaching_style}}</p>
+                    <h6>Teaching Philosophy</h6>
+                    <p>{{tutor.teaching_philosophy}}</p>
+                    <h6 class="mt-3">Availability</h6>
+                    <p>{{tutor.availability}}</p>
+
+                    <h6 class="mt-3">Languages</h6>
+                    <p>{{tutor.languages_spoken}}</p>
+
+                </div>
                 <hr>
                 <p class="skill-title">Subjects of Specialization</p>
                 <div class="row">
@@ -79,7 +102,8 @@
                     <div class="booking-form">
                         <form action="{% url 'bookSession' tutor_id=tutor.user.id %}" method="POST">
                             <label for="skill">Select a Skill:</label>
-                            <select name="skill" style="width: 100%; height: 100%;  ;" required class="from-control mb-2">
+                            <select name="skill" style="width: 100%; height: 100%;  ;" required
+                                class="from-control mb-2">
                                 {% for skill in skills %}
                                 <option value="{{skill.id}}" name="q">{{skill.title}}</option>
                                 {% endfor %}
@@ -100,42 +124,44 @@
                                     </div>
                                 </div>
                             </div>
- 
+
                             <div class="form-group mb-4">
-                              <label for="">Duration</label>
-                              <select class="form-control" name="duration" id="duration">
-                                <option value="0.5">30 mins</option>
-                                <option value="1">1 hr</option>
-                                <option value="1.5">1hr 30 mins</option>
-                                <option value="2">2 hrs</option>
-                                <option value="2.5">2hrs 30 mins</option>
-                                <option value="3">3 hrs</option>
-                                <option value="3.5">3hrs 30 mins</option>
-                                <option value="4">4hrs</option>
-                                <option value="4.5">4hrs 30 mins</option>
-                                <option value="5">5hrs </option>
-                                <option></option>
-                                <option></option>
-                              </select>
+                                <label for="">Duration</label>
+                                <select class="form-control" name="duration" id="duration">
+                                    <option value="0.5">30 mins</option>
+                                    <option value="1">1 hr</option>
+                                    <option value="1.5">1hr 30 mins</option>
+                                    <option value="2">2 hrs</option>
+                                    <option value="2.5">2hrs 30 mins</option>
+                                    <option value="3">3 hrs</option>
+                                    <option value="3.5">3hrs 30 mins</option>
+                                    <option value="4">4hrs</option>
+                                    <option value="4.5">4hrs 30 mins</option>
+                                    <option value="5">5hrs </option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="" class="form-label">Your Message To The Tutor</label>
                                 <textarea class="form-control" name="message" required id="message" rows="5"></textarea>
                             </div>
-                            
+
                             {% if request.user.is_authenticated %}
-                                {% if request.user == tutor.user %}
-                                    <a href="" class="btn btn-primary">you posted this</a>
-                                {% else %}
-                                {% if request.user.userdetails%}
-                                <button type="submit" class="btn btn-primary">Quick Book</button>
-                                {% else %}
-                                <a href="{% url 'studentProfile' %}" class="btn btn-primary">Please Complete your profile to continue</a>
-                                {% endif%}
-                                {% endif%}
+                            {% if request.user == tutor.user %}
+                            <a href="" class="btn btn-primary">you posted this</a>
                             {% else %}
-                            <a href="{% url 'tutor_login' next_page='findTutors'%}" class="btn btn-primary">Login To Continue Booking</a>
+                            {% if request.user.userdetails%}
+                            <button type="submit" class="btn btn-primary">Quick Book</button>
+                            {% else %}
+                            <a href="{% url 'studentProfile' %}" class="btn btn-primary">Please Complete your profile to
+                                continue</a>
+                            {% endif%}
+                            {% endif%}
+                            {% else %}
+                            <a href="{% url 'tutor_login' next_page='findTutors'%}" class="btn btn-primary">Login To
+                                Continue Booking</a>
                             {% endif %}
                         </form>
                     </div>
@@ -144,61 +170,61 @@
         </div>
 
         <div class="ratings">
-           <h4>Tutor Ratings and Reviews</h4>
+            <h4>Tutor Ratings and Reviews</h4>
 
 
-           <div class="rating-section mt-5">
-            <h5 class="">Add A Review</h5>
-            <form method="POST" action="{% url 'rateTutor' tutor_id=tutor.user.id %}">
-                <div class="form-group">
-                  <label for="Review">Write a Review</label>
-                  <textarea class="form-control" name="review" id="review" rows="3"></textarea>
-                </div>
+            <div class="rating-section mt-5">
+                <h5 class="">Add A Review</h5>
+                <form method="POST" action="{% url 'rateTutor' tutor_id=tutor.user.id %}">
+                    <div class="form-group">
+                        <label for="Review">Write a Review</label>
+                        <textarea class="form-control" name="review" id="review" rows="3"></textarea>
+                    </div>
 
-                <div>
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>
-                <input type="hidden"  name="rating" id="id_value" value="5" />
-                <p id="rated_value"></p>
-                <button type="submit" class="btn btn-warning mt-3">Submit Rating</button>
-            </form>
-        </div>
-
-<hr>
-
-
-           {% if tutor_reviews|length == 0 %}
-           <div class="card mb-2">
-            <div class="card-header">
-              No Reviews Yet
-              <!-- <p>{{review.rating}}/5</p> -->
+                    <div>
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <input type="hidden" name="rating" id="id_value" value="5" />
+                    <p id="rated_value"></p>
+                    <button type="submit" class="btn btn-warning mt-3">Submit Rating</button>
+                </form>
             </div>
-            <div class="card-body">
-              <!-- <h5 class="card-title">sdvdvdv</h5>
+
+            <hr>
+
+
+            {% if tutor_reviews|length == 0 %}
+            <div class="card mb-2">
+                <div class="card-header">
+                    No Reviews Yet
+                    <!-- <p>{{review.rating}}/5</p> -->
+                </div>
+                <div class="card-body">
+                    <!-- <h5 class="card-title">sdvdvdv</h5>
               <p class="card-text">dsvsv</p>
              <p class="text-primary">vdsvsd</p> -->
+                </div>
             </div>
-          </div>
-           {% else %}
+            {% else %}
 
             {% for review in tutor_reviews %}
             <div class="card mb-2 other-ratings">
                 <div class="card-header">
-                  {% for rate in review.rating %}
-                        <span>  <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-                  {% endfor %}
-                  <!-- <p>{{review.rating}}/5</p> -->
+                    {% for rate in review.rating %}
+                    <span> <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                    {% endfor %}
+                    <!-- <p>{{review.rating}}/5</p> -->
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">{{review.student}}</h5>
-                  <p class="card-text">{{review.review}}</p>
-                 <p class="text-primary">{{review.date_added}}</p>
+                    <h5 class="card-title">{{review.student}}</h5>
+                    <p class="card-text">{{review.review}}</p>
+                    <p class="text-primary">{{review.date_added}}</p>
                 </div>
-              </div>
+            </div>
             {% endfor %}
 
             {% endif %}
@@ -216,23 +242,23 @@
                 stars.forEach(s => s.classList.remove('rated'));
                 star.classList.add('rated');
                 document.getElementById('id_value').value = star.dataset.value;
-                rated.innerHTML=`${star.dataset.value}/5`
+                rated.innerHTML = `${star.dataset.value}/5`
                 console.log(star.dataset.value)
             });
         });
     });
 
-   
-  // Initialize the timepicker
-  const myDatetimeInput = document.getElementById('myDatetime');
-  const timepicker = new TimePicker(myDatetimeInput, {
-    format: 'HH:mm',
-    minutesInterval: 15,
-    theme: 'dark',
-  });
-  timepicker.on('change', (time) => {
-    myDatetimeInput.value = time;
-  });
+
+    // Initialize the timepicker
+    const myDatetimeInput = document.getElementById('myDatetime');
+    const timepicker = new TimePicker(myDatetimeInput, {
+        format: 'HH:mm',
+        minutesInterval: 15,
+        theme: 'dark',
+    });
+    timepicker.on('change', (time) => {
+        myDatetimeInput.value = time;
+    });
 
 </script>
 

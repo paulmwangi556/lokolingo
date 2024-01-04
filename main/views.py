@@ -84,6 +84,9 @@ def find_tutor(request, query=None):
         skill = saler_models.Skill.objects.filter(tutor = search.tutor)
         individual_skills.append(skill)
         skill_set_list.append(individual_skills)
+        # print(search.tutor.userdetails.address)
+        print("-------------------")
+        print(search.tutor.tutordetails.hourly_rate)
         
         
     context = {
@@ -151,7 +154,7 @@ def courses(request,order=None,):
         
         query_param=str(order)
         
-        if query_param == None or query_param == "?":
+        if query_param == None or query_param == "all":
             courses = saler_models.Course.objects.all()
             print("query is None")
         else:

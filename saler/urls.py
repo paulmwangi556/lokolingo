@@ -24,6 +24,7 @@ urlpatterns = [
 
     #  admin dashboard
         path("updateProfile/",views.updateProfile,name="updateProfile"),
+        # path("updateProfileForm/",views.updateProfileForm,name="updateProfileForm"),
         path("logout_tutor",views.logout_tutor,name="logout_tutor"),
         path("processUpdateForm",views.updateProfileForm,name="updatProfileForm"),
         path("addSkill",views.addSkill,name="addSkill"),

@@ -11,12 +11,19 @@
     <div class="bookings">
       <div class="booking-data">
          
-        <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
-        <p>Date: {{booking.date}}  @{{booking.time}}</p>
-       
-        <p>Duration: {{booking.duration}} hrs</p>
-
-        <p>Cost:{{booking.cost}}</p>
+        <div class="row">
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <p>Booking ID: {{booking.id}}</p>
+            <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <p>Date: {{booking.date}} @{{booking.time}}</p>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <p>Duration: {{booking.duration}} hrs</p>
+          </div>
+        </div>
+    
         
       
       </div>

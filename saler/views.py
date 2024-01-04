@@ -3,6 +3,7 @@ from decimal import Decimal
 import json
 import math
 import uuid
+from django import template
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse
 import httpx
@@ -449,6 +450,8 @@ def tutor_signup(request):
             password = request.POST.get("password")
             user_type = request.POST.get("user_type")
             
+            referring_url = request.META.get('HTTP_REFERER', None)
+            
             
             # if user_type in dict()
             if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
@@ -479,9 +482,12 @@ def tutor_signup(request):
                 usr.save()
                 SalerDetail(user=usr, gst_Number=gst).save()
             messages.success(request, f'Account is Created for {username}')
+            url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
+            return redirect(url)
+
             return redirect('tutor_login')
 
-            
+        
     return render(request, 'saler/tutor_signup.html')
 
 
@@ -552,7 +558,7 @@ def studentDashboard(request):
 
 def studentBookings(request):
     student_id=request.user.id
-    bookings = models.Booking.objects.filter(student=student_id)
+    bookings = models.Booking.objects.filter(student=student_id).order_by("-id")
     context={
         "bookings":bookings
     }
@@ -594,35 +600,122 @@ def updateStudentProfile(request):
 def updateProfile(request):
     form = UpdateUserDetailForm()
     try:
-        # user_details = main_models.UserDetail.objects.filter(user_id=request.user.id)
-        print(request.user.id)
-        user_details= get_object_or_404(main_models.UserDetail,user=request.user.id)
-        print(request.user.id)
+        user_details= get_object_or_404(main_models.TutorUserDetails,user=request.user.id)
         return render(request, "saler/admin/profile.html", {'user_details': user_details})
     except Http404:
         return updateProfileForm(request)
 
-    
+register = template.Library()
+
+@register.filter
+def display_availability(value):
+    return dict(main_models.TutorUserDetails.DAYS_OF_WEEK).get(value, value)  
 
 def updateProfileForm(request):
-    form = UpdateUserDetailForm()
+    user=request.user
+    form = forms.TutorUserDetailsForm()
+    modelInstance=main_models.TutorUserDetails()
+    
     print(request.method)
     if request.method == "POST":
-       
-        form = UpdateUserDetailForm(request.POST,request.FILES)
-        if form.is_valid():
-            tutor = form.save(commit=False)
-            tutor.user_type = "tutor"
-            tutor.save()
-            messages.success(request,"Profile Updated")
-            print("form saved")
-            return redirect("saler_account_settings")
-        else:
-            print("invalid form")
-            return render(request,"saler/admin/profile.html",{'profile_form':form})
+        contact_number = request.POST.get('contact_number')
+        print(f'Contact Number: {contact_number}')
+
+        profile_picture = request.FILES.get('profile_picture')
+        print(f'Profile Picture: {profile_picture}')
+
+        highest_qualification = request.POST.get('highest_qualification')
+        print(f'Highest Qualification: {highest_qualification}')
+
+        specialization = request.POST.get('specialization')
+        print(f'Specialization: {specialization}')
+
+        years_of_experience = request.POST.get('years_of_experience')
+        print(f'Years of Experience: {years_of_experience}')
+
+        teaching_style = request.POST.get('teaching_style')
+        print(f'Teaching Style: {teaching_style}')
+
+        teaching_philosophy = request.POST.get('teaching_philosophy')
+        print(f'Teaching Philosophy: {teaching_philosophy}')
+
+        availability = request.POST.getlist('availability')
+        print(f'Availability: {availability}')
+
+        preferred_teaching_method = request.POST.get('preferred_teaching_method')
+        print(f'Preferred Teaching Method: {preferred_teaching_method}')
+
+        hourly_rate = request.POST.get('hourly_rate')
+        print(f'Hourly Rate: {hourly_rate}')
+
+        preferred_payment_method = request.POST.get('preferred_payment_method')
+        print(f'Preferred Payment Method: {preferred_payment_method}')
+
+        education_materials_link = request.POST.get('education_materials_link')
+        print(f'Education Materials Link: {education_materials_link}')
+
+        languages_spoken = request.POST.get('languages_spoken')
+        print(f'Languages Spoken: {languages_spoken}')
+
+        special_certificate_skills = request.POST.get('special_certificate_skills')
+        print(f'Special Certificate Skills: {special_certificate_skills}')
+
+        special_certificate_files = request.FILES.getlist('special_certificate_files')
+        print(f'Special Certificate Files: {special_certificate_files}')
+
+        cancellation_policy = request.POST.get('cancellation_policy')
+        print(f'Cancellation Policy: {cancellation_policy}')
+
+        terms_acceptance = request.POST.get('terms_acceptance') == "on"
+        print(f'Terms Acceptance: {terms_acceptance}')
+        
+        if not contact_number or not profile_picture or not highest_qualification or not specialization:
+        # Handle validation error, for example, redirect back to the form with an error message
+            print("Some error occured")
+            return render(request, 'saler/admin/updateDetailsForm.html', {"TutorUserDetails":modelInstance,'error_message': 'Please fill in all required fields.'})
+
+    # Save the data to the database
+        tutor_instance = main_models.TutorUserDetails(
+            user=user,
+            contact_number=contact_number,
+            profile_picture=profile_picture,
+            highiest_qualification=highest_qualification,
+            specialization=specialization,
+            years_of_experience=years_of_experience,
+            teaching_style=teaching_style,
+            teaching_philosophy=teaching_philosophy,
+            availability=availability,
+            preferred_teaching_method=preferred_teaching_method,
+            hourly_rate=hourly_rate,
+            preferred_payment_method=preferred_payment_method,
+            education_materials_link=education_materials_link,
+            languages_spoken=languages_spoken,
+            special_certificate_skills=special_certificate_skills,
+            cancellation_policy=cancellation_policy,
+            terms_acceptance=terms_acceptance,
+        )
+        tutor_instance.save()
+
+    # Save multiple files for special_certificate_files
+        for file in special_certificate_files:
+            main_models.CertificateFile.objects.create(tutor_user_details=tutor_instance, file=file)
+            
+        print("Success")
+        return redirect('home')
+        # form = forms.TutorUserDetailsForm(request.POST,request.FILES)
+        # if form.is_valid():
+        #     tutor = form.save(commit=False)
+        #     tutor.user_type = "tutor"
+        #     tutor.save()
+        #     messages.success(request,"Profile Updated")
+        #     print("form saved")
+        #     return redirect("saler_account_settings")
+        # else:
+        #     print("invalid form")
+        #     return render(request,"saler/admin/profile.html",{'profile_form':form})
     else:
        
-        return render(request,"saler/admin/profile.html",{'profile_form':form})
+        return render(request,"saler/admin/updateDetailsForm.html",{"TutorUserDetails":modelInstance})
           
 @login_required
 def addSkill(request):
@@ -768,7 +861,7 @@ def logout_tutor(request):
 
 def tutor_profile(request,tutor_id):
     # print(tutor_id)
-    tutor = main_models.UserDetail.objects.get(user = tutor_id)
+    tutor = main_models.TutorUserDetails.objects.get(user = tutor_id)
     skills = models.Skill.objects.filter(tutor=tutor_id)
     tutor_rating = main_models.TutorRating.objects.filter(tutor=tutor.user)
     

@@ -1,23 +1,25 @@
+
 {% extends 'saler/account_settings.html' %}
+
 {% load static %}
 
 {% block dashboard %}
 <div class="main-profile-wrapper">
     <div class="row">
        
-            {% if user_details.address %}
+            {% if user_details %}
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                    
                         <div class="section-1">
                             <div class="profile-image-wrapper mb-4">
-                                <img src="{{user_details.photo.url}}" class="dpidcn" alt="dp">
+                                <img src="{{user_details.profile_picture.url}}" class="dpidcn" alt="dp">
                             </div>
                             <p class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</p>
                             <p>Username: <span class="text-primary">@{{request.user.username}}</span></p>
                             <p>Email: <span class="text-primary">{{request.user.email}}</span></p>
-                            <p>Phone 1: <span class="text-primary">{{user_details.mobile}}</span></p>
-                            <p>Phone 2: <span class="text-primary">{{user_details.alternate_mobile}}</span></p>
+                            <p>Phone : <span class="text-primary">{{user_details.contact_number}}</span></p>
+                            <!-- <p>Phone 2: <span class="text-primary">{{user_details.alternate_mobile}}</span></p> -->
                             <p>Date Joined: <span class="text-primary">{{request.user.date_joined}}</span></p>
                             <p>Account Type: <span class="text-primary">{{user_details.user_type}}</span></p>
                             <hr>
@@ -36,39 +38,63 @@
                        
                         <!-- <hr> -->
                         <h5 class="card-title">About Me</h5>
-                        <p>{{user_details.profile_description}}</p>
-                       
-                       <div class="tutoring-details" style="height: max-content !important;">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="rate">
-                                    <p>Rate/Hr</p>
-                                    <p class="text-primary">{{user_details.rate_per_hour}}</p>
+                        <div class="tutoring-details mb-4" ">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="rate">
+                                        <p>Rate/Hr</p>
+                                        <p class="text-primary">Ksh: {{user_details.hourly_rate}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="experience">
+                                        <p>Turoring Experince</p>
+                                        <p class="text-primary">{{user_details.years_of_experience   }} Years</p>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="status">
+                                        <p>Profile Status</p>
+                                        <p class="text-success">Active</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="bookdings">
+                                        <p>Total Bookings</p>
+                                        <p class="text-success">4</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="experience">
-                                    <p>Turoring Experince</p>
-                                    <p class="text-primary">{{user_details.tutoring_experience   }} Years</p>
-                                    
+                                <hr>
+                           
+                           </div>
+                        <div class="tutoring-details mb-4">
+                            <div class="row">
+                                <h5>Educational Details</h5>
+                                <div class="col-12">
+                                    <p>Highiest Qualification:  {{user_details.highiest_qualification}}</p>
+
+                                    <h6>Areas of Specialization</h6>
+                                    <p>{{user_details.specialization}}</p>
+                                   
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="status">
-                                    <p>Profile Status</p>
-                                    <p class="text-success">Active</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="bookdings">
-                                    <p>Total Bookings</p>
-                                    <p class="text-success">4</p>
-                                </div>
+
+                                <h5 class="mt-4">Tutoring Details</h5>
+                                <h6>Teaching Style</h6>
+                                <p>{{user_details.teaching_style}}</p>
+                                <h6>Teaching Philosophy</h6>
+                                <p>{{user_details.teaching_philosophy}}</p>
+                                <h6 class="mt-3">Availability</h6>
+                                <p>{{user_details.availability}}</p>
+
+                                <h6 class="mt-3">Languages</h6>
+                                <p>{{user_details.languages_spoken}}</p>
+                               
                             </div>
                         </div>
-                            <hr>
                        
-                       </div>
+                     
                        <div class="row mt-4">
                         <h6 class="card-title text-danger mb-4">Data Zone</h6>
 
@@ -92,18 +118,6 @@
                 <h2>Update Profile</h2>
 
 
-                {% for field in profile_form %}
-                <p>
-                    {% if field.errors %}
-                <ul class="errorlist">
-                    {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {{ field.label_tag }} {{ field }}
-                </p>
-                {% endfor %}
                 <input type="submit" value="Update" class="btn btn-primary" id="auth-btn" />
 
             </form>

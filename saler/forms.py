@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from . import models
-from django.contrib.admin import widgets                                       
+from django.contrib.admin import widgets         
+
+from main import models as main_models                              
 
 class SalerRegisterForm(UserCreationForm):
 	first_name = forms.CharField(widget=forms.TextInput(attrs={}))
@@ -64,6 +66,18 @@ class UpdateSalerAccountDetailForm(forms.ModelForm):
 			]
   
   
+  
+  
+class TutorUserDetailsForm(forms.ModelForm):
+    class Meta:
+        model = main_models.TutorUserDetails
+        fields = '__all__'
+
+        widgets = {
+            'availability': forms.CheckboxSelectMultiple,
+            'preferred_teaching_method': forms.RadioSelect,
+            'terms_acceptance': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
 #   skills
 
 class AddSkillForm(forms.ModelForm):
