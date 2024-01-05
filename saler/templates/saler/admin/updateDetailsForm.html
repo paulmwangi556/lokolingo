@@ -10,35 +10,35 @@
       <h5>Personal Details</h5>
       <div class="form-group">
         <label for="contact_number">Contact Number</label>
-        <input type="text" class="form-control" id="contact_number" name="contact_number">
+        <input required type="text" class="form-control" id="contact_number" value="{{user.contact_number}}" name="contact_number">
       </div>
       <div class="form-group">
         <label for="profile_picture">Profile Picture</label>
-        <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
+        <input {% if user %}{% else %}required{% endif %} value="{{user.profile_picture.url}}" type="file" class="form-control-file" id="profile_picture" name="profile_picture">
       </div>
 
       <h5>Educational Details</h5>
       <div class="form-group">
         <label for="highiest_qualification">Highest Qualification</label>
-        <input type="text" class="form-control" id="highiest_qualification" name="highest_qualification" required>
+        <input required value="{{user.highiest_qualification}}" type="text" class="form-control" id="highiest_qualification" name="highest_qualification" required>
       </div>
       <div class="form-group">
         <label for="specialization">Specialization</label>
-        <textarea class="form-control" id="specialization" name="specialization" rows="3"></textarea>
+        <textarea required value="{{user.specialization}}" class="form-control" id="specialization" name="specialization" rows="3">{{user.specialization}}</textarea>
       </div>
   
       <!-- Experience -->
       <div class="form-group">
         <label for="years_of_experience">Years of Experience</label>
-        <input type="text" class="form-control" id="years_of_experience" name="years_of_experience">
+        <input value="{{user.years_of_experience}}" type="text" class="form-control" id="years_of_experience" name="years_of_experience">
       </div>
       <div class="form-group">
         <label for="teaching_style">Teaching Style</label>
-        <textarea class="form-control" id="teaching_style" name="teaching_style" rows="3"></textarea>
+        <textarea value="{{user.teaching_style}}" class="form-control" id="teaching_style" name="teaching_style" rows="4">{{user.teaching_style}}</textarea>
       </div>
       <div class="form-group">
         <label for="teaching_philosophy">Teaching Philosophy</label>
-        <textarea class="form-control" id="teaching_philosophy" name="teaching_philosophy" rows="3"></textarea>
+        <textarea  class="form-control" id="teaching_philosophy" name="teaching_philosophy" rows="3">{{user.teaching_philosophy}}</textarea>
       </div>
   
       <!-- Availability -->
@@ -55,7 +55,7 @@
       <!-- Teaching Method -->
       <div class="form-group">
         <label for="preferred_teaching_method">Preferred Teaching Method</label>
-        <select class="form-control" id="preferred_teaching_method" name="preferred_teaching_method">
+        <select required class="form-control" id="preferred_teaching_method" name="preferred_teaching_method">
           {% for method, method_label in TutorUserDetails.TEACHING_MODE %}
             <option value="{{ method }}">{{ method_label }}</option>
           {% endfor %}
@@ -65,40 +65,46 @@
       <!-- Hourly Rate and Payment Method -->
       <div class="form-group">
         <label for="hourly_rate">Hourly Rate</label>
-        <input type="text" class="form-control" id="hourly_rate" name="hourly_rate">
+        <input required value="{{user.hourly_rate}}" type="text" class="form-control" id="hourly_rate" name="hourly_rate">
       </div>
       <div class="form-group">
-        <label for="preferred_payment_method">Preferred Payment Method</label>
-        <textarea class="form-control" id="preferred_payment_method" name="preferred_payment_method" rows="3"></textarea>
+        <label for="preferred_payment_method">Preferred Payment Method:(provide details including account name and account number)</label>
+        <textarea required class="form-control" id="preferred_payment_method" name="preferred_payment_method" rows="3">{{user.preferred_payment_method}}</textarea>
       </div>
   
       <!-- Education Materials Link -->
       <div class="form-group">
         <label for="education_materials_link">Education Materials Link</label>
-        <input type="text" class="form-control" id="education_materials_link" name="education_materials_link">
+        <input required value="{{user.education_materials_link}}" type="text" class="form-control" id="education_materials_link" name="education_materials_link">
       </div>
   
       <!-- Languages and Certificates -->
       <div class="form-group">
         <label for="languages_spoken">Languages Spoken</label>
-        <input type="text" class="form-control" id="languages_spoken" name="languages_spoken">
+        <input required value="{{user.languages_spoken}}" type="text" class="form-control" id="languages_spoken" name="languages_spoken">
       </div>
+
+      <div class="form-group">
+        <label for="special_certificate_files">Upload CV</label>
+        <input {% if user %}{% else %}required{% endif %} type="file" class="form-control-file" id="special_certificate_files" accept="application/pdf" name="cv" >
+      </div>
+
       <div class="form-group">
         <label for="special_certificate_skills">Special Certificate Skills</label>
-        <textarea class="form-control" id="special_certificate_skills" name="special_certificate_skills" rows="3"></textarea>
+        <textarea required class="form-control" id="special_certificate_skills" name="special_certificate_skills"  rows="3">{{user.special_certificate_skills}}</textarea>
       </div>
       <div class="form-group">
         <label for="special_certificate_files">Special Certificate Files</label>
-        <input type="file" class="form-control-file" id="special_certificate_files" name="special_certificate_files" multiple>
+        <input {% if user %}{% else %}required{% endif %} type="file" class="form-control-file" id="special_certificate_files" accept="application/pdf" name="special_certificate_files" multiple>
       </div>
   
       <!-- Cancellation Policy and Terms Acceptance -->
       <div class="form-group">
         <label for="cancellation_policy">Cancellation Policy</label>
-        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3"></textarea>
+        <textarea required class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{user.cancellation_policy}}</textarea>
       </div>
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="terms_acceptance" name="terms_acceptance">
+        <input required type="checkbox" class="form-check-input" id="terms_acceptance" name="terms_acceptance">
         <label class="form-check-label" for="terms_acceptance">I accept the terms and conditions</label>
       </div>
   

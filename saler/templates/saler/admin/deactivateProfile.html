@@ -1,0 +1,25 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+    <div class="deactivate-profile">
+        <h5>If you Deactivate your Profile:</h5>
+
+        <p>Your Data will not be deleted</p>
+        <p>Your profile will be hidden </p>
+        <p>You wont be able to login using your details</p>
+
+        <p class="text-primary">Contact Customer care to Re activate</p>
+
+        
+            <form method="POST" class="mb-4">
+                
+                    <button type="submit" class="btn btn-warning" value="De Activate">De Activate Profile</button>
+                
+            </form>
+           
+            <a href="{% url 'updateProfile'%}" class="btn btn-success">Cancel</a>
+        </div>
+    </div>
+
+{% endblock %}

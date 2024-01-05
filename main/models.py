@@ -70,6 +70,8 @@ class TutorUserDetails(models.Model):
     
     
     languages_spoken=models.CharField(max_length=100)
+    cv = models.FileField(upload_to="cvs",blank=True,null=True)
+    
     special_certificate_skills=models.TextField()
     # special_certificate_files=models.FileField(upload_to="special_certs")
     

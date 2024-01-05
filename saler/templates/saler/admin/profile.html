@@ -56,7 +56,7 @@
                                 <div class="col-lg-3 col-md-6 col-sm-12">
                                     <div class="status">
                                         <p>Profile Status</p>
-                                        <p class="text-success">Active</p>
+                                        <p class="text-success">{{request.user.is_active}}</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6 col-sm-12">
@@ -99,10 +99,10 @@
                         <h6 class="card-title text-danger mb-4">Data Zone</h6>
 
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <a href="" class="btn btn-primary">Update Profile</a>
+                            <a href="{% url 'updatProfileForm'%}" class="btn btn-primary">Update Profile</a>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <a href="" class="btn btn-warning">Deactivate Profile</a>
+                            <a href="{% url 'deActivateProfile'%}" class="btn btn-warning">Deactivate Profile</a>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                             <a href="" class="btn btn-danger">Delete Profile</a>

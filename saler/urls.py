@@ -41,6 +41,7 @@ urlpatterns = [
         path("cancelWithdrawRequest/<str:withdraw_id>",views.cancelWithdrawRequest,name="cancelWithdrawRequest"),
         path("courseManagement",views.courseManagement,name="courseManagement"),
         path("addCourse",views.addCourse,name="addCourse"),  
+        path("deActivateProfile",views.deactivateProfile,name="deActivateProfile"),
         
         
         # booking

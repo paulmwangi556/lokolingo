@@ -69,7 +69,7 @@
                         <p>Date Joined: {{request.user.date_joined}}</p>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <img src="{{request.user.userdetails.photo.url}}" alt="" class="profile-img">
+                        <img src="{{request.user.tutordetails.profile_picture.url}}" alt="" class="profile-img">
                     </div>
                 </div>
 
@@ -109,6 +109,7 @@
                     <div class="col-3"><p class="font-weight-bold">Payer</p></div>
                     <div class="col-2"><p class="font-weight-bold">Status</p></div>
                 </div>
+                <hr>
 
                 {% for transaction in transactions %}
                 <div class="row">
