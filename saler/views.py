@@ -25,8 +25,8 @@ from . import forms
 from . import models
 from asgiref.sync import sync_to_async
 from django.db.models import Count
-
-
+from django.contrib import auth
+from django.db.models import Q
 from room import models as room_models
 # This is view of Index Page of Seller in which we Display Whole Sale Products
 
@@ -559,6 +559,10 @@ def studentDashboard(request):
 def studentBookings(request):
     student_id=request.user.id
     bookings = models.Booking.objects.filter(student=student_id).order_by("-id")
+    courses = models.Course.objects.filter(customers=request.user)
+ 
+    
+
     context={
         "bookings":bookings
     }
@@ -585,6 +589,7 @@ def updateStudentProfile(request):
         if form.is_valid():
             tutor = form.save(commit=False)
             tutor.user_type = "student"
+            tutor.user=request.user
             tutor.save()
             messages.success(request,"Profile Updated")
             print("form saved")
@@ -807,7 +812,7 @@ def staffBookings(request):
 def update_booking_status(request, booking_id):
     booking = get_object_or_404(models.Booking, id=booking_id)
     tutor_id = request.user.id
-    bookings = models.Booking.objects.filter(skill__tutor=tutor_id)
+    bookings = models.Booking.objects.filter(skill__tutor=tutor_id).order_by("-id")
     # booking = get_object_or_404(models.Booking, id=booking_id)
     booking_form=forms.BookingStatusUpdateForm(request.POST)
     context = {
@@ -896,6 +901,7 @@ def bookSession(request,tutor_id):
         
         if request.user.is_authenticated:
             user = request.user
+            
             session = models.Booking.objects.create(
                 date=date,
                 time=time,
@@ -993,6 +999,11 @@ async def registerIpnUrl(request):
     return HttpResponse("Hello World")
 
 async def getTransactionStatus(request,order_tracking_id):
+    # user = await sync_to_async(lambda:  request.user)()
+    user= await sync_to_async(auth.get_user)(request)
+    
+    print("Print USer is ",user.username)
+    
     
     url = f"https://pay.pesapal.com/v3/api/Transactions/GetTransactionStatus?orderTrackingId={order_tracking_id}"
 
@@ -1026,15 +1037,17 @@ async def getTransactionStatus(request,order_tracking_id):
         await sync_to_async(booking_payment.save)()
         
         try:
-            existing_payment=await sync_to_async(models.MainFinanceAccount.objects.get)(last_deposit=booking_payment)
-            # uncomment for first time run
+            # existing_payment=await sync_to_async(models.MainFinanceAccount.objects.get)(last_deposit=booking_payment)
+            existing_payment = await sync_to_async(models.MainFinanceAccount.objects.get)(last_deposit=booking_payment)
+
+            # #uncomment for first time run
             # main_finance_account=await sync_to_async(models.MainFinanceAccount.objects.create)()
-            # latest_entry = await sync_to_async(models.MainFinanceAccount.objects.latest)()
+            # # latest_entry = await sync_to_async(models.MainFinanceAccount.objects.latest)()
             
             # main_finance_account.last_deposit=booking_payment
             # main_finance_account.last_deposit_amount=booking_payment.amount
             # main_finance_account.last_withdraw=0.00
-            # main_finance_account.amount_balance=Decimal(str(latest_entry.amount_balance)) + main_finance_account.last_deposit_amount
+            # main_finance_account.amount_balance=Decimal(str(0.0))+ main_finance_account.last_deposit_amount
             # saved_data = await sync_to_async(main_finance_account.save)()
             
             
@@ -1055,18 +1068,25 @@ async def getTransactionStatus(request,order_tracking_id):
             
         # save tutor finance account
         try:
-            tutor = await sync_to_async(lambda: booking_payment.booking.skill.tutor)()
+            if await sync_to_async(lambda: booking_payment.booking)():
+                tutor = await sync_to_async(lambda: booking_payment.booking.skill.tutor)()
+            else:
+                tutor=await sync_to_async(lambda: booking_payment.course.tutor)()
+                
             existing_tutor_account=await sync_to_async(models.TutorFinanceAccount.objects.get)(last_deposit__booking__skill__tutor=tutor)
-            tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.7')
-            existing_tutor_account.last_deposit_amount=Decimal(str(tutor_deposit))
-            existing_tutor_account.last_deposit=booking_payment
-            existing_tutor_account.last_withdraw=0.00
-            existing_tutor_account.amount_balance=Decimal(str(existing_tutor_account.amount_balance)) + existing_tutor_account.last_deposit_amount
-            await sync_to_async(existing_tutor_account.save)()
+            if await sync_to_async(lambda: existing_tutor_account.last_deposit)() == await sync_to_async(lambda: booking_payment)():
+                pass
+            else:
+                tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.9')
+                existing_tutor_account.last_deposit_amount=Decimal(str(tutor_deposit))
+                existing_tutor_account.last_deposit=booking_payment
+                existing_tutor_account.last_withdraw=0.00
+                existing_tutor_account.amount_balance=Decimal(str(existing_tutor_account.amount_balance)) + existing_tutor_account.last_deposit_amount
+                await sync_to_async(existing_tutor_account.save)()
             # print("Tutor name is ",tutor.username)
         except models.TutorFinanceAccount.DoesNotExist:
             tutor_finance_account=await sync_to_async(models.TutorFinanceAccount.objects.create)()
-            tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.7')
+            tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.9')
             tutor_finance_account.last_deposit_amount=Decimal(str(tutor_deposit))
             tutor_finance_account.last_deposit=booking_payment
             tutor_finance_account.last_withdraw=0.00
@@ -1074,11 +1094,20 @@ async def getTransactionStatus(request,order_tracking_id):
             await sync_to_async(tutor_finance_account.save)()
             
         
-        booking_id = await sync_to_async(lambda: booking_payment.booking.id)()
-        booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
-        booking.payment_status = models.Booking.PAYMENT_COMPLETED
-        await sync_to_async(booking.save)()
-       
+        if await sync_to_async(lambda:  booking_payment.booking)():
+            
+            booking_id = await sync_to_async(lambda: booking_payment.booking.id)()
+            booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
+            booking.payment_status = models.Booking.PAYMENT_COMPLETED
+            await sync_to_async(booking.save)()
+        else:
+            course_id=await sync_to_async(lambda: booking_payment.course.id)()
+            course = await sync_to_async(models.Course.objects.get)(id=course_id)
+            await sync_to_async(course.customers.add)(user)
+            await sync_to_async(course.save)()
+            
+            print("Couse Data Saved ",course.customers)
+        
         return redirect("studentTransactionHistory")
     else:
         booking_payment.status=json_response.get("status")
@@ -1092,7 +1121,8 @@ async def getTransactionStatus(request,order_tracking_id):
         return redirect("studentTransactionHistory")
             # return response.text
 
-async def submitOrder(request,booking_id):
+async def submitOrder(request,booking_id,item):
+    print("Item Being paid for is ",item)
     try:
         data = await getAuthToken(request)
         token_value = data.get("token")
@@ -1111,12 +1141,15 @@ async def submitOrder(request,booking_id):
         uid = str(uuid.uuid4())
         current_datetime = str(datetime.now())
         
-        booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
-        # rate_per_hour = await sync_to_async(lambda: booking.skill.tutor.userdetails.rate_per_hour)()
-        # duration = await sync_to_async(lambda: booking.duration)()
+        if item == "booking":
+            print("Item is booking")
+            booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
+            cost= str( await sync_to_async(lambda: booking.cost)())
         
-        # cost =str(Decimal(rate_per_hour)*Decimal(duration))
-
+        else:
+            print("Item is course")
+            course = await sync_to_async(models.Course.objects.get)(id=booking_id)
+            cost= str( await sync_to_async(lambda: course.cost)())
         
         user = await sync_to_async(lambda: request.user)()
         user_id =await sync_to_async(lambda: user.id)() 
@@ -1126,9 +1159,9 @@ async def submitOrder(request,booking_id):
         phone= await sync_to_async(lambda: request.user.userdetails.mobile)()
         first_name= await sync_to_async(lambda: user.first_name)()
         last_name= await sync_to_async(lambda: user.last_name)()
-        cost= str( await sync_to_async(lambda: booking.cost)())
+        # cost= str( await sync_to_async(lambda: booking.cost)())
         
-        
+        print("1")
         
         
 
@@ -1165,26 +1198,34 @@ async def submitOrder(request,booking_id):
         
         user = request.user
         
-        
+        print("8455489")
         async with httpx.AsyncClient() as client:
             response = await client.post(url, headers=headers, data=payload)
             
+        print("2")
 
         json_response = response.json()
         redirect_url = json_response.get("redirect_url")
         
         
         tracking_id_value = json_response.get('order_tracking_id')
-        
+        print("3")
         booking_payment = await sync_to_async(models.BookingPayments.objects.create)()
-        print("Reached Here",booking_id)
+        print("Reached Here")
         if tracking_id_value is not None:
-            booking.student=request.user
+            # if item is "booking":
+            #     booking.student=request.user
           
-            booking.payment_status = models.Booking.PAYMENT_INITIATED
-            await sync_to_async(booking.save)()
-            
-            booking_payment.booking=booking
+            #     booking.payment_status = models.Booking.PAYMENT_INITIATED
+            #     await sync_to_async(booking.save)()
+            if item == "booking":
+                print("vkjdf item is booking")
+                booking_payment.booking=booking
+            else:
+                print("jvbdkjv item is course")
+                booking_payment.course=course
+                
+            # booking_payment.booking=booking
             booking_payment.amount=1.00
             booking_payment.reference=json_response.get("merchant_reference")
             booking_payment.merchant_reference=json_response.get("merchant_reference")
@@ -1214,14 +1255,19 @@ def checkTransactionHistory(request):
     user_groups = request.user.groups.values_list('name', flat=True)
     
     if 'student' in user_groups:
-        transactions = models.BookingPayments.objects.filter(booking__student=user).order_by("-id")
+       
+        transactions=models.BookingPayments.objects.filter(Q(booking__student=user) | Q(course__customers=user)).order_by("-id")
+        # for item in  all_t:
+        #     print("Course",item)
+        
         context={
         "transactions":transactions
         }
         return render(request, "saler/student/payment_history.html",context)
     
     else:
-        transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user).order_by("-id")
+        transactions=models.BookingPayments.objects.filter(Q(booking__skill__tutor=user) | Q(course__tutor=user)).order_by("-id")
+        # transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user).order_by("-id")
         context={
             "transactions":transactions
         }

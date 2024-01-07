@@ -36,8 +36,9 @@
       <div class="col-lg-4 col-md-6 col-sm-12">
         <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}
             {% if booking.payment_status == 'payment_not_initiated' %}
-            <button class="btn btn-primary ml-3 update_booking"
-              onclick="triggerBtn('{{forloop.counter}}')">Change</button>
+            <button class="btn btn-primary ml-3 update_booking" 
+            data-index="{{ forloop.counter0 }}"
+            onclick="sayHello('{{forloop.counter0}}')">Change</button>
             {% else %}
 
             {% endif %}
@@ -69,14 +70,32 @@
 
   </div>
 
-  <div class="bookings-form">
+  <div class="bookings-form" style="height: max-content !important; ">
     <form action="{% url 'update_booking_status' booking_id=booking.id%}" method="POST">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit" class="btn btn-outline-primary" id="update-booking-btn">Update Status</button>
     </form>
   </div>
+
 </div>
 {% endfor %}
+
+
+<script>
+
+
+  function sayHello(message){
+    showBookingForxm(message)
+  }
+
+  function showBookingForxm(message){
+    var elementsWithClass = $(".bookings-form");
+    $(".bookings-form").eq(message).toggle();
+}
+
+
+</script>
+
 
 {% endblock %}

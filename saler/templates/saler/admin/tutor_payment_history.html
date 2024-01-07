@@ -46,7 +46,13 @@
                     <p class="merchant-reference">Merchant-reference: {{transaction.merchant_reference}}</p>
                     <p class="reference">Transaction Reference: {{transaction.reference}}</p>
                     <p class="create-date">Payment Confirm Date: <span>{{transaction.create_date}}</span></p>
-                    <p class="status-code">Payment Status Code: <span>{{transaction.payment_status_code}}</span></p>
+                    <p class="status-code">Item: <span class="text-primary">
+                        {% if transaction.course %}
+                        Course: <a href="">{{transaction.course.name}}</a>
+                        {% else %}
+                        Booking: <a href="{% url 'tutor_profile' tutor_id=transaction.booking.skill.tutor.id %}">{{transaction.booking.skill.title}}</a>
+                        {% endif %}
+                    </span></p>
                   
                 </div>
             </div>

@@ -131,7 +131,7 @@ class Booking(models.Model):
     )
     
 def booking_post_save(sender,instance,created,*args,**kwargs):
-    instance.cost = Decimal(instance.skill.tutor.userdetails.rate_per_hour) * Decimal(instance.duration) 
+    instance.cost = Decimal(instance.skill.tutor.tutordetails.hourly_rate) * Decimal(instance.duration) 
     if created:
         instance.save()
         
@@ -141,11 +141,28 @@ post_save.connect(booking_post_save,sender=Booking)
     
 class InitiatedPayments():
     tracking_id=models.CharField(max_length=100)
-    
+ 
+class Course(models.Model):
+    name=models.CharField(verbose_name="Course Name",max_length=100,blank=True,null=True)
+    description=models.TextField(blank=True,null=True,verbose_name="Course Description")
+    thumbnail=models.FileField(upload_to="course_images",blank=True,null=True)
+    cost = models.DecimalField(max_digits=10,decimal_places=2,blank=True,null=True)
+    language = models.CharField(max_length=100,blank=True,null=True)
+    subtitles=models.TextField(null=True,blank=True,verbose_name="Other Languages or Subtitles")
+    tutor=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="course_tutor")
+    course_content=models.TextField(blank=True,null=True)
+    preview = models.FileField(upload_to="course_previews",blank=True,null=True,verbose_name="Course Preview Video")
+    prerequisite=models.TextField(blank=True,null=True)
+    date_uploaded = models.DateField(auto_now_add=True)
+    customers = models.ManyToManyField(User,blank=True,null=True)
+    course_files = models.FileField(upload_to="course_files",blank=True,null=True)
+    other_information=models.TextField(blank=True,null=True,verbose_name="Additional Information about the Course")
+    date_added = models.DateField(auto_now_add=True)
     
     
 class BookingPayments(models.Model):
 	booking = models.ForeignKey(Booking,on_delete=models.DO_NOTHING,null=True,blank=True)
+	course = models.ForeignKey(Course,on_delete=models.DO_NOTHING,null=True,blank=True)
 	amount = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
 	date=models.DateTimeField(auto_now_add=True)
 	reference = models.CharField(max_length=10,null=True,blank=True)
@@ -268,22 +285,7 @@ class WithdrawFunds(models.Model):
     account = models.ForeignKey(TutorFinanceAccount,on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
 
-class Course(models.Model):
-    name=models.CharField(verbose_name="Course Name",max_length=100,blank=True,null=True)
-    description=models.TextField(blank=True,null=True,verbose_name="Course Description")
-    thumbnail=models.FileField(upload_to="course_images",blank=True,null=True)
-    cost = models.DecimalField(max_digits=10,decimal_places=2,blank=True,null=True)
-    language = models.CharField(max_length=100,blank=True,null=True)
-    subtitles=models.TextField(null=True,blank=True,verbose_name="Other Languages or Subtitles")
-    tutor=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="course_tutor")
-    course_content=models.TextField(blank=True,null=True)
-    preview = models.FileField(upload_to="course_previews",blank=True,null=True,verbose_name="Course Preview Video")
-    prerequisite=models.TextField(blank=True,null=True)
-    date_uploaded = models.DateField(auto_now_add=True)
-    customers = models.ManyToManyField(User,blank=True,null=True)
-    course_files = models.FileField(upload_to="course_files",blank=True,null=True)
-    other_information=models.TextField(blank=True,null=True,verbose_name="Additional Information about the Course")
-    date_added = models.DateField(auto_now_add=True)
+
     
 
 

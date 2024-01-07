@@ -37,7 +37,7 @@
         <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}</span> </p>
         <p class="payment-status">Payment  Status <span>
             <!-- <button class="payment-btn">{{booking.payment_status}}</button> -->
-            <a href="{% url 'submitOrder' booking_id=booking.id %}" class="btn btn-outline-success">{{booking.payment_status}}</a>
+            <a href="{% url 'submitOrder' booking_id=booking.id item='booking' %}" class="btn btn-outline-success">{{booking.payment_status}}</a>
             </span> </p>
       </div>
     </div>

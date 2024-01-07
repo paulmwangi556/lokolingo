@@ -66,7 +66,7 @@
                         <a href="#" class="btn btn-primary">See Details</a>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                        <a href="#" class="btn btn-outline-primary">Buy Course <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a>
+                        <a href="{% url 'submitOrder' booking_id=course.id item='course' %}" class="btn btn-outline-primary">Buy Course <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a>
                     </div>
                  </div>
                 </div>
