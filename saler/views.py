@@ -569,6 +569,14 @@ def studentBookings(request):
     return render(request,"saler/student/student_bookings.html",context)
 
 
+def studentCourses(request):
+    courses = models.Course.objects.filter(customers=request.user)
+    context = {
+        "courses":courses
+    }
+    
+    return render(request,"saler/student/student_courses.html",context)
+
 def studentProfile(request):
     form = UpdateStudentProfileForm()
     try:
@@ -1431,7 +1439,100 @@ def addCourse(request):
     
     return render(request,"saler/admin/add_course.html",context)  
 
- 
+def courseDetails(request,course_id):
+    course=models.Course.objects.get(id=course_id)
+    context={
+        "course":course
+    }
+    
+    return render(request,"saler/admin/course_details.html",context) 
+
+
+
+def adminCourseResources(request,course_id):
+    course=models.Course.objects.get(id=course_id)
+    sections=models.CourseSection.objects.filter(course=course)
+    
+    
+    
+    section_form=forms.AddCourseSectionForm()
+    section_resource_form=forms.AddSectionResurceForm()
+    
+    if request.method == "POST":
+        section_form=forms.AddCourseSectionForm(request.POST)
+        if section_form.is_valid():
+            form=section_form.save(commit=False)
+            form.course=course
+            form.save()
+            print("Saved")
+            
+        else:
+            print("Invalid form")
+    
+    
+    context={
+        "sections":sections,
+        "section_form":section_form,
+        "section_resource_form":section_resource_form
+    }
+    
+    user = request.user
+   
+    user_groups = request.user.groups.values_list('name', flat=True)
+    
+    if 'student' in user_groups:
+        return render(request,"saler/student/student_course_resources.html",context)
+    else:
+        
+    
+        return render(request,"saler/admin/course_resources.html",context)
+
+def addSectionResource(request,section_id,course_id):
+    # course_id = request.GET.
+    section = models.CourseSection.objects.get(id=section_id)
+    form = forms.AddSectionResurceForm(request.POST,request.FILES)
+    if form.is_valid():
+        section_form = form.save(commit=False)
+        section_form.section=section
+        section_form.save()
+        print("resource saved")
+        return redirect("adminCourseResources",course_id=course_id)  
+    else:
+        print('Not saved')
+
+        return redirect("adminCourseResources",course_id=course_id)
+
+
+def editSection(request,section_id):
+    
+    
+    return redirect
+
+
+def deleteSection(request,section_id,course_id):
+    # course_id = request.GET.get("course_id")
+    
+    section = models.CourseSection.objects.get(id=section_id)
+    section.delete()
+    
+    
+    return redirect("adminCourseResources",course_id=course_id)
+    
+
+def editResource(request,resource_id,course_id):
+    resource = models.SectionVideo.objects.get(id=resource_id)
+    if request.method == "GET":
+        form = forms.AddSectionResurceForm(instance=resource)
+        
+    return redirect("adminCourseResources",course_id=course_id)
+
+
+
+def deleteResource(request,resource_id,course_id):
+    resource=models.SectionVideo.objects.get(id=resource_id)
+    resource.delete()
+    return redirect("adminCourseResources",course_id=course_id)
+
 
 def tutorSessions(request):
     user=request.user

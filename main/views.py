@@ -156,7 +156,7 @@ def courses(request,order=None,):
         
         if query_param == None or query_param == "all":
             courses = saler_models.Course.objects.all()
-            print("query is None")
+          
         else:
             print("Query param is ", query_param)
             courses = saler_models.Course.objects.all().order_by(query_param)      
@@ -170,7 +170,13 @@ def courses(request,order=None,):
         
         return render(request,"main/courses3.html",context)
 
-
+def courseItem(request,course_id):
+    course = saler_models.Course.objects.get(id=course_id)
+    
+    context = {
+        "course":course
+    }
+    return render(request,"main/course_item.html",context)
 
 def account_settings(request):
     # if request.method == 'POST':

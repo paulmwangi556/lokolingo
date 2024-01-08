@@ -16,18 +16,20 @@
                     <div class="row mt-4">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <img class="course-thumbnail" src="{{course.thumbnail.url}}" alt="course-thumbnail">
-                            <p class="course-cost mt-4">Ksh: <span>{{course.cost}}</span></p>
+                           
                         </div>
                         <div class="col-lg-8 col-md-4 col-sm-12">
-                            <p class="course-description">
+                            <!-- <p class="course-description">
                                 {{course.description}}
-                            </p>
+                            </p> -->
+                            <p class="course-cost mt-4">Ksh: <span>{{course.cost}}</span></p>
                             <p class="main-language">Main Language: {{course.language}}</p>
-                            <p class="other-languages">Other Languages/Subtitles: <span>{{course.subtitles}}</span> </p>
-                            <a href="{{course.preview.url }}"  target="_blank">Preview Course</a>
+                            <!-- <p class="other-languages">Other Languages/Subtitles: <span>{{course.subtitles}}</span> </p> -->
+                            <a href="{% url 'adminCourse' course_id=course.id %}" class="btn btn-primary">View Course</a>
                         </div>
                     </div>
                 </div>
+                <hr>    
                    
                 {% endfor %}
             </div>

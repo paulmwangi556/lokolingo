@@ -17,6 +17,7 @@ urlpatterns = [
 
         # studdent dashboard
         path("student_bookings",views.studentBookings,name="studentBookings"),
+        path("student_courses",views.studentCourses,name="studentCourses"),
         path("student_profile",views.studentProfile,name="studentProfile"),
         path("updateStudentProfileForm",views.updateStudentProfile,name="updateStudentProfileForm"),
         path("studentTransactionHistory",views.checkTransactionHistory,name="studentTransactionHistory"),
@@ -41,7 +42,17 @@ urlpatterns = [
         path("cancelWithdrawRequest/<str:withdraw_id>",views.cancelWithdrawRequest,name="cancelWithdrawRequest"),
         path("courseManagement",views.courseManagement,name="courseManagement"),
         path("addCourse",views.addCourse,name="addCourse"),  
+        path("adminCourse/<str:course_id>",views.courseDetails,name="adminCourse"),
+        path("adminCourseResources/<str:course_id>",views.adminCourseResources,name="adminCourseResources"),
+        path("addSectionResource/<str:section_id>/<str:course_id>",views.addSectionResource,name="addSectionResource"),
         path("deActivateProfile",views.deactivateProfile,name="deActivateProfile"),
+        
+        
+        path("editSection/<str:section_id>",views.editSection,name="editSection"),
+        path("deleteSection/<str:section_id>/<str:course_id>",views.deleteSection,name="deleteSection"),
+        
+        path("editResource/<str:resource_id>/<str:course_id>",views.editResource,name="editResource"),
+        path("deleteResource/<str:resource_id>/<str:course_id>",views.deleteResource,name="deleteResource"),
         
         
         # booking

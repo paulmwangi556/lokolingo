@@ -158,7 +158,31 @@ class Course(models.Model):
     course_files = models.FileField(upload_to="course_files",blank=True,null=True)
     other_information=models.TextField(blank=True,null=True,verbose_name="Additional Information about the Course")
     date_added = models.DateField(auto_now_add=True)
+
+class CourseSection(models.Model):
+    index=models.IntegerField(verbose_name="Index (used in ordering)", blank=True,null=True)
+    title=models.CharField(max_length=100,verbose_name="Section Title")
+    course=models.ForeignKey(Course,on_delete=models.CASCADE)
     
+    class Meta:
+        ordering=["index"]
+    
+
+    
+class SectionVideo(models.Model):
+	index=models.IntegerField(verbose_name="Index (used in ordering)", blank=True,null=True)
+	title=models.CharField(max_length=100,verbose_name="Video Title")
+	resource_file=models.FileField(upload_to="section_videos")
+	section=models.ForeignKey(CourseSection,on_delete=models.CASCADE)
+ 
+	class Meta:
+		ordering = ['index']
+
+class CourseRating(models.Model):
+    rating = models.IntegerField()
+    review = models.TextField()
+    author=models.ForeignKey(User,on_delete=models.CASCADE)
+    date_added=models.DateTimeField(auto_now_add=True)	
     
 class BookingPayments(models.Model):
 	booking = models.ForeignKey(Booking,on_delete=models.DO_NOTHING,null=True,blank=True)

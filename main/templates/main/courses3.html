@@ -59,11 +59,11 @@
                   <div class="tutor-area">
                     <!-- <img src="{{course.tutor.userdetails.photo.url }}" alt="" class="tutor-image"> -->
                     <a href="{% url 'tutor_profile' tutor_id=course.tutor.id%}" class="tutor-name">{{course.tutor.first_name}} {{course.tutor.last_name}} </a>
-                    <p class="enrolled">1,342 students enrolled</p>
+                    <p class="enrolled">{{course.customers|length }} students enrolled</p>
                   </div>
                  <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                        <a href="#" class="btn btn-primary">See Details</a>
+                        <a href="{% url 'course_item' course_id=course.id%}" class="btn btn-primary">See Details</a>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
                         <a href="{% url 'submitOrder' booking_id=course.id item='course' %}" class="btn btn-outline-primary">Buy Course <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a>

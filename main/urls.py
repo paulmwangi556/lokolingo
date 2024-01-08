@@ -9,6 +9,7 @@ urlpatterns = [
     path('contactus', views.contactus, name='contactus'),
     path('find_tutors/<str:query>/',views.find_tutor,name="findTutors"),
     path('courses/<str:order>/',views.courses,name="courses"),
+    path('course_item/<str:course_id>/',views.courseItem,name="course_item"),
     
     
     

@@ -1,0 +1,170 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+<style>
+    .course-section{
+        background-color: rgb(237, 236, 236);
+        padding: 1rem;
+        border: 1px solid rgba(128, 128, 128, 0.028);
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        position: relative;
+    }
+
+    .resource-form,.edit-resource-form{
+        z-index: 4;
+        background-color: rgba(255, 255, 255, 0.056);
+        border: 1px solid rgba(0, 0, 0, 0.124);
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        display: none;
+    }
+    .resource-item{
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.086);
+        margin-bottom: 0.5rem;
+        padding: 0.4rem;
+        border-radius: 0.4rem;
+        position: relative;
+    }
+
+    .actions{
+        position: absolute;
+        right: 0;
+        top: 1rem;
+        margin-right: 2rem;
+        display: flex;
+        gap: 2rem;
+    }
+
+
+</style>
+
+<div class="course-resources">
+    <h5>Course Resources</h5>
+
+    <div class="row">
+        <div class="col-lg-8 col-md-12 col-sm-12">
+            {% for section in sections %}
+            <div class="course-section">
+              <h5> Section {{forloop.counter}} :{{section.title}}</h5>
+             
+              <button class="btn btn-outline-primary mb-4" data-index="{{ forloop.counter0 }}"
+              onclick="displayForm('{{forloop.counter0}}')"> Add Section Resource </button>
+             <div class="actions">
+                <!-- <a href="{% url 'editSection' section_id=section.id %}">
+                    <i class="fa fa-pen-alt md" aria-hidden="true" style="color: green;"></i>
+                </a> -->
+                <a href="{% url 'deleteSection' section_id=section.id course_id=section.course.id%}">
+                    <i class="fa fa-trash md" aria-hidden="true" style="color: rgb(18, 1, 1);"></i>
+                </a>
+             </div>
+              {% for item in section.sectionvideo_set.all %}
+              <div class="resource-item">
+                <p class="resource-title">{{item.index}}. <span>{{item.title}}</span></p>
+                <a href="{{item.resource_file.url}}" target="_blank"  oncontextmenu="return false;">{{item.title}}</a>
+              
+                <div class="actions">
+                    <!-- <button data-index="{{ forloop.counter0 }}"
+                    onclick="displayEditForm('{{forloop.counter0}}')" >
+                        <i class="fa fa-pen-alt md" aria-hidden="true" style="color: green;"></i>
+                    </button> -->
+                    <a href="{% url 'deleteResource' resource_id=item.id  course_id=item.section.course.id%}">
+                        <i class="fa fa-trash md" aria-hidden="true" style="color: rgb(32, 31, 31);"></i>
+                    </a>
+                 </div>
+            </div>
+
+            <!-- edit resource form -->
+
+            <div class="edit-resource-form" style="height: max-content !important; ">
+                <h6>Add Resource for {{section.title}}</h6>
+                <form action="{% url 'editResource' resource_id=item.id course_id=item.section.course.id%}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+
+                    <p> {{ section_resource_form.title.label_tag }} {{ section_resource_form.title }}</p>
+
+                  
+                  <input type="submit" value="Edit Resource" class="btn btn-primary"  />
+                  
+                </form>
+              </div>
+               
+              {% endfor %}
+              
+           
+            </div>
+
+            <!--add resource form -->
+
+            <div class="resource-form" style="height: max-content !important; ">
+                <h6>Add Resource for {{section.title}}</h6>
+                <form action="{% url 'addSectionResource' section_id=section.id course_id=section.course.id%}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {% for field in section_resource_form %}
+                  <p>
+                      {% if field.errors %}
+                  <ul class="errorlist">
+                      {% for error in field.errors %}
+                      <li>{{ error }}</li>
+                      {% endfor %}
+                  </ul>
+                  {% endif %}
+                  {{ field.label_tag }} {{ field }}
+                  </p>
+                  {% endfor %}
+                  <input type="submit" value="Add Resource" class="btn btn-primary"  />
+                  
+                </form>
+              </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <h6>Add Course Section</h6>
+            <form  method="POST">
+                {% csrf_token %}
+                {% for field in section_form %}
+                <p>
+                    {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {{ field.label_tag }} {{ field }}
+                </p>
+                {% endfor %}
+                <input type="submit" value="Add Section" class="btn btn-primary" id="auth-btn" />
+            </form>
+        </div>
+    </div>
+
+   
+
+</div>
+
+<script>
+
+
+    function displayForm(message){
+        showAddVideoForm(message)
+    }
+  
+    function showAddVideoForm(message){
+      var elementsWithClass = $(".resource-form");
+      $(".resource-form").eq(message).toggle();
+  }
+
+  function displayEditForm(message){
+    showEditVideoForm(message)
+    }
+  
+    function showEditVideoForm(message){
+      var elementsWithClass = $(".resource-form");
+      $(".edit-resource-form").eq(message).toggle();
+  }
+  </script>
+
+{% endblock %}

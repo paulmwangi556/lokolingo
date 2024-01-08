@@ -128,3 +128,15 @@ class AddCourseForm(forms.ModelForm):
 		exclude=["id","customers","tutor"]
 		
         
+        
+class AddCourseSectionForm(forms.ModelForm):
+    class Meta:
+        model = models.CourseSection
+        exclude=["id","course"]
+        
+class AddSectionResurceForm(forms.ModelForm):
+    
+    class Meta:
+        model=models.SectionVideo
+        exclude=["id","section"]
+        
