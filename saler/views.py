@@ -546,7 +546,8 @@ def account_settings(request):
 
 def studentDashboard(request):
     user=request.user
-    sessions = models.TutorSession.objects.filter(payments__booking__student=user)
+    # sessions = models.TutorSession.objects.filter(payments__booking__student=user)
+    sessions = models.TutorSession.objects.all()
     rooms = room_models.Room.objects.filter(student=user).annotate(message_count=Count('messages'))
     print("Student rooms count", rooms.count())
     context={
