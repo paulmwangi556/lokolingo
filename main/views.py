@@ -178,6 +178,13 @@ def courseItem(request,course_id):
     }
     return render(request,"main/course_item.html",context)
 
+def termAndConditions(request):
+    return render(request,"main/terms.html")
+
+
+def privacyPolicy(request):
+     return render(request,"main/policy.html")
+
 def account_settings(request):
     # if request.method == 'POST':
     # 	#User Details Update

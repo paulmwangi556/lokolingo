@@ -29,7 +29,34 @@ class UserDetail(models.Model):
     city = models.CharField(max_length=100, null=True, blank=True)
     sex = models.CharField(max_length=6, choices=SEX_CHOICES, null=True)
 
-
+class StudentDetails(models.Model):
+    
+    TUTORING_FORMAT=[
+        ("one on one","One on One"),
+        ("group","Group"),
+       ( "flexible","Flexible")
+    ]
+    PRIVACY=[
+        ("Share my details with matched tutors","Share my details with matched tutors"),
+        ("Remain anonymous untill matching","Remain anonymous untill matching")
+    ]
+    
+    contact_number=models.CharField(max_length=50)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    
+    subjects=models.TextField(verbose_name="Subjects/Topics needing assistance")
+    grade_level=models.CharField(max_length=100,blank=True,null=True)
+    preferred_tutoring_format=models.CharField(max_length=50,choices=TUTORING_FORMAT)
+    availability = models.TextField(verbose_name="Prefered Days and Times")
+    duration_per_session=models.CharField(max_length=100)
+    budget_range=models.CharField(max_length=100)
+    payment_method=models.CharField(max_length=100)
+    languages_preference=models.CharField(max_length=100)
+    qualifications_desired=models.CharField(max_length=100)
+    accept_terms=models.BooleanField(default=False,verbose_name="Accept Terms and Conditions")
+    privacy_preference=models.CharField(max_length=100,choices=PRIVACY)
+    
+    
 
 class TutorUserDetails(models.Model):
     DAYS_OF_WEEK = [
@@ -75,7 +102,7 @@ class TutorUserDetails(models.Model):
     special_certificate_skills=models.TextField()
     # special_certificate_files=models.FileField(upload_to="special_certs")
     
-    cancellation_policy=models.TextField(blank=True,null=True)
+    # cancellation_policy=models.TextField(blank=True,null=True)
     terms_acceptance=models.BooleanField(default=False)
     
     

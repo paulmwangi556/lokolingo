@@ -3,6 +3,7 @@ from decimal import Decimal
 import json
 import math
 import uuid
+from datetime import datetime, timedelta
 from django import template
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse
@@ -22,6 +23,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, authenticate, logout
 from . import forms
+from channels.db import database_sync_to_async
 from . import models
 from asgiref.sync import sync_to_async
 from django.db.models import Count
@@ -529,18 +531,26 @@ def tutor_login(request,next_page=None):
 @login_required
 def account_settings(request):
     user=request.user
-    saler_finances=models.TutorFinanceAccount.objects.filter(last_deposit__booking__skill__tutor=user).first()
+    saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
+    
+    
+    
+
+    
+    
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
     rooms = room_models.Room.objects.filter(tutor = request.user).annotate(message_count=Count('messages'))
     transactions = models.BookingPayments.objects.filter(booking__skill__tutor=user).order_by("-id")
+    courses = models.Course.objects.filter(tutor=user).count()
     
     context={
         "saler_finances":saler_finances,
         "skills":skills,
         "withdrawals":withdrawal_history,
         "rooms":rooms,
-        "transactions":transactions
+        "transactions":transactions,
+        "courses":courses
     }
     return render(request, 'saler/admin/home.html',context)
 
@@ -558,6 +568,8 @@ def studentDashboard(request):
 
 
 def studentBookings(request):
+    
+    
     student_id=request.user.id
     bookings = models.Booking.objects.filter(student=student_id).order_by("-id")
     courses = models.Course.objects.filter(customers=request.user)
@@ -579,36 +591,91 @@ def studentCourses(request):
     return render(request,"saler/student/student_courses.html",context)
 
 def studentProfile(request):
+    print("Hello")
     form = UpdateStudentProfileForm()
+    student_form=forms.StudentUserDetails()
     try:
-        # user_details = main_models.UserDetail.objects.filter(user_id=request.user.id)
-        print(request.user.id)
-        user_details= get_object_or_404(main_models.UserDetail,user=request.user.id)
-        print(request.user.id)
+       
+        # user_details= get_object_or_404(main_models.UserDetail,user=request.user.id)
+        user_details= get_object_or_404(main_models.StudentDetails,user=request.user.id)
+        decimal_hours = Decimal(user_details.duration_per_session)
+        total_seconds = float(decimal_hours) * 3600
+        duration_timedelta = timedelta(seconds=total_seconds)
+        
+        hours, remainder = divmod(duration_timedelta.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+        
+        time =''
+
+        if hours > 0:
+            time =  f"{hours} hours and {minutes} minutes"
+        else:
+            time = f"{minutes} minutes"
+        
+        print("Duration is ", time)
+        
+        user_details.duration_per_session=time
+        
+        
         return render(request, "saler/student/student_profile.html", {'user_details': user_details})
     except Http404:
-        return updateStudentProfile(request)
+        # print("Not ")
+        return render(request, "saler/student/student_profile.html",)
 
 def updateStudentProfile(request):
-    form = UpdateStudentProfileForm()
+    # form = UpdateStudentProfileForm()
+    form=forms.StudentUserDetails()
     print(request.method)
     if request.method == "POST":
-       
-        form = UpdateStudentProfileForm(request.POST,request.FILES)
-        if form.is_valid():
-            tutor = form.save(commit=False)
-            tutor.user_type = "student"
-            tutor.user=request.user
-            tutor.save()
-            messages.success(request,"Profile Updated")
-            print("form saved")
-            return redirect("studentDashboard")
-        else:
-            print("invalid form")
-            return render(request,"saler/student/student_profile.html",{'profile_form':form})
+        contact_number = request.POST.get('contact_number')
+        subjects = request.POST.get('subjects')
+        grade_level = request.POST.get('grade_level')
+        preferred_tutoring_format = request.POST.get('preferred_tutoring_format')
+        availability = request.POST.get('availability')
+        duration_per_session = request.POST.get('duration_per_session')
+        budget_range = request.POST.get('budget_range')
+        payment_method = request.POST.get('payment_method')
+        languages_preference = request.POST.get('languages_preference')
+        qualifications_desired = request.POST.get('qualifications_desired')
+        accept_terms = request.POST.get('accept_terms')== "on"
+        privacy_preference = request.POST.get('privacy_preference')
+        
+        
+        student = main_models.StudentDetails(
+            contact_number=contact_number,
+            subjects=subjects,
+            grade_level=grade_level,
+            preferred_tutoring_format=preferred_tutoring_format,
+            availability=availability,
+            duration_per_session=duration_per_session,
+            budget_range=budget_range,
+            payment_method=payment_method,
+            languages_preference=languages_preference,
+            qualifications_desired=qualifications_desired,
+            accept_terms=accept_terms,
+            privacy_preference=privacy_preference
+        )
+        
+        student.user = request.user
+        student.save()
+        print("STudent Data Saved")
+        return redirect("studentProfile")
+        # form = UpdateStudentProfileForm(request.POST,request.FILES)
+        # form =forms.StudentUserDetails() (request.POST,request.FILES)
+        # if form.is_valid():
+        #     tutor = form.save(commit=False)
+        #     tutor.user_type = "student"
+        #     tutor.user=request.user
+        #     tutor.save()
+        #     messages.success(request,"Profile Updated")
+        #     print("form saved")
+        #     return redirect("studentDashboard")
+        # else:
+        #     print("invalid form")
+        #     return render(request,"saler/student/student_profile.html",{'profile_form':form})
     else:
-       
-        return render(request,"saler/student/student_profile.html",{'profile_form':form})
+       return redirect("home")    
+        
 
 
 def updateProfile(request):
@@ -709,14 +776,22 @@ def updateProfileForm(request):
 
 
 def deactivateProfile(request):
+    
+    user = request.user
+   
+    user_groups = request.user.groups.values_list('name', flat=True)
+    
+   
     if request.method == "POST":
         user = get_object_or_404(User, id=request.user.id)
         user.is_active = False
         user.save()
         return redirect("home")
     else:
-        return render(request,"saler/admin/deactivateProfile.html")
-    
+        if 'student' in user_groups:
+            return render(request,"saler/student/student_deactivate_profile.html")
+        else:
+            return render(request,"saler/admin/deactivateProfile.html")
     
 @login_required
 def addSkill(request):
@@ -1130,8 +1205,8 @@ async def getTransactionStatus(request,order_tracking_id):
         return redirect("studentTransactionHistory")
             # return response.text
 
-async def submitOrder(request,booking_id,item):
-    print("Item Being paid for is ",item)
+async def submitOrder(request,booking_id,item,user_type):
+ 
     try:
         data = await getAuthToken(request)
         token_value = data.get("token")
@@ -1151,21 +1226,34 @@ async def submitOrder(request,booking_id,item):
         current_datetime = str(datetime.now())
         
         if item == "booking":
-            print("Item is booking")
+            
             booking = await sync_to_async(models.Booking.objects.get)(id=booking_id)
             cost= str( await sync_to_async(lambda: booking.cost)())
         
         else:
-            print("Item is course")
+           
             course = await sync_to_async(models.Course.objects.get)(id=booking_id)
             cost= str( await sync_to_async(lambda: course.cost)())
         
         user = await sync_to_async(lambda: request.user)()
         user_id =await sync_to_async(lambda: user.id)() 
-      
-        user_details = await sync_to_async(main_models.UserDetail.objects.get)(user=user_id)
+        
+        # user_details = await sync_to_async(main_models.UserDetail.objects.get)(user=user_id)
         email_address = await sync_to_async(lambda: user.email)()
-        phone= await sync_to_async(lambda: request.user.userdetails.mobile)()
+        
+        # student_details = await sync_to_async(main_models.StudentDetails.objects.filter)(user=request.user)
+        # print("Details are",student_details)
+        print("User is ",user_type)
+        if user_type == "student":
+            
+            phone= await sync_to_async(lambda: request.user.studentdetails.contact_number)()
+            
+        else:
+            phone= await sync_to_async(lambda: request.user.tutordetails.contact_number)()
+        
+        # phone= await sync_to_async(lambda: request.user.userdetails.mobile)()
+        
+        
         first_name= await sync_to_async(lambda: user.first_name)()
         last_name= await sync_to_async(lambda: user.last_name)()
         # cost= str( await sync_to_async(lambda: booking.cost)())
@@ -1248,12 +1336,21 @@ async def submitOrder(request,booking_id,item):
     
         
         if redirect_url:
+            
+            if user_type == "student":
           
-            return render(request, 'saler/student/payments.html',{"redirect_url":redirect_url})
+                return render(request, 'saler/student/payments.html',{"redirect_url":redirect_url})
+            
+            else:
+                return render(request, 'saler/admin/payments.html',{"redirect_url":redirect_url})
         else:
             # status = await getTransactionStatus(request,token_value,tracking_id_value)
+            if user_type == "student":
+                return render(request, 'saler/student/payments.html',{"tracking_id":tracking_id_value})
+            else:
+                
             
-            return render(request, 'saler/student/payments.html',{"tracking_id":tracking_id_value})
+                return render(request, 'saler/admin/payments.html',{"tracking_id":tracking_id_value})
     except Exception as e:
         print(f"Error fetching data: {e}")
         return JsonResponse({'status': 'Error fetching data'}, status=500)

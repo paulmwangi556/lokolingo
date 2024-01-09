@@ -28,5 +28,6 @@ admin.site.register(TutorRating,TutorRatingAdmin)
 
 admin.site.register(models.TutorUserDetails,TutorDetails)
 admin.site.register(models.CertificateFile)
+admin.site.register(models.StudentDetails)
 
 

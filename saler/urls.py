@@ -65,7 +65,7 @@ urlpatterns = [
         path("payments",views.payments,name="payments"),
         path("getAuthToken",views.getAuthToken,name="getAuthToken"),
         path("registerIpnUrl",views.registerIpnUrl,name="registerIpnUrl"),
-        path("submitOrder/<str:booking_id>/<str:item>",views.submitOrder,name="submitOrder"),
+        path("submitOrder/<str:booking_id>/<str:item>/<str:user_type>",views.submitOrder,name="submitOrder"),
         path("transaction_status/<str:order_tracking_id>",views.getTransactionStatus,name="transactionStatus"),
             
         # chat

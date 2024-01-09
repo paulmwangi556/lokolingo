@@ -65,7 +65,11 @@ class UpdateSalerAccountDetailForm(forms.ModelForm):
 			'ifsc_Code',
 			]
   
-  
+class StudentUserDetails(forms.ModelForm):
+    
+    class Meta:
+        model=main_models.StudentDetails
+        exclude = ["user","user_type"]
   
   
 class TutorUserDetailsForm(forms.ModelForm):

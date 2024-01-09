@@ -1,21 +1,15 @@
-.update-profile-form {
-    padding: 1rem;width: 50%;
-}
-.update-profile-form p{
-    display: flex;
-    flex-direction: column  ;
-    margin-bottom: 1.5rem;
-}
-.update-profile-form p input{
-    padding: 0.5rem;
-    border-radius: 0.2rem;
-    border: 1px solid;
+:root{
+    --primary: #0cdf95;
+--secondary: #0cc0df;
 }
 
-.update-profile-form p label{
-    /* color: red; */
-    font-size: 1.2rem;
+h1,h2,h3,h4,h5,h6{
+    color: var(--secondary);
+   
 }
+
+
+
 
 #auth-btn{
     padding: 0.5rem 1rem;
@@ -69,7 +63,11 @@
     height: 9rem;
     width: 9rem;
 }
-
+.heading{
+    color: #0cc0df !important ;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
 .tutoring-details{
     padding: 2rem;
 	/* height: 10rem; */
