@@ -103,7 +103,7 @@
                         <form action="{% url 'bookSession' tutor_id=tutor.user.id %}" method="POST">
                             <label for="skill">Select a Skill:</label>
                             <select name="skill" style="width: 100%; height: 100%;  ;" required
-                                class="from-control mb-2">
+                                class="from-control mb-2" id="skill" onchange="storeFormData()">
                                 {% for skill in skills %}
                                 <option value="{{skill.id}}" name="q">{{skill.title}}</option>
                                 {% endfor %}
@@ -112,14 +112,14 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Select Date</label>
-                                        <input type="date" class="form-control" name="date" id="date" required
+                                        <input type="date" class="form-control" name="date" value="{{request.session.date}}" id="date" required onchange="storeFormData()"
                                             aria-describedby="Select Date" placeholder="Your Preferred date" />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Select Time</label>
-                                        <input type="time" class="form-control" name="time" id="myDatetime" required
+                                        <input type="time" class="form-control" name="time" onchange="storeFormData()" value="{{form_data.}}" id="myDatetime" required
                                             aria-describedby="Select Time" placeholder="Your Preferred Time" />
                                     </div>
                                 </div>
@@ -127,33 +127,33 @@
 
                                 <div class="form-group mb-4">
                                     <label for="">Duration</label>
-                                    <select class="form-control" name="duration" id="duration">
-                                        <option value="0.5">30 mins</option>
-                                        <option value="1">1 hr</option>
-                                        <option value="1.5">1hr 30 mins</option>
-                                        <option value="2">2 hrs</option>
-                                        <option value="2.5">2hrs 30 mins</option>
-                                        <option value="3">3 hrs</option>
-                                        <option value="3.5">3hrs 30 mins</option>
-                                        <option value="4">4hrs</option>
-                                        <option value="4.5">4hrs 30 mins</option>
-                                        <option value="5">5hrs </option>
+                                    <select class="form-control" name="duration" id="duration" onchange="storeFormData()">
+                                        <option value="0.5" {% if request.session.duration == '0.5' %} selected {% endif %}>30 mins</option>
+                                        <option value="1"{% if request.session.duration == '1' %} selected {% endif %}>1 hr</option>
+                                        <option value="1.5" {% if request.session.duration == '1.5' %} selected {% endif %}>1hr 30 mins</option>
+                                        <option value="2" {% if request.session.duration == '2' %} selected {% endif %}>2 hrs</option>
+                                        <option value="2.5" {% if request.session.duration == '0.5' %} selected {% endif %}>2hrs 30 mins</option>
+                                        <option value="3" {% if request.session.duration == '0.5' %} selected {% endif %}>3 hrs</option>
+                                        <option value="3.5" {% if request.session.duration == '0.5' %} selected {% endif %}>3hrs 30 mins</option>
+                                        <option value="4" {% if request.session.duration == '0.5' %} selected {% endif %}>4hrs</option>
+                                        <option value="4.5" {% if request.session.duration == '0.5' %} selected {% endif %}>4hrs 30 mins</option>
+                                        <option value="5" {% if request.session.duration == '0.5' %} selected {% endif %}>5hrs </option>
                                         <option></option>
                                         <option></option>
                                     </select>
                                 </div>
-
+                                   
                             <div class="mb-3">
                                 <label for="" class="form-label">Your Message To The Tutor</label>
-                                <textarea class="form-control" name="message" required id="message" rows="5"></textarea>
+                                <textarea class="form-control" name="message" value="{{request.session.message}}" oninput="storeFormData()" required id="message" rows="5"></textarea>
                             </div>
 
                             {% if request.user.is_authenticated %}
                             {% if request.user == tutor.user %}
                             <a href="" class="btn btn-primary">you posted this</a>
                             {% else %}
-                            {% if request.user.userdetails%}
-                            <button type="submit" class="btn btn-primary">Quick Book</button>
+                            {% if request.user.studentdetails or request.user.tutordetails %}
+                            <button type="submit" class="btn text-black btn-outline-primary">Quick Book</button>
                             {% else %}
                             <a href="{% url 'studentProfile' %}" class="btn btn-primary">Please Complete your profile to
                                 continue</a>
@@ -250,15 +250,75 @@
 
 
     // Initialize the timepicker
-    const myDatetimeInput = document.getElementById('myDatetime');
-    const timepicker = new TimePicker(myDatetimeInput, {
-        format: 'HH:mm',
-        minutesInterval: 15,
-        theme: 'dark',
-    });
-    timepicker.on('change', (time) => {
-        myDatetimeInput.value = time;
-    });
+    // const myDatetimeInput = document.getElementById('myDatetime');
+    // const timepicker = new TimePicker(myDatetimeInput, {
+    //     format: 'HH:mm',
+    //     minutesInterval: 15,
+    //     theme: 'dark',
+    // });
+    // timepicker.on('change', (time) => {
+    //     myDatetimeInput.value = time;
+    // });
+
+
+
+    function storeFormData(){
+        var tutorId = {{tutor.user.id}};
+        var skill = document.getElementById('skill').value;
+        var date = document.getElementById('date').value;
+        var time = document.getElementById('myDatetime').value;
+        var duration = document.getElementById('duration').value;
+        var message = document.getElementById('message').value;
+       
+        sessionStorage.setItem("tutor",tutorId)
+        sessionStorage.setItem("skill",skill)
+        sessionStorage.setItem("date",date)
+        sessionStorage.setItem("time",time)
+        sessionStorage.setItem("duration",duration)
+        sessionStorage.setItem("message",message)
+
+
+       
+        
+        
+        
+    }
+
+    function retrieveData() {
+        
+        var storedMessage = sessionStorage.getItem('message');
+        var storedDate=sessionStorage.getItem("date")
+        var storedTime=sessionStorage.getItem("time")
+        var storedDuration=sessionStorage.getItem("duration")
+        var storedSkill=sessionStorage.getItem("skill")
+       
+
+        document.getElementById('skill').value = storedSkill || "";
+        document.getElementById('date').value = storedDate || "";
+        document.getElementById('myDatetime').value = storedTime || "";
+        document.getElementById('duration').value = storedDuration || "";
+        document.getElementById('message').value = storedMessage || "";
+
+       
+        
+    }
+
+    window.onload=function(){
+        var tutor = sessionStorage.getItem('tutor')
+        var current = {{tutor.user.id}};
+
+    
+
+
+        if (current == tutor){
+            
+
+            retrieveData()
+        }
+        
+    };
+
+
 
 </script>
 

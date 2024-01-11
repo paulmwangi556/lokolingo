@@ -426,7 +426,8 @@ def view_products(request):
 
 # Signup for Seller
 
-
+def tutorSignUp(request):
+    pass
 
 
 def tutor_signup(request):
@@ -434,7 +435,7 @@ def tutor_signup(request):
         user=request.user
         user_groups = request.user.groups.values_list('name', flat=True)
         if 'student' in user_groups:
-            return redirect("studentDashboard")
+            return redirect("studentProfile")
         
         else:
             
@@ -494,6 +495,9 @@ def tutor_signup(request):
 
 
 def tutor_login(request,next_page=None):
+    # request.session['redirect_to'] = request.build_absolute_uri()
+    my_variable = request.session.get('redirect_to', None)
+    print("The last page was ",my_variable)
     username = request.POST.get('username')
     password = request.POST.get('password')
     ab = request.build_absolute_uri(reverse("home"))
@@ -509,16 +513,18 @@ def tutor_login(request,next_page=None):
         if next_page == ab:
             print("Next paaage is ",next_page)
             if 'student' in user_groups:
-                return redirect("studentDashboard")
+                return redirect("studentProfile")
             else:
                 return redirect('saler_account_settings')
         else:
-            print("Next paaadfdge is ",next_page)
+            
             return redirect(next_page)
     messages.error(request, f'Invalid username or password')
     print("Not Authenticated")
     url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
     return redirect(url)
+
+
 
 
 
@@ -532,11 +538,6 @@ def tutor_login(request,next_page=None):
 def account_settings(request):
     user=request.user
     saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
-    
-    
-    
-
-    
     
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
@@ -556,13 +557,30 @@ def account_settings(request):
 
 def studentDashboard(request):
     user=request.user
-    # sessions = models.TutorSession.objects.filter(payments__booking__student=user)
-    sessions = models.TutorSession.objects.all()
-    # rooms = room_models.Room.objects.filter(student=user).annotate(message_count=Count('messages'))
+    sessions = models.TutorSession.objects.filter(payments__booking__student=user)
+    # sessions = models.TutorSession.objects.all()
+    rooms = room_models.Room.objects.filter(student=user).annotate(message_count=Count('messages'))
     # print("Student rooms count", rooms.count())
+    
+    for item in sessions:
+        decimal_hours = Decimal(item.payments.booking.duration)
+        total_seconds = float(decimal_hours) * 3600
+        duration_timedelta = timedelta(seconds=total_seconds)
+        
+        hours, remainder = divmod(duration_timedelta.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+        
+        time =''
+
+        if hours > 0:
+            time =  f"{hours} hours and {minutes} minutes"
+        else:
+            time = f"{minutes} minutes"
+        
+        item.payments.booking.duration=time
     context={
         "sessions":sessions,
-        # "rooms":rooms
+        "rooms":rooms
     }
     return render(request,"saler/student/student_home.html",context)
 
@@ -574,7 +592,23 @@ def studentBookings(request):
     bookings = models.Booking.objects.filter(student=student_id).order_by("-id")
     courses = models.Course.objects.filter(customers=request.user)
  
-    
+    for item in bookings:
+        decimal_hours = Decimal(item.duration)
+        total_seconds = float(decimal_hours) * 3600
+        duration_timedelta = timedelta(seconds=total_seconds)
+        
+        hours, remainder = divmod(duration_timedelta.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+        
+        time =''
+
+        if hours > 0:
+            time =  f"{hours} hours and {minutes} minutes"
+        else:
+            time = f"{minutes} minutes"
+        
+        item.duration=time
+            
 
     context={
         "bookings":bookings
@@ -584,8 +618,11 @@ def studentBookings(request):
 
 def studentCourses(request):
     courses = models.Course.objects.filter(customers=request.user)
+    form = forms.CourseRatingForm()
+    
     context = {
-        "courses":courses
+        "courses":courses,
+        "form":form
     }
     
     return render(request,"saler/student/student_courses.html",context)
@@ -624,6 +661,9 @@ def studentProfile(request):
 
 def updateStudentProfile(request):
     # form = UpdateStudentProfileForm()
+    my_variable = request.session.get('redirect_to', None)
+    
+    
     form=forms.StudentUserDetails()
     print(request.method)
     if request.method == "POST":
@@ -659,20 +699,11 @@ def updateStudentProfile(request):
         student.user = request.user
         student.save()
         print("STudent Data Saved")
-        return redirect("studentProfile")
-        # form = UpdateStudentProfileForm(request.POST,request.FILES)
-        # form =forms.StudentUserDetails() (request.POST,request.FILES)
-        # if form.is_valid():
-        #     tutor = form.save(commit=False)
-        #     tutor.user_type = "student"
-        #     tutor.user=request.user
-        #     tutor.save()
-        #     messages.success(request,"Profile Updated")
-        #     print("form saved")
-        #     return redirect("studentDashboard")
+        # if my_variable is None:
+        return redirect(my_variable)
         # else:
-        #     print("invalid form")
-        #     return render(request,"saler/student/student_profile.html",{'profile_form':form})
+            # return redirect("studentProfile")
+      
     else:
        return redirect("home")    
         
@@ -731,7 +762,7 @@ def saveForm(request,userDetails:main_models.TutorUserDetails=None):
         education_materials_link=education_materials_link,
         languages_spoken=languages_spoken,
         special_certificate_skills=special_certificate_skills,
-        cancellation_policy=cancellation_policy,
+        # cancellation_policy=cancellation_policy,
         terms_acceptance=terms_acceptance,
         cv=cv
     )
@@ -884,6 +915,22 @@ def staffBookings(request):
     tutor_id = request.user.id
     bookings = models.Booking.objects.filter(skill__tutor=tutor_id).order_by("-id")
     # booking = get_object_or_404(models.Booking, id=booking_id)
+    for item in bookings:
+        decimal_hours = Decimal(item.duration)
+        total_seconds = float(decimal_hours) * 3600
+        duration_timedelta = timedelta(seconds=total_seconds)
+        
+        hours, remainder = divmod(duration_timedelta.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+        
+        time =''
+
+        if hours > 0:
+            time =  f"{hours} hours and {minutes} minutes"
+        else:
+            time = f"{minutes} minutes"
+        
+        item.duration=time
     
     booking_form=forms.BookingStatusUpdateForm(request.POST)
     context = {
@@ -897,6 +944,23 @@ def update_booking_status(request, booking_id):
     booking = get_object_or_404(models.Booking, id=booking_id)
     tutor_id = request.user.id
     bookings = models.Booking.objects.filter(skill__tutor=tutor_id).order_by("-id")
+    
+    for item in bookings:
+        decimal_hours = Decimal(item.duration)
+        total_seconds = float(decimal_hours) * 3600
+        duration_timedelta = timedelta(seconds=total_seconds)
+        
+        hours, remainder = divmod(duration_timedelta.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+        
+        time =''
+
+        if hours > 0:
+            time =  f"{hours} hours and {minutes} minutes"
+        else:
+            time = f"{minutes} minutes"
+        
+        item.duration=time
     # booking = get_object_or_404(models.Booking, id=booking_id)
     booking_form=forms.BookingStatusUpdateForm(request.POST)
     context = {
@@ -936,11 +1000,12 @@ def logout_tutor(request):
 
 
 def tutor_profile(request,tutor_id):
+    request.session['redirect_to'] = request.build_absolute_uri()
     # print(tutor_id)
     tutor = main_models.TutorUserDetails.objects.get(user = tutor_id)
     skills = models.Skill.objects.filter(tutor=tutor_id)
     tutor_rating = main_models.TutorRating.objects.filter(tutor=tutor.user)
-    
+    form_data = request.session.pop('form_data', None)
     if tutor_rating.count() == 0:
         rating=0,
         average_rating=0
@@ -968,12 +1033,14 @@ def tutor_profile(request,tutor_id):
         "skills":skills,
         "rating":rating,
         "avg_rating":average_rating,
-        "tutor_reviews":tutor_rating
+        "tutor_reviews":tutor_rating,
+        "form_data":form_data
     }
     return render(request,"saler/tutor_profile.html",context)
 
 # @login_required
 def bookSession(request,tutor_id):
+    request.session['redirect_to'] = request.build_absolute_uri()
     if request.method == "POST":
         date = request.POST.get("date")
         time = request.POST.get("time")
@@ -982,7 +1049,7 @@ def bookSession(request,tutor_id):
         duration = request.POST.get("duration")
         skill = models.Skill.objects.get(id=skill_id)
         # tutor=models.User.objects.get(id=tutor_id)
-        
+        request.session['form_data'] = request.POST
         if request.user.is_authenticated:
             user = request.user
             
@@ -1007,6 +1074,7 @@ def bookSession(request,tutor_id):
     
 
 def rateTutor(request,tutor_id):
+    request.session['redirect_to'] = request.build_absolute_uri()
     if request.method == "POST":
         if request.user.is_authenticated:
             review = request.POST.get("review")
@@ -1085,8 +1153,7 @@ async def registerIpnUrl(request):
 async def getTransactionStatus(request,order_tracking_id):
     # user = await sync_to_async(lambda:  request.user)()
     user= await sync_to_async(auth.get_user)(request)
-    
-    print("Print USer is ",user.username)
+
     
     
     url = f"https://pay.pesapal.com/v3/api/Transactions/GetTransactionStatus?orderTrackingId={order_tracking_id}"
@@ -1154,21 +1221,46 @@ async def getTransactionStatus(request,order_tracking_id):
         try:
             if await sync_to_async(lambda: booking_payment.booking)():
                 tutor = await sync_to_async(lambda: booking_payment.booking.skill.tutor)()
+                existing_tutor_account=await sync_to_async(models.TutorFinanceAccount.objects.get)(last_deposit__booking__skill__tutor=tutor)
+                print("Payment for booking")
+                
+                
             else:
                 tutor=await sync_to_async(lambda: booking_payment.course.tutor)()
+                existing_tutor_account=await sync_to_async(models.TutorFinanceAccount.objects.get)(last_deposit__course__tutor=tutor)
+                incoming_tutor_course =await sync_to_async(lambda: booking_payment.course.tutor)()
+                existing_tutor = await sync_to_async(lambda: existing_tutor_account.last_deposit.course.tutor)()
+                if incoming_tutor_course == existing_tutor:
+                    print("This Iser alreday has existing account")
+                    tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.9')
+                    existing_tutor_account.last_deposit_amount=Decimal(str(tutor_deposit))
+                    existing_tutor_account.last_deposit=booking_payment
+                    existing_tutor_account.last_withdraw=0.00
+                    existing_tutor_account.amount_balance=Decimal(str(existing_tutor_account.amount_balance)) + existing_tutor_account.last_deposit_amount
+                    await sync_to_async(existing_tutor_account.save)()
+                else:
+                    print("No previous payments")
                 
-            existing_tutor_account=await sync_to_async(models.TutorFinanceAccount.objects.get)(last_deposit__booking__skill__tutor=tutor)
-            if await sync_to_async(lambda: existing_tutor_account.last_deposit)() == await sync_to_async(lambda: booking_payment)():
-                pass
-            else:
-                tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.9')
-                existing_tutor_account.last_deposit_amount=Decimal(str(tutor_deposit))
-                existing_tutor_account.last_deposit=booking_payment
-                existing_tutor_account.last_withdraw=0.00
-                existing_tutor_account.amount_balance=Decimal(str(existing_tutor_account.amount_balance)) + existing_tutor_account.last_deposit_amount
-                await sync_to_async(existing_tutor_account.save)()
-            # print("Tutor name is ",tutor.username)
+           
+            
+            
+            
+            
+            
+            # if await sync_to_async(lambda: existing_tutor_account.last_deposit)() == await sync_to_async(lambda: booking_payment)():
+            #     print("This is last deposit ")
+            #     pass
+            # else:
+            #     print("this is a new deposit ")
+            #     tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.9')
+            #     existing_tutor_account.last_deposit_amount=Decimal(str(tutor_deposit))
+            #     existing_tutor_account.last_deposit=booking_payment
+            #     existing_tutor_account.last_withdraw=0.00
+            #     existing_tutor_account.amount_balance=Decimal(str(existing_tutor_account.amount_balance)) + existing_tutor_account.last_deposit_amount
+            #     await sync_to_async(existing_tutor_account.save)()
+            # #print("Tutor name is ",tutor.username)
         except models.TutorFinanceAccount.DoesNotExist:
+            print("This is a a new Account")
             tutor_finance_account=await sync_to_async(models.TutorFinanceAccount.objects.create)()
             tutor_deposit = Decimal(booking_payment.amount) * Decimal('0.9')
             tutor_finance_account.last_deposit_amount=Decimal(str(tutor_deposit))
@@ -1387,8 +1479,8 @@ def checkTransactionHistory(request):
 
 def withdrawals(request):
     user=request.user
-    saler_finances=models.TutorFinanceAccount.objects.filter(last_deposit__booking__skill__tutor=user).first()
-    withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user).order_by("-id")
+    saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
+    withdrawal_history = models.WithdrawFunds.objects.filter(Q(account__last_deposit__booking__skill__tutor=user) | Q(account__last_deposit__course__tutor=user)).order_by("-id")
     pending_withdrawal=0.00
     
     
@@ -1402,12 +1494,12 @@ def withdrawals(request):
 def withdrawFundsForm(request):
     
     user = request.user
-    account = models.TutorFinanceAccount.objects.get(last_deposit__booking__skill__tutor=user)
+    account = models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
     main_finance_account = models.MainFinanceAccount.objects.last()
     
     if request.method == "POST":
         try:
-            pending_withdrawals = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user).last()
+            pending_withdrawals = models.WithdrawFunds.objects.filter(Q(account__last_deposit__booking__skill__tutor=user) | Q(account__last_deposit__course__tutor=user)).last()
             messages.error(request,f'Please wait untill the pending withdraw request has been processed')
             if pending_withdrawals:
                 if pending_withdrawals.status == "rejected" or pending_withdrawals.status == "processed" or pending_withdrawals.status == "cancelled":
@@ -1486,7 +1578,7 @@ def withdrawFundsForm(request):
 def cancelWithdrawRequest(request,withdraw_id):
     withdraw_request = models.WithdrawFunds.objects.get(id=withdraw_id)
     user = request.user
-    account = models.TutorFinanceAccount.objects.get(last_deposit__booking__skill__tutor=user)
+    account = models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
     main_finance_account = models.MainFinanceAccount.objects.last()
     
     withdraw_request.status=withdraw_request.CANCELLED
@@ -1634,15 +1726,68 @@ def deleteResource(request,resource_id,course_id):
 
 def tutorSessions(request):
     user=request.user
+    form = forms.UpdateSessionForm()
+    
+   
+        
+    
     sessions = models.TutorSession.objects.filter(payments__booking__skill__tutor=user)
     context={
-        "sessions":sessions
+        "sessions":sessions,
+        "form":form
     }
-    return render(request,"saler/admin/sessions.html",context)
+    
+    if request.method == "POST":
+        form = forms.UpdateSessionForm(request.POST)
+        
+        form.save()
+        print("Form Saved")
+        return render(request,"saler/admin/sessions.html",context)
+    else:
+        return render(request,"saler/admin/sessions.html",context)
+
+
+def updateSessionStatus(request,session_id):
+    session = models.TutorSession.objects.get(id=session_id)
+    user=request.user
+    form = forms.UpdateSessionForm()
+    sessions = models.TutorSession.objects.filter(payments__booking__skill__tutor=user)
+    context={
+        "sessions":sessions,
+        "form":form
+    }
+    if request.method == "POST":
+        form = forms.UpdateSessionForm(request.POST,instance=session)
+        
+        form.save()
+        print("Form Saved")
+        return render(request,"saler/admin/sessions.html",context)
+    else:
+        return render(request,"saler/admin/sessions.html",context)
+    
+    
+
 
 def createSession(request,booking_id):
     booking=models.Booking.objects.get(id=booking_id)
     payments=models.BookingPayments.objects.get(booking=booking)
+    
+  
+    decimal_hours = Decimal(booking.duration)
+    total_seconds = float(decimal_hours) * 3600
+    duration_timedelta = timedelta(seconds=total_seconds)
+    
+    hours, remainder = divmod(duration_timedelta.seconds, 3600)
+    minutes, _ = divmod(remainder, 60)
+    
+    time =''
+
+    if hours > 0:
+        time =  f"{hours} hours and {minutes} minutes"
+    else:
+        time = f"{minutes} minutes"
+    
+    booking.duration=time
     # used_payment=models.TutorSession.objects.get(payments__reference=payments.reference)
     
     context={

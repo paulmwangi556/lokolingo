@@ -18,7 +18,12 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
                        
-                        <p >Session Status: <span class="text-success"><a href="" class="btn btn-outline-success">{{session.session_status}}</a></span> </p>
+                        <p >Session Status: <span class="text-success">
+                            <button  
+                            data-index="{{ forloop.counter0 }}"
+            onclick="changeSession('{{forloop.counter0}}')"
+                            class="btn btn-outline-success">{{session.session_status}}</button>
+                        </span> </p>
                     </div>
                 </div>
                 <div class="row">
@@ -29,10 +34,33 @@
               
             </div>
 
+            <div class="session-form" style="height: max-content !important; ">
+                <form action="{% url 'updateSessionStatus' session_id=session.id %}" method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-outline-primary" id="update-booking-btn">Update Status</button>
+                </form>
+              </div>
+
             {% endfor %}
         </div>
         
     </div>
 </div>
+
+<script>
+
+
+    function changeSession(message){
+      showSessionForxm(message)
+    }
+  
+    function showSessionForxm(message){
+      var elementsWithClass = $(".bookings-form");
+      $(".session-form").eq(message).toggle();
+  }
+  
+  
+  </script>
 
 {% endblock %}

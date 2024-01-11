@@ -32,7 +32,7 @@
     <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
         <div class="box box4">
             <div class="text">
-                <h2 class="topic-heading">Ksh {{saler_finances.amount_balance}}</h2>
+                <h2 class="topic-heading">Ksh {% if saler_finances %} {{saler_finances.amount_balance}} {% else %} 0 {% endif %}</h2>
                 <h2 class="topic">Total Earnings</h2>
             </div>
            
@@ -83,11 +83,11 @@
                 <h5 class="text-bold ">Financial Breakdown</h5>
                     <div class="balances">
                         <p class="current-balance"></span> Current
-                            Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
+                            Balance: <span>Ksh {% if saler_finances %}  {{saler_finances.amount_balance}} {% else %} 0 {%endif%}</span></p>
                         <p class="current-balance">Last Received Amount :
-                            <span>Ksh {{saler_finances.last_deposit_amount}}</span>
+                            <span>Ksh  {% if saler_finances %} {{saler_finances.last_deposit_amount}} {% else %} 0 {%endif%}</span>
                         </p>
-                        <p class="current-balance"> Cumulative Balance: <span>Ksh {{saler_finances.amount_balance}}</span></p>
+                        <p class="current-balance"> Cumulative Balance: <span>Ksh  {% if saler_finances %} {{saler_finances.amount_balance}}{% else %} 0 {%endif%}</span></p>
                     </div>
                     
                     <hr>

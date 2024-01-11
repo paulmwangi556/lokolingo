@@ -3,11 +3,13 @@ from . import models
 from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
+from channels.layers import get_channel_layer
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
+        # self.channel_layer = get_channel_layer('extra_host')
 
         await self.channel_layer.group_add(
             self.room_group_name,

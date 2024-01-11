@@ -144,3 +144,14 @@ class AddSectionResurceForm(forms.ModelForm):
         model=models.SectionVideo
         exclude=["id","section"]
         
+        
+class UpdateSessionForm(forms.ModelForm):
+    
+    class Meta:
+        model=models.TutorSession
+        fields=["session_status"]
+        
+class CourseRatingForm(forms.ModelForm):
+	class Meta:
+		model=models.CourseRating
+		fields=["rating","review"]

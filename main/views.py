@@ -25,6 +25,7 @@ def index(request):
     # 	pass
     
     query_param = request.POST.get("q")
+    request.session['redirect_to'] = request.build_absolute_uri()
     
     
     if request.method == "POST" :
@@ -65,6 +66,7 @@ def perform_search(q):
 
 
 def find_tutor(request, query=None):
+    request.session['redirect_to'] = request.build_absolute_uri()
     # skills = saler_models.Skill.objects.all().order_by("?")
     skills = perform_search("all")
     if request.method == "GET" and "query" in request.GET:
@@ -139,6 +141,7 @@ def contactus(request):
 
 
 def courses(request,order=None,):
+    request.session['redirect_to'] = request.build_absolute_uri()
     if request.method == "POST":
         q=request.POST.get("query")
         
@@ -171,6 +174,7 @@ def courses(request,order=None,):
         return render(request,"main/courses3.html",context)
 
 def courseItem(request,course_id):
+    request.session['redirect_to'] = request.build_absolute_uri()
     course = saler_models.Course.objects.get(id=course_id)
     
     context = {

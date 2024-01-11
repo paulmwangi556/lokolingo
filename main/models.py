@@ -47,12 +47,12 @@ class StudentDetails(models.Model):
     subjects=models.TextField(verbose_name="Subjects/Topics needing assistance")
     grade_level=models.CharField(max_length=100,blank=True,null=True)
     preferred_tutoring_format=models.CharField(max_length=50,choices=TUTORING_FORMAT)
-    availability = models.TextField(verbose_name="Prefered Days and Times")
+    availability = models.TextField(verbose_name="Prefered Days and Times",blank=True,null=True)
     duration_per_session=models.CharField(max_length=100)
-    budget_range=models.CharField(max_length=100)
-    payment_method=models.CharField(max_length=100)
-    languages_preference=models.CharField(max_length=100)
-    qualifications_desired=models.CharField(max_length=100)
+    budget_range=models.CharField(max_length=100,blank=True,null=True)
+    payment_method=models.CharField(max_length=10,blank=True,null=True)
+    languages_preference=models.CharField(max_length=100,blank=True,null=True)
+    qualifications_desired=models.CharField(max_length=100,blank=True,null=True)
     accept_terms=models.BooleanField(default=False,verbose_name="Accept Terms and Conditions")
     privacy_preference=models.CharField(max_length=100,choices=PRIVACY)
     
@@ -93,13 +93,13 @@ class TutorUserDetails(models.Model):
     hourly_rate=models.CharField(max_length=50)
     preferred_payment_method=models.TextField()
     
-    education_materials_link=models.TextField()
+    education_materials_link=models.TextField(blank=True,null=True)
     
     
     languages_spoken=models.CharField(max_length=100)
     cv = models.FileField(upload_to="cvs",blank=True,null=True)
     
-    special_certificate_skills=models.TextField()
+    special_certificate_skills=models.TextField(blank=True,null=True)
     # special_certificate_files=models.FileField(upload_to="special_certs")
     
     # cancellation_policy=models.TextField(blank=True,null=True)

@@ -6,15 +6,18 @@
 <div class="bookings">
   <div class="booking-data">
     <div class="row">
-      <div class="col-lg-4 col-md-12 col-sm-12">
+      <div class="col-lg-3 col-md-12 col-sm-12">
         <p>Booking ID: {{booking.id}}</p>
         <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
       </div>
-      <div class="col-lg-4 col-md-12 col-sm-12">
+      <div class="col-lg-3 col-md-12 col-sm-12">
         <p>Date: {{booking.date}} @{{booking.time}}</p>
       </div>
-      <div class="col-lg-4 col-md-12 col-sm-12">
-        <p>Duration: {{booking.duration}} hrs</p>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <p>Duration: {{booking.duration}} </p>
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <p>Cost: Ksh {{booking.cost}} </p>
       </div>
     </div>
 

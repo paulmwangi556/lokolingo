@@ -26,22 +26,22 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="find-tutors">
-                    <p>Add To  Do Tasks </p>
-                    <form method="POST" action="">
+                    <p>Find Course </p>
+                    <form method="POST" action="{% url 'courses' order='all' %}">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="" class="form-label"></label>
-                            <input type="text" class="form-control" name="q" id="" aria-describedby="helpId"
+                            <input type="text" class="form-control" name="query" id="" aria-describedby="helpId"
                                 placeholder="" />
                             <small id="helpId" class="form-text text-muted"></small>
                         </div>
 
-                        <button class="btn  btn-primary">Add Task</button>
+                        <button class="btn  btn-primary">Find Course</button>
 
                     </form>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <!-- <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="find-tutors">
                    <h4>Tasks</h4>
                    <hr>
@@ -51,7 +51,7 @@
                     <p>3. Attend  Session at 6:00pm</p>
                    </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="col-lg-6 col-md-12">
             <p class="">{{session.payments.booking.date}} at {{session.payments.booking.time}} for
-                {{session.payments.booking.duration}} hrs</p>
+                {{session.payments.booking.duration}} </p>
         </div>
         <div class="session-status mt-3">
             <dic class="row">
@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-lg-6 col-md-12 mb-2">
                     <p>Session Status</p>
-                    <button class="btn btn-outline-secondary">{{session.session_status}}</button>
+                    <h6 class="text-primary">{{session.session_status}}</h6>
                 </div>
             </dic>
         </div>

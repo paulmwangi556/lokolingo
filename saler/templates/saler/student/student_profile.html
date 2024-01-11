@@ -4,7 +4,12 @@
 {% load static %}
 
 {% block student %}
-
+<style>
+   .required::after {
+      content: ' * ';
+      color: red;
+    }
+</style>
 
 
 <div class="main-profile-wrapper">
@@ -19,7 +24,7 @@
                         <hr class="hr">
                        
                         <!-- <hr> -->
-                        <h5 class="card-title">About Me</h5>
+                        <!-- <h5 class="card-title">About Me</h5> -->
 
                        <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
@@ -65,7 +70,7 @@
                         
                             <hr>
                         <div class="row">
-                            <h6 class="card-title text-danger mb-4">Data Zone</h6>
+                            <h6 class="card-title text-danger mb-4"></h6>
 
                             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                                 <a href="" class="btn btn-primary">Update Profile</a>
@@ -89,32 +94,41 @@
 
 
                 <div class="mb-3">
-                    <label for="contact_number" class="form-label">Contact Number</label>
+                    <label for="contact_number" class="form-label required">Contact Number</label>
                     <input type="text" class="form-control" id="contact_number" name="contact_number" required>
                   </div>
               
                   <div class="mb-3">
-                    <label for="subjects" class="form-label">Subjects/Topics needing assistance</label>
+                    <label for="subjects" class="form-label required">Subjects/Topics needing assistance</label>
                     <textarea class="form-control" id="subjects" name="subjects" rows="3" required></textarea>
                   </div>
-              
-                  <div class="mb-3">
-                    <label for="grade_level" class="form-label">Grade Level</label>
-                    <input type="text" class="form-control" id="grade_level" name="grade_level">
+
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="mb-3">
+                        <label for="grade_level" class="form-label">Grade Level</label>
+                        <input type="text" class="form-control" id="grade_level" name="grade_level">
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="mb-3">
+                        <label for="preferred_tutoring_format" class="form-label required">Preferred Tutoring Format</label>
+                        <select class="form-select" id="preferred_tutoring_format" name="preferred_tutoring_format" required>
+                          <option value="one on one">One on One</option>
+                          <option value="group">Group</option>
+                          <option value="flexible">Flexible</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
               
-                  <div class="mb-3">
-                    <label for="preferred_tutoring_format" class="form-label">Preferred Tutoring Format</label>
-                    <select class="form-select" id="preferred_tutoring_format" name="preferred_tutoring_format" required>
-                      <option value="one on one">One on One</option>
-                      <option value="group">Group</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-                  </div>
+                 
+              
+                 
               
                   <div class="mb-3">
                     <label for="availability" class="form-label">Preferred Days and Times</label>
-                    <textarea class="form-control" id="availability" name="availability" rows="3" required></textarea>
+                    <textarea class="form-control" id="availability" name="availability" rows="3" ></textarea>
                   </div>
               
                   <!-- <div class="mb-3">
@@ -122,55 +136,72 @@
                     <input type="text" class="form-control" id="duration_per_session" name="duration_per_session" required>
                   </div> -->
 
-                  <div class="form-group mb-4">
-                    <label for="">Preferred Duration Per Session</label>
-                    <select class="form-control" name="duration_per_session" id="duration_per_session">
-                        <option value="0.5">30 mins</option>
-                        <option value="1">1 hr</option>
-                        <option value="1.5">1hr 30 mins</option>
-                        <option value="2">2 hrs</option>
-                        <option value="2.5">2hrs 30 mins</option>
-                        <option value="3">3 hrs</option>
-                        <option value="3.5">3hrs 30 mins</option>
-                        <option value="4">4hrs</option>
-                        <option value="4.5">4hrs 30 mins</option>
-                        <option value="5">5hrs </option>
-                        
-                    </select>
-                </div>
-              
-                  <div class="mb-3">
-                    <label for="budget_range" class="form-label">Budget Range in Ksh</label>
-                    <input type="text" class="form-control" id="budget_range" name="budget_range" required>
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="form-group mb-4">
+                        <label for="" class="required">Preferred Duration Per Session</label>
+                        <select class="form-select" name="duration_per_session" id="duration_per_session">
+                            <option value="0.5">30 mins</option>
+                            <option value="1">1 hr</option>
+                            <option value="1.5">1hr 30 mins</option>
+                            <option value="2">2 hrs</option>
+                            <option value="2.5">2hrs 30 mins</option>
+                            <option value="3">3 hrs</option>
+                            <option value="3.5">3hrs 30 mins</option>
+                            <option value="4">4hrs</option>
+                            <option value="4.5">4hrs 30 mins</option>
+                            <option value="5">5hrs </option>
+                            
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="mb-3">
+                        <label for="budget_range" class="form-label">Budget Range in Ksh</label>
+                        <input type="text" class="form-control" id="budget_range" name="budget_range" >
+                      </div>
+                  
+                    </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="form-group mb-4">
+                        <label for="" class="required">Preferred Payment Method</label>
+                        <select class="form-select" name="payment_method" id="payment_method">
+                            <option value="Mpesa">Mpesa</option>
+                            <option value="Airtel Money">Airtel Money</option>
+                            <option value="Master Card">Master Card</option>
+                            <option value="Visa">Visa</option>
+                            <option value="American Express">American Express</option>
+                           
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="mb-3">
+                        <label for="languages_preference" class="form-label required">Languages Preference</label>
+                        <input type="text" class="form-control" id="languages_preference" name="languages_preference" required>
+                      </div>
+                    </div>
+                  </div>
+                 
               
+                 
                   
 
-                  <div class="form-group mb-4">
-                    <label for="">Preferred Payment Method</label>
-                    <select class="form-control" name="payment_method" id="payment_method">
-                        <option value="Mpesa">Mpesa</option>
-                        <option value="Airtel Money">Airtel Money</option>
-                        <option value="Master Card">Master Card</option>
-                        <option value="Visa">Visa</option>
-                        <option value="American Express">American Express</option>
-                       
-                    </select>
-                </div>
+                  
               
-                  <div class="mb-3">
-                    <label for="languages_preference" class="form-label">Languages Preference</label>
-                    <input type="text" class="form-control" id="languages_preference" name="languages_preference" required>
-                  </div>
+                 
               
                   <div class="mb-3">
                     <label for="qualifications_desired" class="form-label">Qualifications Desired</label>
-                    <input type="text" class="form-control" id="qualifications_desired" name="qualifications_desired" required>
+                    <input type="text" class="form-control" id="qualifications_desired" name="qualifications_desired" >
                   </div>
               
                   <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="accept_terms" name="accept_terms" required>
-                    <label class="form-check-label" for="accept_terms">Accept Terms and Conditions</label>
+                    <input  type="checkbox" class="form-check-input required" id="accept_terms" name="accept_terms" required>
+                    <label class="form-check-label" for="accept_terms">I Accept <a href="{% url 'terms'%}">Terms and Conditions</a></label>
                   </div>
               
                   <div class="mb-3">

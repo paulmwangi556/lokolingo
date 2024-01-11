@@ -93,6 +93,12 @@ CHANNEL_LAYERS = {
             "hosts": [('127.0.0.1', 6379)],
         },
     },
+    'extra_host': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('your_extra_host', 6379)],
+        },
+    },
 }
 
 # Database

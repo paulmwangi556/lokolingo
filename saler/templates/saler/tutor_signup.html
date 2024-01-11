@@ -19,7 +19,7 @@
     <h3 style="text-align: center;">Welcome</h3>
 
     {% for message in messages %}
-		<small >{{message}}</small>
+		<small >  </small>
 		{% endfor %}
 
    
@@ -60,16 +60,17 @@
           <input type="email" name="email" class="email ele" placeholder="youremail@email.com">
           <div class="mb-3 w-100 select-div">
             <label for="" class="form-label">Account Type</label>
-            <select
+            <input type="text" class="name ele" name="user_type" value="tutor" readonly >
+            <!-- <select 
               class="form-select form-select-lg"
               name="user_type"
               id="user_type"
             >
               
               <option value="tutor">Tutor</option>
-              <option value="student">Student</option>
+             <option value="student">Student</option> 
              
-            </select>
+            </select> -->
           </div>
           
           <input type="text" class="name ele" name="username" placeholder="Username">

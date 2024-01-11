@@ -22,7 +22,13 @@
                     <p class="amount">Amount: <span>{{transaction.amount}}</span></p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6">
-                    <p class="receiver">Paid To: <span>{{transaction.booking.skill.tutor}}</span></p>
+                    <p class="receiver">Paid To: <span>
+                        {% if transaction.booking %}
+                        {{transaction.booking.skill.tutor}}
+                        {% else %}
+                        {{transaction.course.tutor}}
+                        {% endif %}
+                    </span></p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6">
                     <p class="transaction-status">Payment Status: 
@@ -47,7 +53,16 @@
                 </div>
                 <div class="col-lg-6 col-sm-12">
                     <p class="merchant-reference">Merchant-reference: {{transaction.merchant_reference}}</p>
-                    <p class="reference">Transaction Reference: {{transaction.reference}}</p>
+                    <p class="reference">Paid By:
+                            {% if transaction.booking %}
+                            {{transaction.booking.student}}
+                            {% else %}
+                            {{ transaction.course.customers.last }}
+                               
+                            {% endif %}
+                        
+                        
+                        </p>
                     <p class="create-date">Payment Confirm Date: <span>{{transaction.create_date}}</span></p>
                     <p class="status-code">Item: <span class="text-primary">
                         {% if transaction.course %}

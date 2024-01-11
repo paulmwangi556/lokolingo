@@ -179,7 +179,17 @@ class SectionVideo(models.Model):
 		ordering = ['index']
 
 class CourseRating(models.Model):
-    rating = models.IntegerField()
+    
+    RATE=[
+		("1","1"),
+		("2","2"),
+		("3","3"),
+		("4","4"),
+		("5","5")
+	]
+    
+    course=models.ForeignKey(Course,on_delete=models.CASCADE,blank=True,null=True)
+    rating = models.CharField(max_length=10,choices=RATE)
     review = models.TextField()
     author=models.ForeignKey(User,on_delete=models.CASCADE)
     date_added=models.DateTimeField(auto_now_add=True)	
@@ -242,7 +252,7 @@ class TutorSession(models.Model):
 	NOT_STARTED = 'not_started'
 	ONGOING = 'ongoing'
 	COMPLETED = 'completed'
-	PENDING_APPROVAL = 'pending_approval'
+	
 	CANCELLED = 'cancelled'
 	
 
@@ -250,7 +260,7 @@ class TutorSession(models.Model):
 		(NOT_STARTED, 'Not Started'),
 		(ONGOING, 'Ongoing'),
 		(COMPLETED, 'Completed'),
-		(PENDING_APPROVAL, 'Pending Approval'),
+		
 		(CANCELLED, 'Cancelled'),
 		
 	]
