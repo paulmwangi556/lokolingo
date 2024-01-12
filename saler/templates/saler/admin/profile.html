@@ -3,6 +3,35 @@
 {% load static %}
 
 {% block dashboard %}
+
+<style>
+    .show-calendar {
+        background-color: rgb(253, 253, 253);
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.104);
+        transition: 0.5s ease;
+
+    }
+
+    .show-calendar:hover {
+        background-color: rgb(118, 119, 119);
+    }
+
+    #calendar {
+        display: block;
+        width: 100%;
+        transition: 0.5s ease-in;
+        height: max-content;
+    }
+    .available-day-form{
+        background-color: antiquewhite;
+        padding: 1rem;
+
+    }
+</style>
 <div class="main-profile-wrapper">
     <div class="row">
 
@@ -23,6 +52,21 @@
                     <p>Account Type: <span class="text-primary">Tutor</span></p>
                     <hr>
 
+                    <div class="mb-3">
+                        <label for="" class="form-label">See Available Dates</label>
+                        <input
+                            type="text"
+                            readonly
+                            class="form-control"
+                            name=""
+                            id="mydate"
+                            aria-describedby="helpId"
+                            placeholder="My Avalibale Dates"
+                        />
+                       
+                    </div>
+                    
+
                 </div>
 
 
@@ -33,8 +77,41 @@
                     <h2>Profile Details</h2>
                     <hr class="hr">
 
+                    <div class="show-calendar">
+                        <p>Show My Schedules</p>
+                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                    </div>
+
+
+
                     <div id="calendar"></div>
 
+                    
+                    <div class="show-calendar mt-4">
+                        <p>Set Days Available</p>
+                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                    </div>
+                    <div class="available-day-form">
+                        <form action="{% url 'addAvailableDay'%}" method="POST">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                              <label for="">Select Date</label>
+                              <div class="row">
+                                <div class="col">
+                                    <input type="date"
+                                    class="form-control" name="date" id="" aria-describedby="helpId" placeholder="">
+                                </div>
+                                <div class="col">
+                                    <button type="submit" class="btn btn-secondary">Add Day   </button>
+                                </div>
+                              </div>
+                           
+                              
+                               
+                            </div>
+                        </form>
+                    </div>
                     <!-- <hr> -->
                     <h5 class="card-title">About Me</h5>
                     <div class="tutoring-details mb-4" ">
@@ -125,13 +202,18 @@
 </div>
 
 <script>
+    $('.show-calendar').click(function () {
+        showCalendar()
+    })
+
+    function showCalendar() {
+        $("#calendar").toggle();
+    }
+
+
     document.addEventListener('DOMContentLoaded', function () {
-        var events = {{ serialized_data| safe }};
-
+        var events = {{ serialized_data| safe}};
     var items = []
-
-
-
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
 
@@ -139,33 +221,64 @@
 
         var item = {
             title: event["fields"].notes,
-            start:event["fields"].day + 'T' + event["fields"].start_time,
+            start: event["fields"].day + 'T' + event["fields"].start_time,
             end: event["fields"].day + 'T' + event["fields"].end_time
         };
 
         items.push(item)
+       
+
     }
 
+    
 
 
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        theme:true,
+        initialView: 'dayGridMonth',
+        themeSystem: 'bootstrap',
         events: items,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
+        eventColor: '#378006',
         eventClick: function (info) {
-            // Handle the event click
             console.log('Event clicked:', info.event.notes);
-
-            // You can perform actions based on the clicked event
             alert('Event clicked: ' + info.event["title"]);
         }
     });
+
+    
     calendar.render();
+
+    function addDayWithoutEvent(date) {
+      calendar.addEvent({
+        start: date,
+        rendering: 'block', // This will make the event background-only
+        color: '#dddddd' // Background color for the day without an event
+      });
+    }
+
+    for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+            var newDate = event["fields"].day;
+        // addDayWithoutEvent(newDate);
+    }
+
+    var newDate = '2024-01-18';
+    addDayWithoutEvent(newDate);
+
+    var newDate1 = '2024-01-21';
+    addDayWithoutEvent(newDate1);
+    
+
+    
     });
+
+    
 </script>
 
 

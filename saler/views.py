@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 import json
+from django.core.exceptions import ValidationError
 import math
 import uuid
 from datetime import datetime, timedelta
@@ -812,9 +813,7 @@ def updateProfile(request):
     events=main_models.Event.objects.all()
     serialized_data = serialize('json', events)
     
-    for event in events:
-        print(event.day)
-        print(event.start_time)
+   
     
     
     if user_details is None:
@@ -826,6 +825,21 @@ def updateProfile(request):
         else:
                 return redirect(my_variable)
  
+def addAvailableDay(request):
+    if request.method == "POST":
+        print("DATA IS",request.POST)
+        date=request.POST.get("date")
+        print("Date is ",date)
+        event = main_models.Event.objects.create(
+            day=date,
+            user=request.user
+        )
+        event.save()
+        print("saaved")
+        
+        return redirect("updateProfile")
+    else:
+        return redirect("updateProfile")
 
 def saveForm(request,userDetails:main_models.TutorUserDetails=None):
     my_variable = request.session.get('redirect_to', None)
@@ -1121,6 +1135,15 @@ def tutor_profile(request,tutor_id):
     skills = models.Skill.objects.filter(tutor=tutor_id)
     tutor_rating = main_models.TutorRating.objects.filter(tutor=tutor.user)
     form_data = request.session.pop('form_data', None)
+    events = main_models.Event.objects.all()
+    
+    
+    periods_json = request.session.get('periods', '[]')
+    periods = json.loads(periods_json)
+    
+    
+    events_data=serialize('json',events)
+    # print("Date events",date_events)
     if tutor_rating.count() == 0:
         rating=0,
         average_rating=0
@@ -1149,13 +1172,17 @@ def tutor_profile(request,tutor_id):
         "rating":rating,
         "avg_rating":average_rating,
         "tutor_reviews":tutor_rating,
-        "form_data":form_data
+        "form_data":form_data,
+        "events_data":events_data,
+        "periods":periods
+        # "date_events":date_events
     }
     return render(request,"saler/tutor_profile.html",context)
 
 # @login_required
 def bookSession(request,tutor_id):
     request.session['redirect_to'] = request.build_absolute_uri()
+    user=request.user
     if request.method == "POST":
         date = request.POST.get("date")
         time = request.POST.get("time")
@@ -1163,12 +1190,35 @@ def bookSession(request,tutor_id):
         skill_id = request.POST.get("skill")
         duration = request.POST.get("duration")
         skill = models.Skill.objects.get(id=skill_id)
-        # tutor=models.User.objects.get(id=tutor_id)
+        end=request.POST.get("end")
+        tutor=models.User.objects.get(id=tutor_id)
         request.session['form_data'] = request.POST
-        if request.user.is_authenticated:
-            user = request.user
+        
             
-            session = models.Booking.objects.create(
+        events = main_models.Event.objects.filter(user=skill.tutor)
+            
+        try:
+            start_time = datetime.strptime(time, "%H:%M").time()
+            # end_time = datetime.strptime(end, "%H:%M").time()
+            
+            
+            duration_minutes = float(duration)*60
+            duration_timedelta = timedelta(minutes=duration_minutes)
+            calculated_end_time = (datetime.combine(datetime.today(), start_time) + duration_timedelta).time()
+            
+
+            event = main_models.Event.objects.create(
+                user=skill.tutor,
+                day=date,
+                start_time=start_time,
+                end_time=calculated_end_time,
+                notes=skill.title
+            )
+            event.save()
+            if event.id is not None:
+                
+                print("Event id si ",event.id)
+                session = models.Booking.objects.create(
                 date=date,
                 time=time,
                 skill=skill,
@@ -1176,17 +1226,56 @@ def bookSession(request,tutor_id):
                 duration=duration,
                 student_message=message,
                 
-            )
-            session.save()
-            print("session id is ",session.id)
-        else:
-            return redirect("tutor_login")
-        
-        
-        return redirect("studentBookings")
+                )
+                session.save()
+                print("session id is ",session.id)
+                return redirect("studentBookings")
+            else:
+                return redirect("bookSession",tutor_id=tutor_id)  
+        except ValidationError as e:
+            
+                messages.error(
+                    request, e)
+                print("Error is ",str(e))  
+                return redirect("bookSession",tutor_id=tutor_id)               
+       
     else:
         return redirect("studentBookings")
     
+    
+# def convert_date_to_string(obj):
+#     if isinstance(obj, date):
+#         return obj.strftime('%Y-%m-%d')
+#     return obj
+
+
+def checkAvailability(request,tutor_id):
+    if request.method == "POST":
+        tutor = models.User.objects.get(id=tutor_id)
+        date=request.POST.get("date")
+        
+        events = main_models.Event.objects.filter(user=tutor, day=date).order_by('start_time')
+        periods=[]
+        for item in events:
+            if item.start_time is None:
+                pass
+            else:
+                period={
+                "start_time":item.start_time.strftime('%H:%M'),
+                "end_time":item.end_time.strftime('%H:%M'),
+                
+                }
+                periods.append(period)
+            
+            
+        periods_json = json.dumps(periods)
+        request.session['periods'] = periods_json
+      
+     
+        return redirect("tutor_profile",tutor_id=tutor_id) 
+    
+    else:
+        return redirect("tutor_profile",tutor_id=tutor_id) 
 
 def rateTutor(request,tutor_id):
     request.session['redirect_to'] = request.build_absolute_uri()

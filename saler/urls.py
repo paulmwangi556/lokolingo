@@ -28,6 +28,7 @@ urlpatterns = [
 
     #  admin dashboard
         path("updateProfile/",views.updateProfile,name="updateProfile"),
+        path("addAvailableDay",views.addAvailableDay,name="addAvailableDay"),
         # path("schedules",views.schedules,name="schedules"),
         # path("updateProfileForm/",views.updateProfileForm,name="updateProfileForm"),
         path("logout_tutor",views.logout_tutor,name="logout_tutor"),
@@ -64,6 +65,7 @@ urlpatterns = [
         path("tutor_profile/<str:tutor_id>",views.tutor_profile,name="tutor_profile"),
         path("bookSession/<str:tutor_id>",views.bookSession,name="bookSession"),
         path("rate_tutor/<str:tutor_id>",views.rateTutor,name="rateTutor"),
+        path("checkAvailability/<str:tutor_id>",views.checkAvailability,name="checkAvailability"),
         
                
         # payments

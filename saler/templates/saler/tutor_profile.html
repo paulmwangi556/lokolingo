@@ -3,6 +3,38 @@
 
 {% block content %}
 
+<style>
+    .selected-slots{
+        /* height: 10rem; */
+        background-color: #fdfbf8;
+        padding: 1rem;
+    }
+    .slot-item{
+        display: flex;
+        justify-content: space-around;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.159);
+    }
+
+    .check-section{
+        display: flex;
+        justify-content: space-between  ;
+        background-color: aquamarine;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.167);
+    }
+    .check-section:hover{
+        background-color: rgba(0, 255, 255, 0.241);
+        cursor: pointer;
+    }
+    .availability-container{
+        border: 1px solid rgba(0, 0, 0, 0.211);
+        padding: 0.5rem;
+        display: block;
+    }
+</style>
+
 <div class="profifdvle-wrapper">
 
 
@@ -98,7 +130,57 @@
                 </div>
                 <hr>
                 <div class="booking-section">
-                    <h3>Quick Book </h3>
+                    <h3>Availability </h3>
+                    <hr>
+                    <div class="check-section" id="check">
+                        <p>Please Check Tutor Availability Here before proceeding</p>
+                        <i class="fas fa-arrow-alt-circle-down fa-2x  "></i>
+                    </div>
+                   <div class="availability-container" id="available-form">
+                    <form action="{% url 'checkAvailability' tutor_id=tutor.user.id %}" method="POST">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Select Date</label>
+                                    <input  type="date"  readonly class="form-control date " name="date" value="{{request.session.date}}" id="date" required onchange="storeFormData()"
+                                        aria-describedby="Select Date" placeholder="Your Preferred date" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class=" text-black btn btn-outline-primary mt-3 pt-auto">Check Availability</a>
+                            </div>
+                            
+                        </div>
+                    </form>
+
+                    <div class="selected-slots" id="slots">
+                        <h5 style="text-align: center;">Booked Slots </h5>
+
+                            {%if periods %}
+                       
+                            {% for period in periods %}
+                                    <div class="slot-item">
+                                        <!-- <p>{{forloop.counter}}.</p> -->
+                                       <p> <strong>Start Time:</strong> {{ period.start_time }} hrs<br></p>
+                                        <p><strong>End Time:</strong> {{ period.end_time }} hrs<br></p>
+                                    </div>
+                                    
+                                
+                            {% endfor %}
+
+                            {% else %}
+
+                                    <p>No Bookings made for this day</p>
+                            {% endif %}
+                       
+                    </div>
+                   </div>
+                    <hr>
+                    <h3>Quick Book  </h3>
+                   {% for message in messages %}
+                   <p class="text-danger">{{message}}</p>
+
+                   {% endfor %}
                     <div class="booking-form">
                         <form action="{% url 'bookSession' tutor_id=tutor.user.id %}" method="POST">
                             <label for="skill">Select a Skill:</label>
@@ -108,23 +190,32 @@
                                 <option value="{{skill.id}}" name="q">{{skill.title}}</option>
                                 {% endfor %}
                             </select>
+                            <hr>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Select Date</label>
-                                        <input type="date" class="form-control" name="date" value="{{request.session.date}}" id="date" required onchange="storeFormData()"
+                                        <input type="date"  readonly class="form-control date " name="date" value="{{request.session.date}}" id="date" required onchange="storeFormData()"
                                             aria-describedby="Select Date" placeholder="Your Preferred date" />
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Select Time</label>
-                                        <input type="time" class="form-control" name="time" onchange="storeFormData()" value="{{form_data.}}" id="myDatetime" required
-                                            aria-describedby="Select Time" placeholder="Your Preferred Time" />
-                                    </div>
-                                </div>
+                              
+                                
                             </div>
+                            <hr>
 
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Select Start Time</label>
+                                            <input type="time" class="form-control" name="time" onchange="storeFormData()" value="{{form_data.}}" id="myDatetime" required
+                                                aria-describedby="Select Time" placeholder="Your Preferred Time" />
+                                        </div>
+                                       
+                                    </div>
+                                <div class="col">
                                 <div class="form-group mb-4">
                                     <label for="">Duration</label>
                                     <select class="form-control" name="duration" id="duration" onchange="storeFormData()">
@@ -141,6 +232,8 @@
                                         <option></option>
                                         <option></option>
                                     </select>
+                                </div>
+                                </div>
                                 </div>
                                    
                             <div class="mb-3">
@@ -234,45 +327,71 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    
+    
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $("#check").click(function(){
+        $("#available-form").toggle()
+        
+    })
+
+        var events = {{ events_data| safe}};
         const stars = document.querySelectorAll('.star');
         var rated = document.getElementById('rated_value')
+
+        var items = []
+    for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+        item = event["fields"].day
+        
+        items.push(item)
+    }
+
+    $('.date').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            beforeShowDay: function (date) {
+                var formattedDate = moment(date).format('YYYY-MM-DD');
+                // Enable only stored dates
+                return items.indexOf(formattedDate) !== -1;
+            }
+
+             
+        });
+
+
+
+
+
+
+
+
         stars.forEach(star => {
             star.addEventListener('click', () => {
                 stars.forEach(s => s.classList.remove('rated'));
                 star.classList.add('rated');
                 document.getElementById('id_value').value = star.dataset.value;
                 rated.innerHTML = `${star.dataset.value}/5`
-                console.log(star.dataset.value)
+               
             });
         });
     });
 
 
-    // Initialize the timepicker
-    // const myDatetimeInput = document.getElementById('myDatetime');
-    // const timepicker = new TimePicker(myDatetimeInput, {
-    //     format: 'HH:mm',
-    //     minutesInterval: 15,
-    //     theme: 'dark',
-    // });
-    // timepicker.on('change', (time) => {
-    //     myDatetimeInput.value = time;
-    // });
-
+ 
 
 
     function storeFormData(){
         var tutorId = {{tutor.user.id}};
         var skill = document.getElementById('skill').value;
-        var date = document.getElementById('date').value;
+        // var date = document.getElementById('date').value;
         var time = document.getElementById('myDatetime').value;
         var duration = document.getElementById('duration').value;
         var message = document.getElementById('message').value;
        
         sessionStorage.setItem("tutor",tutorId)
         sessionStorage.setItem("skill",skill)
-        sessionStorage.setItem("date",date)
+        // sessionStorage.setItem("date",date)
         sessionStorage.setItem("time",time)
         sessionStorage.setItem("duration",duration)
         sessionStorage.setItem("message",message)
@@ -287,14 +406,14 @@
     function retrieveData() {
         
         var storedMessage = sessionStorage.getItem('message');
-        var storedDate=sessionStorage.getItem("date")
+        // var storedDate=sessionStorage.getItem("date")
         var storedTime=sessionStorage.getItem("time")
         var storedDuration=sessionStorage.getItem("duration")
         var storedSkill=sessionStorage.getItem("skill")
        
 
         document.getElementById('skill').value = storedSkill || "";
-        document.getElementById('date').value = storedDate || "";
+        // document.getElementById('date').value = storedDate || "";
         document.getElementById('myDatetime').value = storedTime || "";
         document.getElementById('duration').value = storedDuration || "";
         document.getElementById('message').value = storedMessage || "";

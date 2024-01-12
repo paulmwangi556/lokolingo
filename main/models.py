@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
-
+from datetime import datetime, time
     
 
 class UserDetail(models.Model):
@@ -88,7 +88,7 @@ class TutorUserDetails(models.Model):
     teaching_style=models.TextField()
     teaching_philosophy=models.TextField(blank=True,null=True)
     
-    availability = models.CharField(max_length=50,choices=DAYS_OF_WEEK)
+    availability = models.CharField(max_length=50,verbose_name="General Availability")
     preferred_teaching_method=models.CharField(max_length=50,choices=TEACHING_MODE)
     
     hourly_rate=models.CharField(max_length=50)
@@ -124,40 +124,39 @@ class TutorRating(models.Model):
 
 class Event(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    day=models.DateField(verbose_name="day of Event")
-    start_time=models.TimeField(verbose_name="Time")
-    end_time=models.TimeField(verbose_name="Time")
-    notes=models.TextField(verbose_name="Any Notes")
+    day=models.DateField(verbose_name="day of Event",blank=True,null=True)
+    start_time=models.TimeField(verbose_name="Time",blank=True,null=True)
+    end_time=models.TimeField(verbose_name="Time",blank=True,null=True)
+    notes=models.TextField(verbose_name="Any Notes",blank=True,null=True)
     
     
-    def check_overlap(self,fixed_start,fixed_end,new_start,new_end):
-        overlap=False
-        if new_start == fixed_end or new_end == fixed_start:
-            overlap=False
-            
-        elif (new_start >= fixed_start and new_start <= fixed_end) or (new_end >= fixed_start and new_end <= fixed_end):
-            overlap=True
-            
-        elif new_start <= fixed_start and new_end >= fixed_end:
-            overlap = True
-            
-        return overlap
-    
+    def check_overlap(self, fixed_start, fixed_end, new_start, new_end):
+        fixed_start_time = datetime.combine(datetime.today(), fixed_start)
+        fixed_end_time = datetime.combine(datetime.today(), fixed_end)
+        new_start_time = datetime.combine(datetime.today(), new_start)
+        new_end_time = datetime.combine(datetime.today(), new_end)
+
+        return not (new_start_time >= fixed_end_time or new_end_time <= fixed_start_time)
+
     def get_absolute_url(self):
-       url = reverse('admin:%s_%s_change' % (self._meta.app_label,self._meta.model_name),args=(self.id))
-       return u'<a href="%s">%s</a>' % (url,str(self.start_time))
-   
-   
-            
+        url = reverse('admin:%s_%s_change' % (self._meta.app_label, self._meta.model_name), args=(self.id,))
+        return u'<a href="%s">%s</a>' % (url, str(self.start_time))
+
     def clean(self):
-        if self.end_time <= self.start_time:
-           raise  ValidationError("Ending times must after starting time")
-        events = Event.objects.filter(day=self.day)
-        if events.exists():
-            for event in events:
-                if self.check_overlap(event.start_time,event.end_time,self.start_time,self.end_time):
-                    raise ValidationError('There is an overlap with another Event : ' + str(event.day) + ',' + str(event.start_time) + '-' + str(event.end_time))
-                
+        if self.end_time or self.start_time is None:
+            pass
+        else:
+            if self.end_time <= self.start_time:
+                raise ValidationError("Ending times must be after starting time")
+
+            events = Event.objects.filter(day=self.day)
+            if events.exists():
+                for event in events:
+                    if self.check_overlap(event.start_time, event.end_time, self.start_time, self.end_time):
+                        raise ValidationError(f'There is an overlap with another Event: {event.day}, {event.start_time}-{event.end_time}')
+    def save(self, *args, **kwargs):
+        self.clean()  # Call clean method explicitly
+        super().save(*args, **kwargs)
 
 class Slider(models.Model):
     name = models.CharField(max_length=50, default="", null=True)
