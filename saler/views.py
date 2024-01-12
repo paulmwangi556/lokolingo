@@ -4,6 +4,7 @@ import json
 from django.core.exceptions import ValidationError
 import math
 import uuid
+# from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django import template
 from django.shortcuts import render, redirect,get_object_or_404
@@ -632,11 +633,11 @@ def student_login(request):
 # Seller Account Settings
 
 
-
+@login_required(login_url="tutor_login")
 def account_settings(request):
     user=request.user
     current_user=User.objects.get(id=user.id)
-    saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user.id) | Q(last_deposit__course__tutor=user.id)).first()
+    saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
     
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
