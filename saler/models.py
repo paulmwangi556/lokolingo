@@ -54,7 +54,7 @@ class SkillCategory(models.Model):
 	
 
 class Skill(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,verbose_name="Topic")
     tutor= models.ForeignKey(User,on_delete=models.DO_NOTHING)
     category = models.ForeignKey(SkillCategory,on_delete=models.DO_NOTHING)
    
@@ -155,7 +155,7 @@ class Course(models.Model):
     prerequisite=models.TextField(blank=True,null=True)
     date_uploaded = models.DateField(auto_now_add=True)
     customers = models.ManyToManyField(User,blank=True,null=True)
-    course_files = models.FileField(upload_to="course_files",blank=True,null=True)
+    # course_files = models.FileField(upload_to="course_files",blank=True,null=True)
     other_information=models.TextField(blank=True,null=True,verbose_name="Additional Information about the Course")
     date_added = models.DateField(auto_now_add=True)
 

@@ -13,6 +13,9 @@ class TutorRatingAdmin(admin.ModelAdmin):
 
 class TutorDetails(admin.ModelAdmin):
     list_display=("user",)
+    
+class EventAdmin(admin.ModelAdmin):
+    list_display = ("id","day","start_time","end_time",)
 
 admin.site.register(UserDetail,UserDetailAdmin)
 admin.site.register(Product)
@@ -27,7 +30,9 @@ admin.site.register(Cart)
 admin.site.register(TutorRating,TutorRatingAdmin)
 
 admin.site.register(models.TutorUserDetails,TutorDetails)
-admin.site.register(models.CertificateFile)
+# admin.site.register(models.CertificateFile)
 admin.site.register(models.StudentDetails)
+admin.site.register(models.Event,EventAdmin)
+
 
 

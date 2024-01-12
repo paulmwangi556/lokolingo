@@ -57,7 +57,13 @@
     {{ field.label_tag }} {{ field }}
     </p>
     {% endfor %}
+   
+
+    {% if request.user.tutordetails %}
     <input type="submit" value="Add Skill" class="btn btn-primary" id="auth-btn" />
+    {% else %}
+    <a  href="{% url 'updateProfile' %}" class="btn btn-primary" id="auth-bctn">Complete Profile to Proceed</a>
+    {% endif %}
 
 </form>
         </div>

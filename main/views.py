@@ -25,7 +25,7 @@ def index(request):
     # 	pass
     
     query_param = request.POST.get("q")
-    request.session['redirect_to'] = request.build_absolute_uri()
+    # request.session['redirect_to'] = request.build_absolute_uri()
     
     
     if request.method == "POST" :

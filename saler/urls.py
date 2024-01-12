@@ -5,8 +5,11 @@ urlpatterns = [
         # path('', views.dashboard, name = 'dashboard'),
 		# path('', views.index, name = 'home'),
         # path('withdrawal/', views.withdrawal, name = 'withdrawal'),
-        path('tutor_signup/', views.tutor_signup, name="tutor_signup"),
-		path('tutor_login/<path:next_page>/', views.tutor_login, name="tutor_login"),
+        path('student_signup/', views.student_signup, name="student_signup"),
+		path('student_login/', views.student_login, name="student_login"),
+  
+        path('tutor_signup',views.tutorSignUp,name="tutor_signup"),
+        path("tutor_login",views.tutorLogin,name="tutor_login"),
 
 
         
@@ -25,6 +28,7 @@ urlpatterns = [
 
     #  admin dashboard
         path("updateProfile/",views.updateProfile,name="updateProfile"),
+        # path("schedules",views.schedules,name="schedules"),
         # path("updateProfileForm/",views.updateProfileForm,name="updateProfileForm"),
         path("logout_tutor",views.logout_tutor,name="logout_tutor"),
         path("processUpdateForm",views.updateProfileForm,name="updatProfileForm"),

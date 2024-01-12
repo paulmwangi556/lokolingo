@@ -29,6 +29,7 @@ from asgiref.sync import sync_to_async
 from django.db.models import Count
 from django.contrib import auth
 from django.db.models import Q
+from django.core.serializers import serialize
 from room import models as room_models
 # This is view of Index Page of Seller in which we Display Whole Sale Products
 
@@ -427,10 +428,6 @@ def view_products(request):
 # Signup for Seller
 
 def tutorSignUp(request):
-    pass
-
-
-def tutor_signup(request):
     if request.user.is_authenticated:
         user=request.user
         user_groups = request.user.groups.values_list('name', flat=True)
@@ -440,8 +437,7 @@ def tutor_signup(request):
         else:
             
             return redirect('saler_account_settings')
-        
-        # return redirect('saler_account_settings')
+       
     else:
         if request.method == "GET":
             return render(request, 'saler/tutor_signup.html')
@@ -452,15 +448,11 @@ def tutor_signup(request):
             lastname = request.POST.get("lastname")
             password = request.POST.get("password")
             user_type = request.POST.get("user_type")
-            
-            referring_url = request.META.get('HTTP_REFERER', None)
-            
-            
-            # if user_type in dict()
+        
             if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
                 messages.error(
                     request, 'User with this username or email already exists.')
-                return render(request, 'saler/tutor_signup.html')  # Redirect back to the signup page
+                return render(request, 'saler/tutor_signup.html')  
 
             hashed_password = make_password(password)
             user = User.objects.create(
@@ -473,7 +465,7 @@ def tutor_signup(request):
             
             
             messages.success(request, 'Account created successfully!')
-            # print(user.groups.name)
+    
             usr = User.objects.filter(username=username).first()
             usr.is_staff = True
             gst = 00
@@ -485,44 +477,139 @@ def tutor_signup(request):
                 usr.save()
                 SalerDetail(user=usr, gst_Number=gst).save()
             messages.success(request, f'Account is Created for {username}')
-            url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
-            return redirect(url)
+           
+            return redirect('tutor_signup')
 
-            return redirect('tutor_login')
+           
 
         
     return render(request, 'saler/tutor_signup.html')
 
 
-def tutor_login(request,next_page=None):
-    # request.session['redirect_to'] = request.build_absolute_uri()
+def tutorLogin(request):
+
     my_variable = request.session.get('redirect_to', None)
     print("The last page was ",my_variable)
     username = request.POST.get('username')
     password = request.POST.get('password')
-    ab = request.build_absolute_uri(reverse("home"))
-    print("next page us ",ab)
-    referring_url = request.META.get('HTTP_REFERER', None)
-    request.session["previous_page"] = referring_url
     user = authenticate(request, username=username, password=password)
     
     if user:
         login(request, user)
-        messages.success(request, f'Hi {username.title()}, welcome back!')
+        # messages.success(request, f'Hi {username.title()}, welcome back!')
         user_groups = request.user.groups.values_list('name', flat=True)
-        if next_page == ab:
-            print("Next paaage is ",next_page)
-            if 'student' in user_groups:
-                return redirect("studentProfile")
-            else:
-                return redirect('saler_account_settings')
+        user_details = main_models.TutorUserDetails.objects.filter(user=user).first()
+        if user_details is None:
+            return redirect("updateProfile")   
         else:
-            
-            return redirect(next_page)
+            if my_variable is None:
+                
+                if 'student' in user_groups:
+                    return redirect("studentProfile")
+                else:
+                    return redirect('saler_account_settings')
+            else:
+                
+                return redirect(my_variable)
+        
     messages.error(request, f'Invalid username or password')
     print("Not Authenticated")
-    url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
-    return redirect(url)
+    # url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
+    return redirect('tutor_signup')
+
+
+
+
+
+# 
+def student_signup(request):
+    if request.user.is_authenticated:
+        user=request.user
+        user_groups = request.user.groups.values_list('name', flat=True)
+        if 'student' in user_groups:
+            return redirect("studentProfile")
+        
+        else:
+            
+            return redirect('saler_account_settings')
+       
+    else:
+        if request.method == "GET":
+            return render(request, 'saler/student_signup.html')
+        if request.method == 'POST':
+            username = request.POST.get("username")
+            email = request.POST.get("email")
+            firstname = request.POST.get("firstname")
+            lastname = request.POST.get("lastname")
+            password = request.POST.get("password")
+            user_type = request.POST.get("user_type")
+        
+            if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+                messages.error(
+                    request, 'User with this username or email already exists.')
+                return render(request, 'saler/student_signup.html')  
+
+            hashed_password = make_password(password)
+            user = User.objects.create(
+                username=username, email=email, password=hashed_password, first_name=firstname, last_name=lastname, )
+            
+            user.save()
+            group_name = 'student' if user_type == 'student' else 'tutor'
+            group = Group.objects.get(name=group_name)
+            user.groups.add(group)
+            
+            
+            messages.success(request, 'Account created successfully!')
+    
+            usr = User.objects.filter(username=username).first()
+            usr.is_staff = True
+            gst = 00
+            usr.save()
+            if username.isdigit():
+                SalerDetail(user=usr, mobile=username, gst_Number=gst).save()
+            else:
+                usr.email = username
+                usr.save()
+                SalerDetail(user=usr, gst_Number=gst).save()
+            messages.success(request, f'Account is Created for {username}')
+           
+            return redirect('student_signup')
+
+           
+
+        
+    return render(request, 'saler/student_signup.html')
+
+
+def student_login(request):
+    my_variable = request.session.get('redirect_to', None)
+    print("The last page was ",my_variable)
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(request, username=username, password=password)
+    
+    if user:
+        login(request, user)
+        # messages.success(request, f'Hi {username.title()}, welcome back!')
+        user_groups = request.user.groups.values_list('name', flat=True)
+        user_details = main_models.StudentDetails.objects.filter(user=user).first()
+        if user_details is None:
+            return redirect("studentProfile")   
+        else:
+            if my_variable is None:
+                
+                if 'student' in user_groups:
+                    return redirect("studentProfile")
+                else:
+                    return redirect('saler_account_settings')
+            else:
+                
+                return redirect(my_variable)
+        
+    messages.error(request, f'Invalid username or password')
+    print("Not Authenticated")
+    # url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
+    return redirect('student_signup')
 
 
 
@@ -558,20 +645,16 @@ def account_settings(request):
 def studentDashboard(request):
     user=request.user
     sessions = models.TutorSession.objects.filter(payments__booking__student=user)
-    # sessions = models.TutorSession.objects.all()
+   
     rooms = room_models.Room.objects.filter(student=user).annotate(message_count=Count('messages'))
-    # print("Student rooms count", rooms.count())
     
     for item in sessions:
         decimal_hours = Decimal(item.payments.booking.duration)
         total_seconds = float(decimal_hours) * 3600
         duration_timedelta = timedelta(seconds=total_seconds)
-        
         hours, remainder = divmod(duration_timedelta.seconds, 3600)
         minutes, _ = divmod(remainder, 60)
-        
         time =''
-
         if hours > 0:
             time =  f"{hours} hours and {minutes} minutes"
         else:
@@ -710,21 +793,31 @@ def updateStudentProfile(request):
 
 
 def updateProfile(request):
+    my_variable = request.session.get('redirect_to', None)
     user=request.user
     
     
     user_details= main_models.TutorUserDetails.objects.filter(user=user.id).first()
-    print("User Details is ",user_details)
+    events=main_models.Event.objects.all()
+    serialized_data = serialize('json', events)
+    
+    for event in events:
+        print(event.day)
+        print(event.start_time)
+    
+    
     if user_details is None:
         return updateProfileForm(request)
     else:
-        return render(request, "saler/admin/profile.html", {'user_details': user_details})
+        if my_variable is None:
+            return render(request, "saler/admin/profile.html", {'user_details': user_details,"events":events,"serialized_data":serialized_data})
 
-
+        else:
+                return redirect(my_variable)
  
 
 def saveForm(request,userDetails:main_models.TutorUserDetails=None):
-    
+    my_variable = request.session.get('redirect_to', None)
     user=request.user
 
     contact_number = request.POST.get('contact_number')
@@ -742,7 +835,7 @@ def saveForm(request,userDetails:main_models.TutorUserDetails=None):
     education_materials_link = request.POST.get('education_materials_link')
     languages_spoken = request.POST.get('languages_spoken')
     special_certificate_skills = request.POST.get('special_certificate_skills')
-    special_certificate_files = request.FILES.getlist('special_certificate_files')
+    special_certificate_files = request.FILES.get('special_certificate_files')
     cancellation_policy = request.POST.get('cancellation_policy')
     terms_acceptance = request.POST.get('terms_acceptance') == "on"
    
@@ -762,6 +855,7 @@ def saveForm(request,userDetails:main_models.TutorUserDetails=None):
         education_materials_link=education_materials_link,
         languages_spoken=languages_spoken,
         special_certificate_skills=special_certificate_skills,
+        special_certificate_files=special_certificate_files,
         # cancellation_policy=cancellation_policy,
         terms_acceptance=terms_acceptance,
         cv=cv
@@ -780,13 +874,13 @@ def saveForm(request,userDetails:main_models.TutorUserDetails=None):
    
 
     # Save multiple files for special_certificate_files
-    for file in special_certificate_files:
-        main_models.CertificateFile.objects.create(tutor_user_details=tutor_instance, file=file)    
+    
     print("Success")
     return redirect('updateProfile')
 
 
 def updateProfileForm(request):
+    my_variable = request.session.get('redirect_to', None)
     user=request.user
     form = forms.TutorUserDetailsForm()
     modelInstance=main_models.TutorUserDetails()
@@ -824,8 +918,13 @@ def deactivateProfile(request):
         else:
             return render(request,"saler/admin/deactivateProfile.html")
     
-@login_required
+
 def addSkill(request):
+    user_details= main_models.TutorUserDetails.objects.filter(user=request.user).first()
+    if user_details is None:
+        request.session['redirect_to'] = request.build_absolute_uri()
+        
+        
     page = "skills"
     try:
         form = forms.AddSkillForm()
@@ -842,6 +941,11 @@ def addSkill(request):
        
     
 def addTutorSkillsForm(request):
+    user_details= main_models.TutorUserDetails.objects.filter(user=request.user).first()
+    if user_details is None:
+        request.session['redirect_to'] = request.build_absolute_uri()
+        
+        
     form = forms.AddSkillForm()
     context={
         "skill_form":form
@@ -1602,6 +1706,7 @@ def cancelWithdrawRequest(request,withdraw_id):
     return redirect("withdrawals")
     
 def courseManagement(request):
+    request.session['redirect_to'] = request.build_absolute_uri()
     user = request.user
     courses = models.Course.objects.filter(tutor=user)
     context={

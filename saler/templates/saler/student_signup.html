@@ -16,7 +16,7 @@
 
   <!-- container div -->
   <div class="auth-container-wrapper">
-    <h3 style="text-align: center;">Welcome</h3>
+    <h3 style="text-align: center;">Student SignUp</h3>
 
     {% for message in messages %}
 		<small >  </small>
@@ -40,7 +40,7 @@
      
 
       <!-- login form -->
-      <form action="{% url 'tutor_login' next_page=request.GET.next_page  %}" method="post" class="login-form">
+      <form action="{% url 'student_login'  %}" method="post" class="login-form">
         {% csrf_token %}
         <div class="login-box">
 
@@ -52,23 +52,17 @@
 
       <!-- signup form -->
 
-      <form action="{% url 'tutor_signup' %}" method="post">
+      <form action="{% url 'student_signup' %}" method="post">
         {% csrf_token %}
         <div class="signup-box">
           <input type="text" name="firstname" class="name ele" placeholder="Enter First Name">
           <input type="text" class="name ele" name="lastname" placeholder="Enter Last Name">
           <input type="email" name="email" class="email ele" placeholder="youremail@email.com">
+
           <div class="mb-3 w-100 select-div">
             <label for="" class="form-label">Account Type</label>
-            <select
-              class="form-select form-select-lg"
-              name="user_type"
-              id="user_type"
-            >
-              
-              <option value="tutor">Tutor</option>
-              <option value="student">Student</option>
-             
+            <input type="text" name="user_type" class="email ele" value="student" readonly>
+            
             </select>
           </div>
           

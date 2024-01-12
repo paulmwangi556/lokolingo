@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 from django.contrib.auth.models import Group
-
+from django.core.exceptions import ValidationError
+from django.urls import reverse
 
 
     
@@ -100,7 +101,7 @@ class TutorUserDetails(models.Model):
     cv = models.FileField(upload_to="cvs",blank=True,null=True)
     
     special_certificate_skills=models.TextField(blank=True,null=True)
-    # special_certificate_files=models.FileField(upload_to="special_certs")
+    special_certificate_files=models.FileField(upload_to="special_certs",blank=True,null=True)
     
     # cancellation_policy=models.TextField(blank=True,null=True)
     terms_acceptance=models.BooleanField(default=False)
@@ -110,9 +111,7 @@ class TutorUserDetails(models.Model):
     def get_days_list(self):
         return self.days.split(',')
 
-class CertificateFile(models.Model):
-    tutor_user_details = models.ForeignKey(TutorUserDetails, on_delete=models.CASCADE, related_name='special_certificate_files')
-    file = models.FileField(upload_to="special_certs")
+
 
 
 class TutorRating(models.Model):
@@ -122,6 +121,43 @@ class TutorRating(models.Model):
     student=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="student")
     date_added = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
+
+class Event(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    day=models.DateField(verbose_name="day of Event")
+    start_time=models.TimeField(verbose_name="Time")
+    end_time=models.TimeField(verbose_name="Time")
+    notes=models.TextField(verbose_name="Any Notes")
+    
+    
+    def check_overlap(self,fixed_start,fixed_end,new_start,new_end):
+        overlap=False
+        if new_start == fixed_end or new_end == fixed_start:
+            overlap=False
+            
+        elif (new_start >= fixed_start and new_start <= fixed_end) or (new_end >= fixed_start and new_end <= fixed_end):
+            overlap=True
+            
+        elif new_start <= fixed_start and new_end >= fixed_end:
+            overlap = True
+            
+        return overlap
+    
+    def get_absolute_url(self):
+       url = reverse('admin:%s_%s_change' % (self._meta.app_label,self._meta.model_name),args=(self.id))
+       return u'<a href="%s">%s</a>' % (url,str(self.start_time))
+   
+   
+            
+    def clean(self):
+        if self.end_time <= self.start_time:
+           raise  ValidationError("Ending times must after starting time")
+        events = Event.objects.filter(day=self.day)
+        if events.exists():
+            for event in events:
+                if self.check_overlap(event.start_time,event.end_time,self.start_time,self.end_time):
+                    raise ValidationError('There is an overlap with another Event : ' + str(event.day) + ',' + str(event.start_time) + '-' + str(event.end_time))
+                
 
 class Slider(models.Model):
     name = models.CharField(max_length=50, default="", null=True)

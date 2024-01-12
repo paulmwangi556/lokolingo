@@ -8,6 +8,12 @@
 </head>
 
 <body>
+  <style>
+      input::before {
+      content: ' * ';
+      color: red;
+    }
+  </style>
   <!-- <div class="header">
   <h1 class="heading">Become a Tutor</h1>
 </header> -->
@@ -16,10 +22,10 @@
 
   <!-- container div -->
   <div class="auth-container-wrapper">
-    <h3 style="text-align: center;">Welcome</h3>
+    <h3 style="text-align: center;">Tutor Login</h3>
 
     {% for message in messages %}
-		<small >  </small>
+		<small >  {{message}}</small>
 		{% endfor %}
 
    
@@ -40,7 +46,7 @@
      
 
       <!-- login form -->
-      <form action="{% url 'tutor_login' next_page=request.GET.next_page  %}" method="post" class="login-form">
+      <form action="{% url 'tutor_login'  %}" method="post" class="login-form">
         {% csrf_token %}
         <div class="login-box">
 
@@ -55,7 +61,8 @@
       <form action="{% url 'tutor_signup' %}" method="post">
         {% csrf_token %}
         <div class="signup-box">
-          <input type="text" name="firstname" class="name ele" placeholder="Enter First Name">
+          <label for="First Name" class="required"></label>
+          <input type="text" name="firstname" class="name ele required" placeholder="Enter First Name">
           <input type="text" class="name ele" name="lastname" placeholder="Enter Last Name">
           <input type="email" name="email" class="email ele" placeholder="youremail@email.com">
           <div class="mb-3 w-100 select-div">

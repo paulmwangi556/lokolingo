@@ -4,7 +4,12 @@
 {% block dashboard %}
 <div class="courses">
     <h4>My Courses</h4>
+
+    {% if request.user.tutordetails %}
     <a href="{% url 'addCourse' %}" class="btn btn-primary mt-4">Add A Course</a>
+    {% else %}
+    <a href="{% url 'updateProfile'%}" class="btn btn-primary"> Please Complete Your Profile To Add a Course</a>
+    {% endif %}
     <hr>
 
     {% if courses %}
@@ -40,7 +45,7 @@
     {% else %}
     <h6>No Courses Availble</h6>
 
-    <a href="{% url 'addCourse' %}" class="btn btn-primary mt-4">Add A Course</a>
+    
 
 </div>
 {% endif %}
