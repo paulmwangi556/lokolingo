@@ -635,7 +635,8 @@ def student_login(request):
 
 def account_settings(request):
     user=request.user
-    saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user) | Q(last_deposit__course__tutor=user)).first()
+    current_user=User.objects.get(id=user.id)
+    saler_finances=models.TutorFinanceAccount.objects.filter(Q(last_deposit__booking__skill__tutor=user.id) | Q(last_deposit__course__tutor=user.id)).first()
     
     withdrawal_history = models.WithdrawFunds.objects.filter(account__last_deposit__booking__skill__tutor=user)
     skills = models.Skill.objects.filter(tutor=user)
