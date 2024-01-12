@@ -431,12 +431,12 @@ def tutorSignUp(request):
     if request.user.is_authenticated:
         user=request.user
         user_groups = request.user.groups.values_list('name', flat=True)
-        if 'student' in user_groups:
-            return redirect("studentProfile")
+        if 'tutor' in user_groups:
+            return redirect("saler_account_settings")
         
         else:
-            
-            return redirect('saler_account_settings')
+            print(user_groups)
+            return render(request, 'saler/tutor_signup.html')
        
     else:
         if request.method == "GET":
@@ -489,7 +489,7 @@ def tutorSignUp(request):
 def tutorLogin(request):
 
     my_variable = request.session.get('redirect_to', None)
-    print("The last page was ",my_variable)
+    
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(request, username=username, password=password)
@@ -499,18 +499,24 @@ def tutorLogin(request):
         # messages.success(request, f'Hi {username.title()}, welcome back!')
         user_groups = request.user.groups.values_list('name', flat=True)
         user_details = main_models.TutorUserDetails.objects.filter(user=user).first()
-        if user_details is None:
+        
+        print("User groups  ",user_groups)
+        if user_details is None and 'tutor'  in user_groups:
             return redirect("updateProfile")   
+        elif  user_details  and   'tutor' in user_groups:
+            return redirect('saler_account_settings')
         else:
-            if my_variable is None:
+            messages.error(request, f'This Account Belongs  To a Student')
+            return redirect('student_signup')
+            
+            
                 
-                if 'student' in user_groups:
-                    return redirect("studentProfile")
-                else:
-                    return redirect('saler_account_settings')
-            else:
-                
-                return redirect(my_variable)
+            # if 'tutor' in user_groups:
+            #     return redirect("updateProfile")
+            # else:
+            #     messages.error(request, f'This Account Belongs  To a Student')
+            #     return redirect('student_signup')
+            
         
     messages.error(request, f'Invalid username or password')
     print("Not Authenticated")
@@ -531,7 +537,7 @@ def student_signup(request):
         
         else:
             
-            return redirect('saler_account_settings')
+            return render(request, 'saler/student_signup.html')
        
     else:
         if request.method == "GET":
@@ -583,7 +589,7 @@ def student_signup(request):
 
 def student_login(request):
     my_variable = request.session.get('redirect_to', None)
-    print("The last page was ",my_variable)
+   
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(request, username=username, password=password)
@@ -593,7 +599,9 @@ def student_login(request):
         # messages.success(request, f'Hi {username.title()}, welcome back!')
         user_groups = request.user.groups.values_list('name', flat=True)
         user_details = main_models.StudentDetails.objects.filter(user=user).first()
-        if user_details is None:
+     
+              
+        if user_details is None and 'student'  in user_groups:
             return redirect("studentProfile")   
         else:
             if my_variable is None:
@@ -601,14 +609,16 @@ def student_login(request):
                 if 'student' in user_groups:
                     return redirect("studentProfile")
                 else:
-                    return redirect('saler_account_settings')
+                    messages.error(request, f'This  Account  belongs to a Tutor')
+                    return redirect('tutor_signup')
+                    # pass
             else:
                 
                 return redirect(my_variable)
         
     messages.error(request, f'Invalid username or password')
     print("Not Authenticated")
-    # url = reverse('tutor_signup') + f'?next_page={reverse("home") if referring_url is None else referring_url}'
+   
     return redirect('student_signup')
 
 
@@ -746,7 +756,7 @@ def updateStudentProfile(request):
     # form = UpdateStudentProfileForm()
     my_variable = request.session.get('redirect_to', None)
     
-    
+    print(my_variable)
     form=forms.StudentUserDetails()
     print(request.method)
     if request.method == "POST":
@@ -782,10 +792,11 @@ def updateStudentProfile(request):
         student.user = request.user
         student.save()
         print("STudent Data Saved")
-        # if my_variable is None:
-        return redirect(my_variable)
-        # else:
-            # return redirect("studentProfile")
+        print("My  Variable  is ",my_variable)
+        if my_variable is not None:
+            return redirect(my_variable)
+        else:
+            return redirect("studentProfile")
       
     else:
        return redirect("home")    
@@ -793,7 +804,7 @@ def updateStudentProfile(request):
 
 
 def updateProfile(request):
-    my_variable = request.session.get('redirect_to', None)
+    my_variable = request.session.get('redirect_to_skill', None)
     user=request.user
     
     
@@ -922,7 +933,7 @@ def deactivateProfile(request):
 def addSkill(request):
     user_details= main_models.TutorUserDetails.objects.filter(user=request.user).first()
     if user_details is None:
-        request.session['redirect_to'] = request.build_absolute_uri()
+        request.session['redirect_to_skill'] = request.build_absolute_uri()
         
         
     page = "skills"
