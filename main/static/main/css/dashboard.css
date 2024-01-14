@@ -142,6 +142,7 @@ header {
 	position: relative;
 	top: 70px;
 	z-index: 1;
+	background-color: whitesmoke;
 }
 
 .dpicn {

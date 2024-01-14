@@ -19,7 +19,7 @@
     .check-section{
         display: flex;
         justify-content: space-between  ;
-        background-color: aquamarine;
+        background-color: rgba(127, 255, 212, 0.405);
         padding: 0.5rem;
         margin-bottom: 1rem;
         border: 1px solid rgba(0, 0, 0, 0.167);
@@ -53,9 +53,8 @@
 
                 <p class="name">{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
                 <p class="rate text-primary">Ksh:{{tutor.hourly_rate}}/hr</p>
-                <p class="experience">Years of Experience: {{tutor.years_of_experience}}</p>
-                <p class="country"> Country: {{tutor.country}}</p>
-                <p class="city">City: {{tutor.city}}</p>
+                <p class="experience">Experience:  <span class="text-primary">{{tutor.years_of_experience}}  Years</span> </p>
+               
 
 
                 {% if avg_rating == 0 %}
@@ -94,23 +93,31 @@
                 <div class="row">
                     <h5>Educational Details</h5>
                     <div class="col-12">
-                        <p>Highiest Qualification: {{tutor.highiest_qualification}}</p>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12">
+                                <p>Highiest Qualification: {{tutor.highiest_qualification}}</p>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <h6>Areas of Specialization</h6>
+                                <p>{{tutor.specialization}}</p>
+                            </div>
+                        </div>
+                       
 
-                        <h6>Areas of Specialization</h6>
-                        <p>{{tutor.specialization}}</p>
+                       
 
                     </div>
 
-                    <h5 class="mt-4">Tutoring Details</h5>
-                    <h6>Teaching Style</h6>
+                    <h5 class="mt-2">Tutoring Details</h5>
+                 
                     <p>{{tutor.teaching_style}}</p>
-                    <h6>Teaching Philosophy</h6>
-                    <p>{{tutor.teaching_philosophy}}</p>
-                    <h6 class="mt-3">Availability</h6>
-                    <p>{{tutor.availability}}</p>
+                    
+                    <h6 class="mt-3">General Availability</h6>
+                    <p  class="mb-3">{{tutor.availability}}</p>
 
-                    <h6 class="mt-3">Languages</h6>
-                    <p>{{tutor.languages_spoken}}</p>
+                    <div class="col">
+                        <a href="{{tutor.cv.url}}" download class="btn btn-outline-secondary">Download  CV</a>
+                    </div>
 
                 </div>
                 <hr>
@@ -147,7 +154,7 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <button type="submit" class=" text-black btn btn-outline-primary mt-3 pt-auto">Check Availability</a>
+                                <button type="submit" class=" text-black btn btn-success mt-3 pt-auto "  style="color: black;">Check Availability</a>
                             </div>
                             
                         </div>

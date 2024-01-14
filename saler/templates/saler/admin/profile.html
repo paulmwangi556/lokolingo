@@ -5,96 +5,142 @@
 {% block dashboard %}
 
 <style>
-    .show-calendar {
-        background-color: rgb(253, 253, 253);
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        border: 1px solid rgba(0, 0, 0, 0.104);
-        transition: 0.5s ease;
-
-    }
-
-    .show-calendar:hover {
-        background-color: rgb(118, 119, 119);
-    }
-
-    #calendar {
-        display: block;
-        width: 100%;
-        transition: 0.5s ease-in;
-        height: max-content;
-    }
-    .available-day-form{
-        background-color: antiquewhite;
-        padding: 1rem;
-
-    }
+   
 </style>
 <div class="main-profile-wrapper">
     <div class="row">
 
         {% if user_details %}
-        <div class="row">
-            <div class="col-lg-3 col-md-12">
 
-                <div class="section-1">
+
+        <div class="section1">
+            <div class="row">
+                
+                <div class="col-lg-2 col-md-4 col-sm-12">
                     <div class="profile-image-wrapper mb-4">
                         <img src="{{user_details.profile_picture.url}}" class="dpidcn" alt="dp">
                     </div>
-                    <p class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</p>
-                    <p>Username: <span class="text-primary">@{{request.user.username}}</span></p>
-                    <p>Email: <span class="text-primary">{{request.user.email}}</span></p>
-                    <p>Phone : <span class="text-primary">{{user_details.contact_number}}</span></p>
-                    <!-- <p>Phone 2: <span class="text-primary">{{user_details.alternate_mobile}}</span></p> -->
-                    <p>Date Joined: <span class="text-primary">{{request.user.date_joined}}</span></p>
-                    <p>Account Type: <span class="text-primary">Tutor</span></p>
-                    <hr>
-
-                    <div class="mb-3">
-                        <label for="" class="form-label">See Available Dates</label>
-                        <input
-                            type="text"
-                            readonly
-                            class="form-control"
-                            name=""
-                            id="mydate"
-                            aria-describedby="helpId"
-                            placeholder="My Avalibale Dates"
-                        />
-                       
-                    </div>
-                    
-
+                    <p class="education"><i class="fas fa-university fa-sm  "></i> {{user_details.highiest_qualification}}</p>
+                    <p  class="specialist">Specializing in <span>{{user_details.specialization}}</span></p>
                 </div>
+                <div class="col-lg-10 col-md-8 col-sm-12">
+                    <h4 class="username mb-3">{{request.user.first_name}} {{request.user.last_name}} <i class="fas fa-star fa-sm  " style="color: gold;"></i></h4>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <p><i class="fas fa-user fa-xs  "></i> @{{request.user.username}}</p>
+                        </div>
+                        <div class="col">
+                            <p><i class="fas fa-mail-bulk fa-sm" style="color: gray;"></i> {{request.user.email}}</p>
+                        </div>
+                        <div class="col">
+                            <p><i class="fas fa-phone fa-sm"></i> {{user_details.contact_number}}</p>
+                        </div>
+                        <div class="col">
+                            <p><i class="fas fa-school fa-sm  "></i> Tutor</p>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mb-4">
+                        <p class="availability">General Availability <span>{{user_details.availability}}</span></p>
+                    </div>
+                    <div class="row mt-4">
+                       
+    
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <a href="{% url 'updatProfileForm'%}" class="btn btn-primary">Update Profile</a>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <a href="{% url 'deActivateProfile'%}" class="btn btn-warning">Deactivate Profile</a>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <a href="" class="btn btn-danger">Delete Profile</a>
+                        </div>
+                    </div>
+                    <div class="row  skill-section">
+                        <h5>Topics/Subjects</h5>
+                        {% for skill in skills %}
+                        <div class="col-3 skill-item">
+                            <p>{{skill.title}}</p>
+                        </div>
 
-
-
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="section2">
+            <div class="row">
+                <div class="col">
+                    <div class="section2-item">
+                        <i class="fas fa-dollar-sign fa-2x  " style="background-color: rgba(17, 198, 17, 0.441);"></i>
+                        <div class="details">
+                            <h5 style="font-weight: bold;">Ksh {{user_details.hourly_rate}}</h5>
+                            <p>Rate/Hr</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="section2-item">
+                       <i class="fas fa-clock fa-2x  " style="background-color: rgba(255, 166, 0, 0.493);"></i>
+                        <div class="details">
+                            <h5 style="font-weight: bold;">{{user_details.years_of_experience }} Years</h5>
+                            <p>Experince</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="section2-item">
+                        <i class="fas fa-user-check fa-2x  " style="background-color: rgba(255, 0, 0, 0.328);"></i>
+                        <div class="details">
+                            <h5 class="text-success" style="font-weight: bold;">Active</h5>
+                            <p>Status</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="section2-item">
+                        <i class="fas fa-clipboard   fa-2x "></i>
+                        <div class="details">
+                            <h5 style="font-weight: bold;">0</h5>
+                            <p>Bookings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+           
             <div class="col-lg-8 col-md-12">
                 <div class="section-2">
-                    <h2>Profile Details</h2>
-                    <hr class="hr">
-
-                    <div class="show-calendar">
-                        <p>Show My Schedules</p>
-                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                    
+                  
+                    <div class="row">
+                        <div class="col">
+                            <div class="show-calendar active">
+                                <p>Show My Schedules</p>
+                                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                            </div>
+        
+                        </div>
+                        <div class="col">
+                            <div class="add-day">
+                                <p>Set Days Available</p>
+                                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                            </div>
+                        </div>
                     </div>
-
-
-
+                   
+                <div class="calendar-wrapper">
                     <div id="calendar"></div>
+                </div>
+
+                   
 
                     
-                    <div class="show-calendar mt-4">
-                        <p>Set Days Available</p>
-                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-                    </div>
+                   
                     <div class="available-day-form">
                         <form action="{% url 'addAvailableDay'%}" method="POST">
                             {% csrf_token %}
-
+                            <h5>Available  Days</h5>
                             <div class="form-group">
                               <label for="">Select Date</label>
                               <div class="row">
@@ -106,6 +152,19 @@
                                     <button type="submit" class="btn btn-secondary">Add Day   </button>
                                 </div>
                               </div>
+                              <div class="mb-3 mt-4">
+                                <label for="" class="form-label">See Available Dates</label>
+                                <input
+                                    type="text"
+                                    readonly
+                                    class="form-control"
+                                    name=""
+                                    id="mydate"
+                                    aria-describedby="helpId"
+                                    placeholder="My Avalibale Dates"
+                                />
+                               
+                            </div>
                            
                               
                                
@@ -113,77 +172,12 @@
                         </form>
                     </div>
                     <!-- <hr> -->
-                    <h5 class="card-title">About Me</h5>
-                    <div class="tutoring-details mb-4" ">
-                            <div class=" row">
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <div class="rate">
-                                <p>Rate/Hr</p>
-                                <p class="text-primary">Ksh: {{user_details.hourly_rate}}</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <div class="experience">
-                                <p>Turoring Experince</p>
-                                <p class="text-primary">{{user_details.years_of_experience }} Years</p>
-
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <div class="status">
-                                <p>Profile Status</p>
-                                <p class="text-success">Active</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <div class="bookdings">
-                                <p>Total Bookings</p>
-                                <p class="text-success">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-
-                </div>
-                <div class="tutoring-details mb-4">
-                    <div class="row">
-                        <h5>Educational Details</h5>
-                        <div class="col-12">
-                            <p>Highiest Qualification: {{user_details.highiest_qualification}}</p>
-
-                            <h6>Areas of Specialization</h6>
-                            <p>{{user_details.specialization}}</p>
-
-                        </div>
-
-                        <h5 class="mt-4">Tutoring Details</h5>
-                        <h6>Teaching Style</h6>
-                        <p>{{user_details.teaching_style}}</p>
-                        <h6>Teaching Philosophy</h6>
-                        <p>{{user_details.teaching_philosophy}}</p>
-                        <h6 class="mt-3">Availability</h6>
-                        <p>{{user_details.availability}}</p>
-
-                        <h6 class="mt-3">Languages</h6>
-                        <p>{{user_details.languages_spoken}}</p>
-
-                    </div>
-                </div>
+                  
+                    
+                
 
 
-                <div class="row mt-4">
-                    <h6 class="card-title text-danger mb-4">Data Zone</h6>
-
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <a href="{% url 'updatProfileForm'%}" class="btn btn-primary">Update Profile</a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <a href="{% url 'deActivateProfile'%}" class="btn btn-warning">Deactivate Profile</a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <a href="" class="btn btn-danger">Delete Profile</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -203,8 +197,37 @@
 
 <script>
     $('.show-calendar').click(function () {
-        showCalendar()
+        var element =  $('#calendar');
+        $('.add-day').removeClass("active");
+        showCalendar(element)
+        addBg(element,this)   
+        showAddDay()
     })
+
+   
+
+    $('.add-day').click(function(){
+        var element = $('.available-day-form')
+        $('.show-calendar').removeClass("active");
+        showAddDay(element)
+        addBg(element,this)
+        showCalendar()
+        
+    })
+
+    function addBg(element,target){
+        if ($(element).is(":visible")) {
+            $(target).addClass("active");
+          
+        } else {
+            $(target).removeClass("active");
+            
+        }
+    }
+
+    function showAddDay(){
+        $('.available-day-form').toggle()
+    }
 
     function showCalendar() {
         $("#calendar").toggle();
@@ -217,7 +240,7 @@
     for (var i = 0; i < events.length; i++) {
         var event = events[i];
 
-        console.log(event["fields"].start_time);
+       
 
         var item = {
             title: event["fields"].notes,
@@ -246,7 +269,7 @@
         },
         eventColor: '#378006',
         eventClick: function (info) {
-            console.log('Event clicked:', info.event.notes);
+            
             alert('Event clicked: ' + info.event["title"]);
         }
     });
@@ -268,11 +291,7 @@
         // addDayWithoutEvent(newDate);
     }
 
-    var newDate = '2024-01-18';
-    addDayWithoutEvent(newDate);
-
-    var newDate1 = '2024-01-21';
-    addDayWithoutEvent(newDate1);
+   
     
 
     

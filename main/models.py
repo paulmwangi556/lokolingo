@@ -88,7 +88,7 @@ class TutorUserDetails(models.Model):
     teaching_style=models.TextField()
     teaching_philosophy=models.TextField(blank=True,null=True)
     
-    availability = models.CharField(max_length=50,verbose_name="General Availability")
+    availability = models.CharField(max_length=100,verbose_name="General Availability")
     preferred_teaching_method=models.CharField(max_length=50,choices=TEACHING_MODE)
     
     hourly_rate=models.CharField(max_length=50)
@@ -108,8 +108,7 @@ class TutorUserDetails(models.Model):
     
     
     
-    def get_days_list(self):
-        return self.days.split(',')
+    
 
 
 

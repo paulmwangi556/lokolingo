@@ -60,13 +60,13 @@
   
       <!-- Availability -->
       <div class="form-group mt-4 mb-4">
-        <label class="required">Availability</label><br>
-        {% for day, day_label in TutorUserDetails.DAYS_OF_WEEK %}
-          <div class="form-check form-check-inline">
-            <input type="checkbox" class="form-check-input" id="availability_{{ day }}" name="availability" value="{{ day }}">
-            <label class="form-check-label" for="availability_{{ day }}">{{ day_label }}</label>
-          </div>
-        {% endfor %}
+        <label class="required">General availability for sessions</label><br>
+       
+         
+          <input type="text"
+            class="form-control" name="availability" value="{{user.availability}}" id="" aria-describedby="helpId" placeholder="">
+          
+      
       </div>
 
       <div class="row">

@@ -54,12 +54,12 @@ class SkillCategory(models.Model):
 	
 
 class Skill(models.Model):
-    title = models.CharField(max_length=100,verbose_name="Topic")
+    title = models.CharField(max_length=100,verbose_name="Topic/Subject")
     tutor= models.ForeignKey(User,on_delete=models.DO_NOTHING)
     category = models.ForeignKey(SkillCategory,on_delete=models.DO_NOTHING)
    
-    description= models.TextField()
-    thumbnail = models.FileField(upload_to="skill_images",default='default.png')
+    description= models.TextField(verbose_name="Topic Information")
+    # thumbnail = models.FileField(upload_to="skill_images",default='default.png')
     
     
     

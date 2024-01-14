@@ -17,12 +17,10 @@ from django.db.models import Max
 
 
 def index(request):
-    # if request.user.is_superuser:
-    # 	return redirect('admin2')
-    # elif request.user.is_staff:
-    # 	return redirect("home")
-    # else:
-    # 	pass
+    ratings = models.TutorRating.objects.all()
+    context={
+        "ratings":ratings
+    }
     
     query_param = request.POST.get("q")
     # request.session['redirect_to'] = request.build_absolute_uri()
@@ -41,9 +39,9 @@ def index(request):
                 return redirect("findTutors", query="all")
     else:
 
-        return render(request, 'main/index3.html', )
+        return render(request, 'main/index3.html',context )
 
-    return render(request, 'main/index3.html', )
+    
 
 
 def perform_search(q):

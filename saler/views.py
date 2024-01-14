@@ -814,15 +814,21 @@ def updateProfile(request):
     user_details= main_models.TutorUserDetails.objects.filter(user=user.id).first()
     events=main_models.Event.objects.all()
     serialized_data = serialize('json', events)
+    skills=models.Skill.objects.filter(tutor=user)
     
    
-    
+    context={
+        'user_details': user_details,
+        "events":events,
+        "serialized_data":serialized_data,
+        "skills":skills
+        }
     
     if user_details is None:
         return updateProfileForm(request)
     else:
         if my_variable is None:
-            return render(request, "saler/admin/profile.html", {'user_details': user_details,"events":events,"serialized_data":serialized_data})
+            return render(request, "saler/admin/profile.html", context)
 
         else:
                 return redirect(my_variable)
@@ -855,7 +861,7 @@ def saveForm(request,userDetails:main_models.TutorUserDetails=None):
     years_of_experience = request.POST.get('years_of_experience')
     teaching_style = request.POST.get('teaching_style')
     teaching_philosophy = request.POST.get('teaching_philosophy')
-    availability = request.POST.getlist('availability')
+    availability = request.POST.get('availability')
     preferred_teaching_method = request.POST.get('preferred_teaching_method')
     hourly_rate = request.POST.get('hourly_rate')
     preferred_payment_method = request.POST.get('preferred_payment_method')
@@ -1113,7 +1119,9 @@ def update_booking_status(request, booking_id):
 
 
 def reviews(request):
-    tutor_reviews=main_models.TutorRating.objects.all()
+    user=request.user
+    
+    tutor_reviews=main_models.TutorRating.objects.filter(tutor=user)
     
     for item in tutor_reviews:
         item.rating =range(0,item.rating)
@@ -1125,7 +1133,7 @@ def reviews(request):
 
 def logout_tutor(request):
     logout(request)
-    messages.success(request, f'You have been logged out.')
+   
     return redirect('home')
 
 
@@ -1256,25 +1264,28 @@ def checkAvailability(request,tutor_id):
         tutor = models.User.objects.get(id=tutor_id)
         date=request.POST.get("date")
         
-        events = main_models.Event.objects.filter(user=tutor, day=date).order_by('start_time')
-        periods=[]
-        for item in events:
-            if item.start_time is None:
-                pass
-            else:
-                period={
-                "start_time":item.start_time.strftime('%H:%M'),
-                "end_time":item.end_time.strftime('%H:%M'),
+        if date is None  or date   ==  "":
+            return redirect("tutor_profile",tutor_id=tutor_id) 
+        else:
+            events = main_models.Event.objects.filter(user=tutor, day=date).order_by('start_time')
+            periods=[]
+            for item in events:
+                if item.start_time is None:
+                    pass
+                else:
+                    period={
+                    "start_time":item.start_time.strftime('%H:%M'),
+                    "end_time":item.end_time.strftime('%H:%M'),
+                    
+                    }
+                    periods.append(period)
                 
-                }
-                periods.append(period)
-            
-            
-        periods_json = json.dumps(periods)
-        request.session['periods'] = periods_json
-      
-     
-        return redirect("tutor_profile",tutor_id=tutor_id) 
+                
+            periods_json = json.dumps(periods)
+            request.session['periods'] = periods_json
+        
+        
+            return redirect("tutor_profile",tutor_id=tutor_id) 
     
     else:
         return redirect("tutor_profile",tutor_id=tutor_id) 

@@ -6,8 +6,9 @@
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12">
             <h4 class="card-title">Active Sessions</h4>
+            <hr>
 
-
+            {% if sessions %}
             {% for session in sessions %}
             <div class="sessions-wrapper mb-3">
                 <div class="row">
@@ -43,6 +44,9 @@
               </div>
 
             {% endfor %}
+            {% else  %}
+              <p>You have no active sessions  </p>
+            {%  endif  %}
         </div>
         
     </div>

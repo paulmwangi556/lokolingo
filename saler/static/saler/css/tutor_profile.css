@@ -5,6 +5,10 @@
     /* margin-top: 5rem; */
 }
 
+button{
+    color: black;
+}
+
 .account-details{
     /* border: 1px solid black; */
 }
@@ -30,7 +34,7 @@
     margin: auto;
     padding-top: 3rem;
     margin-bottom: 2rem;
-    border-radius: 50%;
+    border-radius: 0.4rem;
 }
 
 .profile-image img{
@@ -38,12 +42,14 @@
     width: 13rem;
     object-fit: cover;
     margin: auto;
-    border-radius: 50%;
+    border-radius: 0.4rem;
 }
 .skill-tile{
     text-align: center;
 }
-
+.skill-name{
+    text-transform: capitalize;
+}
 .skill-tile:hover{
     text-decoration: none;
     /* background-color: rebeccapurple; */
@@ -101,3 +107,7 @@
     padding-top: 0.5rem;
     margin-top: 2rem;
 }
+
+
+/*  */
+

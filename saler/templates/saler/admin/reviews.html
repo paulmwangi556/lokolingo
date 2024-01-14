@@ -3,21 +3,36 @@
 
 {% block dashboard %}
    <div class="reviews-container">
+    <h5>Reviews and Ratings</h5>
+    <div class="row">
+
+      {% if tutor_reviews %}
     {% for review in tutor_reviews %}
-    <div class="card mb-2">
-        <div class="card-header">
-          {% for rate in review.rating %}
-                <span>  <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
-          {% endfor %}
-          <!-- <p>{{review.rating}}/5</p> -->
+    
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card mb-2">
+          <div class="card-header">
+            {% for rate in review.rating %}
+                  <span>  <i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+            {% endfor %}
+            <!-- <p>{{review.rating}}/5</p> -->
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{review.student}}</h5>
+            <p class="card-text">{{review.review}}</p>
+           <p class="text-primary">{{review.date_added}}</p>
+          </div>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">{{review.student}}</h5>
-          <p class="card-text">{{review.review}}</p>
-         <p class="text-primary">{{review.date_added}}</p>
-        </div>
+
       </div>
+   
+    
     {% endfor %}
+    {% else %}
+      <p>No reviews made so far</p>
+
+    {% endif %}
+  </div>
    </div>
 
 {% endblock %}
