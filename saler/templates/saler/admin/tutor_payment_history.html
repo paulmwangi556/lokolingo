@@ -1,0 +1,101 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+<div class="transaction-history">
+    <p>Transaction HIstory</p>
+
+    {% if transactions %}
+
+    {% for transaction in transactions %}
+    <div class="transaction-wrapper">
+        <div class="transaction-top-section">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <p class="date-initiated">Date Initiated: <span>{{transaction.date}}</span></p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <!-- <p class="tracking-id">Tracking ID: {{transaction.order_tracking_id}}</p> -->
+                    <p class="amount">Amount: <span>{{transaction.amount}}</span></p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <p class="receiver">Paid To: <span>
+                        {% if transaction.booking %}
+                        {{transaction.booking.skill.tutor}}
+                        {% else %}
+                        {{transaction.course.tutor}}
+                        {% endif %}
+                    
+                    </span></p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <p class="transaction-status">Payment Status: 
+                        <span class="{% if transaction.payment_status_description %} text-success {% else %} text-danger{% endif%} ">
+                            {% if transaction.payment_status_description %}
+                            {{transaction.payment_status_description}}
+                            {% else %}
+                            Not Confirmed
+                            {% endif %}
+                        </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="complete-transaction-details">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                  
+                    <p class="payment-method">Payment Method: {{transaction.payment_method}}</p>
+                    <p class="currency">Currency: <span>{{transaction.currency}}</span></p>
+                    <p class="confirmation-code">Confirmation code: {{transaction.confirmation_code}}</p>
+                    <p class="payment-account">Payment Account: <span>{{transaction.payment_account}}</span></p>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <p class="merchant-reference">Merchant-reference: {{transaction.merchant_reference}}</p>
+                    <p class="reference">Paid By:
+                        {% if transaction.booking %}
+                        {{transaction.booking.student}}
+                        {% else %}
+                        {{ transaction.course.customers.last }}
+                           
+                        {% endif %}
+                    
+                    
+                    </p>
+                    <p class="create-date">Payment Confirm Date: <span>{{transaction.create_date}}</span></p>
+                    <p class="status-code">Item: <span class="text-primary">
+                        {% if transaction.course %}
+                        Course: <a href="">{{transaction.course.name}}</a>
+                        {% else %}
+                        Booking: <a href="{% url 'tutor_profile' tutor_id=transaction.booking.skill.tutor.id %}">{{transaction.booking.skill.title}}</a>
+                        {% endif %}
+                    </span></p>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="cta-section">
+            <div class="row">
+                <div class="col-lg-6 col-md-5 col-sm-12 mb-3 ">
+                    <p class="text-primary">Message</p>
+                    <p>{{transaction.message}}</p>
+                </div>
+                <div class="col-lg-6 col-md-5 col-sm-12">
+                    <p class="text-italic">If your payments have not yet reflected after completion Refresh here</p>
+                     <a href="{% url 'transactionStatus' order_tracking_id=transaction.order_tracking_id %}" class="btn btn-outline-secondary">
+                        Refresh
+                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+    <div class="container bg-warning p-4 m-4">
+        <p>No Transactions Made So far</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

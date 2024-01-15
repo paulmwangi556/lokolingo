@@ -1,0 +1,77 @@
+.bookings{
+    /* height: 10rem; */
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    padding: 1rem;
+    border-radius: 0.2rem;
+    margin-bottom: 1rem;
+    position: relative;
+    box-shadow: 3px 3px 10px rgb(188, 188, 188);
+}
+
+.bookings-form{
+    position: absolute;
+    /* bottom: -1rem; */
+    height: 10rem;
+    /* width: 18rem; */
+    top: 100%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 3px 3px 10px rgb(188, 188, 188);
+    display: flex;
+    align-content: center;
+    display: none;
+    z-index: 4;
+    
+}
+
+.bookings-form form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+}
+
+
+.booking-data{
+    /* display: flex;
+    justify-content: space-around; */
+    margin-bottom: 2rem;
+}
+
+hr{
+    height: 1px;
+    color: rgba(170, 179, 179, 0.164);
+}
+.message-title{
+    color: blue;
+}
+
+.message-body{
+    font-size: 0.9rem;
+}
+
+.booking-status{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.approval-status,.payment-status{
+    background-color: rgba(207, 210, 228, 0.075);
+    padding: 1rem;
+    border-radius: 0.3rem;
+}
+.approval-status span{
+    color: rgb(5, 155, 5);
+    font-weight: bold;
+}
+.payment-status span{
+    font-weight: bold;
+    color: red;
+}
+
+.payment-btn{
+    padding: 0.4rem 1rem;
+    color: red;
+    font-weight: bold;
+}

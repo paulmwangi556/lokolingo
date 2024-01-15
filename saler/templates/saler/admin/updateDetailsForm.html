@@ -1,0 +1,152 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+<style>
+  .required::after {
+      content: ' * ';
+      color: red;
+    }
+    
+</style>
+<div class="container mt-5">
+    <form method="post" action="{% url 'updatProfileForm'%}" enctype="multipart/form-data">
+      {% csrf_token %}
+  
+      <!-- User Information -->
+      <h5>Personal Details</h5>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label for="contact_number" class="required">Contact Number</label>
+            <input required type="text" class="form-control" id="contact_number" value="{{user.contact_number}}" name="contact_number">
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label for="profile_picture" class="required">Profile Picture</label>
+            <input {% if user %}{% else %}required{% endif %} value="{{user.profile_picture.url}}" type="file" class="form-control-file" id="profile_picture" name="profile_picture">
+          </div>
+        </div>
+      </div>
+      
+      
+
+      <h5>Educational Details</h5>
+      <div class="form-group">
+        <label for="highiest_qualification" class="required">Highest Qualification</label>
+        <input required value="{{user.highiest_qualification}}" type="text" class="form-control" id="highiest_qualification" name="highest_qualification" required>
+      </div>
+      <div class="form-group">
+        <label for="specialization" class="required">Specialization</label>
+        <textarea required value="{{user.specialization}}" class="form-control" id="specialization" name="specialization" rows="3">{{user.specialization}}</textarea>
+      </div>
+  
+      <!-- Experience -->
+      <div class="form-group">
+        <label for="years_of_experience" class="required">Years of Experience</label>
+        <input value="{{user.years_of_experience}}" type="text" class="form-control" id="years_of_experience" name="years_of_experience">
+      </div>
+      <div class="form-group">
+        <label for="teaching_style" class="required">Teaching Style</label>
+        <textarea required value="{{user.teaching_style}}" class="form-control" id="teaching_style" name="teaching_style" rows="4">{{user.teaching_style}}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="teaching_philosophy">Teaching Philosophy</label>
+        <textarea  class="form-control" id="teaching_philosophy" name="teaching_philosophy" rows="3">{{user.teaching_philosophy}}</textarea>
+      </div>
+  
+      <!-- Availability -->
+      <div class="form-group mt-4 mb-4">
+        <label class="required">General availability for sessions</label><br>
+       
+         
+          <input type="text"
+            class="form-control" name="availability" value="{{user.availability}}" id="" aria-describedby="helpId" placeholder="">
+          
+      
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label for="preferred_teaching_method" class="required">Preferred Teaching Method</label>
+            <select required class="form-select" id="preferred_teaching_method" name="preferred_teaching_method">
+              {% for method, method_label in TutorUserDetails.TEACHING_MODE %}
+                <option value="{{ method }}">{{ method_label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+        <label for="hourly_rate" class="required">Hourly Rate</label>
+        <input required value="{{user.hourly_rate}}" type="text" class="form-control" id="hourly_rate" name="hourly_rate">
+      </div>
+        </div>
+      </div>
+  
+      <!-- Teaching Method -->
+     
+  
+      <!-- Hourly Rate and Payment Method -->
+      
+      <div class="form-group">
+        <label for="preferred_payment_method" class="required">Preferred Payment Method:(provide details including account name and account number)</label>
+        <textarea required class="form-control" id="preferred_payment_method" name="preferred_payment_method" rows="3">{{user.preferred_payment_method}}</textarea>
+      </div>
+  
+
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="education_materials_link" >Education Materials Link</label>
+              <input  value="{{user.education_materials_link}}" type="text" class="form-control" id="education_materials_link" name="education_materials_link">
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="languages_spoken" class="required">Languages Spoken</label>
+              <input required value="{{user.languages_spoken}}" type="text" class="form-control" id="languages_spoken" name="languages_spoken">
+            </div>
+          </div>
+        </div>
+      <!-- Education Materials Link -->
+      
+  
+      <!-- Languages and Certificates -->
+      
+
+      <div class="form-group">
+        <label for="special_certificate_files" class="required">Upload CV</label>
+        <input {% if user %}{% else %}required{% endif %} type="file" class="form-control-file" id="special_certificate_files" accept="application/pdf" name="cv" >
+      </div>
+
+      <div class="form-group">
+        <label for="special_certificate_skills">Special Certifications Skills</label>
+        <textarea  class="form-control" id="special_certificate_skills" name="special_certificate_skills"  rows="3">{{user.special_certificate_skills}}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="special_certificate_files">Special Certificate Files</label>
+        <input  type="file" class="form-control-file" id="special_certificate_files" accept="application/pdf" name="special_certificate_files" multiple>
+      </div>
+  
+      <!-- Cancellation Policy and Terms Acceptance -->
+      <!-- <div class="form-group">
+        <label for="cancellation_policy">Cancellation Policy</label>
+        <textarea required class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{user.cancellation_policy}}</textarea>
+      </div> -->
+      <div class="form-check">
+        <input required type="checkbox" class="form-check-input" id="terms_acceptance" name="terms_acceptance">
+        <label class="form-check-label required" for="terms_acceptance">I accept  <a href="{% url 'terms'%}">Terms and Conditions</a></label>
+      </div>
+  
+      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+  </div>
+  
+
+
+{% endblock %}

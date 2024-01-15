@@ -1,0 +1,71 @@
+
+
+{% extends 'saler/student_dashboard.html' %}
+{% load static %}
+
+{% block student %}
+<style>
+   .required::after {
+      content: ' * ';
+      color: red;
+    }
+</style>
+
+
+<div class="main-profile-wrapper">
+
+    <div class="sector-1">
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12">
+          <div class="profile-image-wrapper mb-4">
+              <img src="{%static 'saler/img/Ban.jpg'%}" class="dpidcn" alt="dp">
+          </div>
+      </div>
+
+      <div class="col-lg-9 col-md-7 col-sm-12">
+        <h4 class="username mb-3">{{request.user.first_name}} {{request.user.last_name}} <i class="fas fa-star fa-sm  " style="color: gold;"></i></h4>
+        <div class="row mb-4">
+            <div class="col-3">
+                <p><i class="fas fa-user fa-xs  "></i> @{{request.user.username}}</p>
+            </div>
+            <div class="co-3">
+                <p><i class="fas fa-mail-bulk fa-sm" style="color: gray;"></i> {{request.user.email}}</p>
+            </div>
+            <div class="co-3">
+                <p><i class="fas fa-phone fa-sm"></i> {{user_details.contact_number}}</p>
+            </div>
+            <div class="col-3">
+                <p><i class="fas fa-school fa-sm  "></i> Student</p>
+            </div>
+        </div>
+        <div class="row mt-4 mb-4">
+            <p class="budget"><i class="fas fa-money-check fa-sm  "></i> Budget:  <span>Ksh {{user_details.budget_range}}</span></p>
+        </div>
+        <div class="row mt-4">
+           
+
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <a href="{% url 'updateStudentProfileForm'%}" class="btn btn-primary">Update Profile</a>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <a href="{% url 'deActivateProfile'%}" class="btn btn-warning">Deactivate Profile</a>
+            </div>
+            
+        </div>
+        
+    </div>
+      </div>
+    </div>
+    <div class="sector-2">
+      <div class="row mt-2">
+        <h5>Subjects of Interest</h5>
+        <p><i class="fas fa-book fa-sm  "></i> {{user_details.subjects}}</p>
+      </div>
+      <hr>
+    </div>
+    
+</div>
+    
+
+
+{% endblock %}

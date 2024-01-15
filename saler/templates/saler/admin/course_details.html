@@ -1,0 +1,71 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+<div class="course-item m-2 ">
+    <div class="settings">
+        <div class="row">
+            <div class="col-3 mb-4">
+                <a href="" class="btn btn-primary"> Update Course</a>
+            </div>
+            <div class="col-3 mb-4">
+                <a href="{% url 'adminCourseResources' course_id=course.id %}" class="btn btn-outline-primary"> Course Resources</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h4 class="course-name">{{course.name}}</h4>
+
+    <p class="course-description">
+        {{course.description|linebreaks}}
+    </p>
+    <hr>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="video-wrapper">
+                <h6 class="m-auto" style="text-align: center;">preview course</h6>
+                <video class="course-video" controls src="{{course.preview.url}}"></video>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 course-data" >
+            <p class="course-cost mb-4">Ksh {{course.cost}}</p>
+            <a href="{% url 'submitOrder' booking_id=course.id item='course' %}" class="btn mb-4 btn-outline-primary">Buy Course <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a>
+            <p>Last Updated: {{course.date_uploaded}}</p>
+                <div class="creator">
+                    <hr>
+                    <div class="row  mb-4">
+                        <div class="col-3">
+                           
+                            <div class="tutor-image">
+                                <img src="{{course.tutor.tutordetails.profile_picture.url}}" alt="">
+                                
+                            </div>
+                        </div>
+                        <div class="col">
+                            <p>Tutor: {{course.tutor}}</p>
+                            <a href="" class="btn btn-primary">View Profile  </a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="languages">
+        <p class="course-language">Video Language:  {{course.language}}</p>
+        <!-- <p class="subtitles">Subtitles</p> -->
+        <!-- <p>{{course.subtitles}}</p> -->
+    </div>
+    <div class="course-content">
+        <h6>What  You Will Learn</h6>
+        <p>{{course.course_content|linebreaksbr}}</p>
+    </div>
+    <div class="other-information">
+        <h6>Other Information</h6>
+        <p>{{course.other_information|linebreaks}}</p>
+    </div>
+ </div>
+
+
+
+{% endblock %}

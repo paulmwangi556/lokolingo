@@ -1,0 +1,253 @@
+{% load static %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokolingo E-Learning Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'saler/css/index.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+<body>
+    <!-- header -->
+    <header id="header">
+        <!-- navigation -->
+			{% include 'main/includes/navbar.html' %}
+        <!-- end navigation -->
+
+        <!-- cover section -->
+        <section id="cover" class="container">
+            <div class="row g-2 justify-content-around">
+                <div class="col-md-6 d-flex justify-content-center align-items-center order-lg-2">
+                    <div class="p-3">
+                        <img class="mx-auto d-block w-100 img-fluid" src="{% static 'saler/img/Banners.png'%}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex justify-content-center align-items-center order-2">
+                    <div class="p-3">
+                        <h1 class="custom-highlight">We’re not just</h1>
+                        <h1>an online hub for education</h1>
+                        <p>we’re a vibrant community that connects students and tutors for language learning and a world of exciting extracurricular activities.</p>
+                        <div class="input-group mb-3 mt-4">
+							<form action="{% url 'home' %}" method="GET" style="display: flex; width: 100%;">
+								<input type="text" name="q" class="form-control" placeholder="Find Tutor by name,skill .."> 
+								<button  class="btn btn-success border-rad custom-btn" type="submit" id="button-addon2">Search</button>
+							</form>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end cover section -->
+    </header>
+    <!-- end header -->
+
+    <!-- main -->
+    <main class="container">
+        <section id="welcome">
+            <div class="welcome">
+              <div class="welcome-text">
+                <div class="text-center">
+                    <br><br>
+                <h4>Learn Skills in High Demand</h4>
+              </div>
+              <div class="welcome-brief">
+                <div class="wb-text">
+                    <div class="text-center">
+                  <p>
+                    Whether you’re passionate about learning new languages, eager to excel in chess, or want to unlock the secrets of coding, Lokolingo welcomes you with open arms. Education is not just about mastering subjects; it’s about exploring the world of possibilities. 
+                    Let’s embark on this journey of learning, discovery, and growth together. Join us and let your language skills and passions flourish!</p>
+                </div>
+              </div>
+
+<!-- services section -->
+            
+<br><br>    
+<h4>Boost Your Career </h4>
+    <br>
+   
+    <div class="row">
+        <div class="column">
+            <div class="card1">
+                <p>
+                    <i class="fa fa-user"></i>
+                </p>
+                <h5 class="card-title">Experience</h5>
+                <p class="card-text">It has a user-friendly interface that’s easy to navigate. The dashboard typically displays your enrolled courses, progress bars, and notifications.</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card1">
+                <p>
+                  <i class="fa fa-book"></i>
+                  </p>
+                  <h5 class="card-title">Education</h5>
+                  <p class="card-text">Just as our system keeps track of a learner’s progress and successful completion of modules, a certificate acts as tangible evidence that the individual has gained knowledge and skills relevant to a particular subject or course.</p>
+            </div>
+        </div>
+       
+        <div class="column">
+            <div class="card1">
+                <p>
+                    <i class="fa fa-certificate"></i>
+                  </i>
+                  </p>
+                  <h5 class="card-title">Certificate</h5>
+                  <p class="card-text">Just as our system keeps track of a learner’s progress and successful completion of modules, a certificate acts as tangible evidence that the individual has gained knowledge and skills relevant to a particular subject or course.</p>
+            </div>
+        </div>
+    </div>
+     <!-- end services section -->
+
+     <br><br>
+     <h4>Why Choose Us?</h4>
+        <br>
+        <div class="row">
+            <div class="column">
+                <div class="card2">
+                    <p>
+                        <i class="fa fa-pen"></i>
+                        </p>
+                        <h5 class="card-title">Best Industry Leaders</h5>
+                        <p class="card-text">Users can access learning materials and courses from any device with an internet connection. 
+                            This accessibility enables both students and professionals to learn at their own pace and convenience.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card2">
+                    <p>
+                        <i class="fa fa-laptop"></i>
+                        </p>
+                        <h5 class="card-title">Learn Online at Your Own Pace</h5>
+                        <p class="card-text">Users can progress through courses and modules at a speed that suits their individual learning abilities. 
+                            This approach caters to various learning styles and preferences.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card2">
+                    <p>
+                        <i class="fa fa-school"></i>
+                        </p>
+                        <h5 class="card-title">Professional Certification</h5>
+                        <p class="card-text">Certifications earned through Lokolingo are often recognized globally, 
+                            contributing to increased job prospects and career advancement opportunities across various industries.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+       
+    </main>
+    <!-- end main -->
+
+    <br><br>
+    <main class="container">
+        <section  id="welcome">
+
+
+            <section>
+                <h4 style="text-decoration: underline;">Reviews</h4>
+                <p>
+                    
+                </p>
+            </section>
+            
+            <br><br>
+            <!-- subscribe section -->
+        <section id="subscribe" class="mt-5 mb-5">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-md-12">
+                    <div class="card custom-card">
+                        <div class="text-center">
+                            <h4 class="d-block mt-3 text-uppercase">Subscribe to our newsletter</h4>
+                            <div class="m-5">
+                                <div class="input-group mb-3 mt-4">
+                                    <input type="text" class="form-control" placeholder="Enter your email"> <button class="btn btn-success border-rad custom-btn" type="button" id="button-addon2">Subscribe</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- end subscribe section -->
+    </main>
+    <!-- end main -->
+
+    <!-- footer -->
+    <br><br>
+    <footer id="footer" class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">About Us</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a class="text-dark">Welcome to Lokolingo , where learning knows no boundaries and passions find their place to thrive.</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-0">Popular Courses</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-dark text-decoration-none">Language Learning</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-dark">Programming</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-dark">Business</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-dark">Home-Work Help</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Quick links</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="#" class="text-dark">Home</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-dark">About Us</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-dark">Find Tutor</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-dark">Become A Tutor</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-0">Our Aim</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a class="text-dark">Our aim is to inspire curiosity, ignite passions, and unlock the potential in students’ one language and one passion at a time.</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="custom-footer-margin">
+            <div class="pt-3 container text-center">
+                <h6>&copy; 2023 LOKOLiNGO</span> | All Rights Reserved</h6> 
+            </div>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- end footer -->
+
+    <!-- script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <!-- end script -->
+</body>
+</html>

@@ -1,0 +1,46 @@
+.course-item{
+    /* height: 100vh; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+}                                                      
+.video-wrappper{
+    width: 100%;
+    height: 15rem;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    overflow: hidden;
+
+}
+
+.course-data{
+    padding-left: 1rem;
+}
+
+.course-video{
+    height: 15rem;
+    width: 100%;
+    object-fit: contain;
+}
+
+.course-language,.course-subtitles{
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.course-cost{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.tutor-image{
+    height: 4rem;
+    width: 4rem;
+    /* overflow: hidden; */
+    background-color: red;
+}
+
+.tutor-image img{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+                                                        

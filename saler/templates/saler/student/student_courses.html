@@ -1,0 +1,77 @@
+{% extends 'saler/student_dashboard.html' %}
+{% load static %}
+
+{% block student %}
+<style>
+    .rate-form{
+    background-color: rgb(225, 217, 217);
+    width: 50%;
+    padding: 1rem;
+}
+
+form p textarea{
+    height: 4rem;
+}
+
+
+</style>
+
+
+<div class="courses">
+    <h4>My Courses</h4>
+<hr>
+
+
+    {% if courses %}
+    <div class="courses">
+      
+    
+        {% if courses %}
+            <div class="row">
+                <div class="col-lg-10 col-md-12 col-sm-12">
+                    {% for course in courses %}
+                    <div class="course-item">
+                        <h5 class="course-title">{{course.name}}</h5>
+                        <div class="row mt-4">
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <img class="course-thumbnail" src="{{course.thumbnail.url}}" alt="course-thumbnail">
+                               
+                            </div>
+                            <div class="col-lg-8 col-md-4 col-sm-12">
+                                <!-- <p class="course-description">
+                                    {{course.description}}
+                                </p> -->
+                                <a href="" class="btn btn-outline-secondary mb-4">Rate This Course</a>
+                                <p class="main-language">Main Language: {{course.language}}</p>
+                                <!-- <p class="other-languages">Other Languages/Subtitles: <span>{{course.subtitles}}</span> </p> -->
+                                <a href="{% url 'course_item' course_id=course.id %}" class="btn btn-primary">View Course</a>
+                                <a href="{% url 'adminCourseResources' course_id=course.id %}" class="btn btn-outline-primary">View Course Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>    
+                    
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+        <h6>No Courses Availble</h6>
+    
+        <a href="{% url 'addCourse' %}" class="btn btn-primary mt-4">Add A Course</a>
+    
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="no-courses container bg-light w-100 p-4">
+        <p>You have not bought Any Course</p>
+
+        <a href="{% url  'courses' order='all' %}" class="btn btn-outline-primary"> Browse Courses</a>
+    </div>
+
+    {% endif %}
+</div>
+
+
+{% endblock %}
+

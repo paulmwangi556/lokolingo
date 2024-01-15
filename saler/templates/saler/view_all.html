@@ -1,0 +1,63 @@
+{% extends 'saler/base.html' %}
+{% load static %}
+{% block saler_head %}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+<link rel="stylesheet" href="{% static 'saler/css/all_tutors.css' %}"
+<style type="text/css">
+	
+</style>
+{% endblock saler_head %}
+{% block saler_body %}
+<div class="container-fluid">
+	<h2>All <b>{{catg}}</b> Products</h2>
+	<div class="row pt-1">
+		{% for i in product %}
+		<!-- all items -->
+		<div class="p-1 prod1212">
+			<a href="{% url 'saler_home' %}product/{{i.product_id}}" style="text-decoration: none; color: #231f20">
+				<div class="thumb-wrapper">
+					<div class="img-box">
+						<img src="{{i.image1.url}}" class="img-responsive img-fluid" alt="">
+					</div>
+					<div class="thumb-content">
+						<small>{{i.product_name}}</small>
+						<p class="item-price"><span><i aria-hidden="true">Kshs. </i>{{i.price}}</span></p>
+
+						<a id="{{i.product_id}}" class="btn btn-primary add_to_cart mt-0">Add to Cart</a>
+					</div>
+				</div>
+			</a>
+		</div>
+		<!-- all ite -->
+		{% endfor %}
+	</div>
+</div>
+{% endblock saler_body %}
+
+
+{% block saler_js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+	$('.add_to_cart').click(function () {
+		var catid = this.id.toString();
+		$.ajax(
+			{
+				type: "GET",
+				url: "/tutor/add_to_cart",
+				data: {
+					prod_id: catid
+				},
+				success: function (data) {
+					$('#cart_no').text(data);
+					document.getElementById('wallet').style.left = '40px';
+				}
+			})
+	});
+</script>
+
+{% endblock saler_js %}

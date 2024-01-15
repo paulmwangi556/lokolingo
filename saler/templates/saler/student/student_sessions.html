@@ -1,0 +1,50 @@
+
+
+{% extends 'saler/student_dashboard.html' %}
+{% load static %}
+
+{% block student %}
+
+    
+<div class="student-sessions">
+    <h4 class="actdive-sessions">Active Sessions</h4>
+{% if sessions|length == 0 %}
+<div class="container bg-primary p-4">
+    <p class="text-white">No Active Sessions</p>
+</div>
+
+{% else %}
+{% for session in sessions %}
+<div class="student-sessions p-3 mb-4">
+    <p class="font-weight-bold text-primary">{{session.title}}</p>
+    <p class="font-weight-bold">Skill: {{session.payments.booking.skill.title}}</p>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <p class="">Tutor: {{session.payments.booking.skill.tutor.first_name}}
+                {{session.payments.booking.skill.tutor.last_name}}</p>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <p class="">{{session.payments.booking.date}} at {{session.payments.booking.time}} for
+                {{session.payments.booking.duration}} </p>
+        </div>
+        <div class="session-status mt-3">
+            <dic class="row">
+                <div class="col-lg-6 col-md-12 mb-2">
+                    <a href="{{session.meet_url}}" class="btn btn-danger mb-4" target="_blank">Join Meeting</a>
+                    <p class="tex-primary">{{session.meet_url}}</p>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-2">
+                    <p>Session Status</p>
+                    <h6 class="text-primary">{{session.session_status}}</h6>
+                </div>
+            </dic>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+
+</div>
+
+{% endblock %}

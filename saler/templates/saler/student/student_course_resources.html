@@ -1,0 +1,62 @@
+{% extends 'saler/student_dashboard.html' %}
+{% load static %}
+
+{% block student %}
+
+<style>
+    .course-section{
+        background-color: rgb(237, 236, 236);
+        padding: 1rem;
+        border: 1px solid rgba(128, 128, 128, 0.028);
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        position: relative;
+    }
+
+    .resource-form{
+        z-index: 4;
+        background-color: rgba(255, 255, 255, 0.056);
+        border: 1px solid rgba(0, 0, 0, 0.124);
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        display: none;
+    }
+    .resource-item{
+        border: 1px solid rgba(0, 0, 0, 0.086);
+        margin-bottom: 0.5rem;
+        padding: 0.4rem;
+        border-radius: 0.4rem;
+    }
+
+
+</style>
+
+<div class="course-resources">
+    
+    
+    {% for section in sections %}
+    <div class="course-section">
+      <h5> Section {{forloop.counter}} :{{section.title}}</h5>
+      
+        {% if section.sectionvideo_set.all|length != 0 %}
+            {% for item in section.sectionvideo_set.all %}
+
+            
+            <div class="resource-item">
+                <p class="resource-title">{{item.index}}. <span>{{item.title}}</span></p>
+                <a href="{{item.resource_file.url}}" target="_blank"  oncontextmenu="return false;">{{item.title}}</a>
+            </div>
+            
+            {% endfor %}
+        {% else %}
+
+            <p>No Resources For this Section</p>
+        {% endif %}
+    
+      </div>
+      {% endfor %}
+</div>
+
+
+{% endblock %}
+

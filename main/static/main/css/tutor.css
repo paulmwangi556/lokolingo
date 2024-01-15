@@ -1,0 +1,129 @@
+
+
+
+:root{
+    --primary: #0cdf88;
+    --secondary: #0cc0df;
+}
+
+h1,h2,h3,h4,h5,h6{
+    color: var(--secondary) !important;
+}
+
+#query-form{
+    width: 90vw;
+    margin: auto;
+}
+
+.view-profile:hover{
+    color: black;
+}
+
+.search-result{
+    margin-top: 1rem;
+}
+
+.query{
+    color: var(--secondary) ;
+    /* font-size: 2rem; */
+}
+.query-params{
+    margin-left: 1rem;
+}
+
+.find-tutors-container{
+    /* background-color: red;
+    height: 100vh;
+    overflow: scroll; */
+
+}
+.main-wrapper{
+    /* margin-top: 13rem; */
+    /* padding-top: 6rem; */
+    /* background-color: red; */
+    padding: 0.4rem;
+}
+.card-wrapper{
+    padding: 2rem;
+}
+
+.single-tutor-wrapper{
+    border: 1px solid rgba(0, 0, 0, 0.089);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 1rem;
+   margin: auto;
+   width: 95vw !important;
+}
+
+.profile-image-wrapper{
+    height: 8rem;
+    width: 8rem;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-image-wrapper img{
+    height: 8rem;
+    width: 8rem;
+}
+
+.tutor-name{    
+    color: var(--secondary);
+    font-size: 1.3rem;
+    text-transform: capitalize;
+}
+
+.price{
+    font-weight: bold;
+}
+.tutor-description{
+    font-size: 0.8rem;
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.column-three{
+    /* background-color: red; */
+    width: 100%;
+}
+
+.skills{
+    /* margin-right: 3rem; */
+}
+
+.related-skill-wrapper{
+    margin-bottom: 1rem;
+    color: rgb(8, 8, 96);
+    border: 1px solid rgba(38, 35, 35, 0.109);
+    padding: 0.5rem;
+    width: 70%;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    
+}
+
+.related-skill-wrapper:hover{
+    background-color: rgb(233, 214, 214);
+    text-decoration: none;
+}
+
+.query-param{
+    /* height: 3rem; */
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-evenly   ;
+    flex-direction: column;
+    margin-top: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.alt-links{
+    padding-left: 1rem !important;
+}

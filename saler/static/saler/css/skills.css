@@ -1,0 +1,133 @@
+.skills-container{
+    width: 100%;
+    /* background-color:    rebeccapurple; */
+    padding-top: 1rem;
+    
+    /* justify-content: space-evenly; */
+}
+
+.skills{
+    width: 100%;
+    /* background-color: red; */
+    height: 90vh;
+    /* background-color: rgba(49, 71, 71, 0.068); */
+    border-radius: 1rem;
+    padding: 2rem;
+    overflow: scroll;
+}
+
+.skill-details{
+    display: flex;
+    gap: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    /* background-color: rebeccapurple; */
+    /* margin-bottom: 3rem; */
+    overflow: hidden;
+    align-items: start;
+    align-content: start;
+}
+.slots{
+    text-align: start;
+}
+.all-slots{
+    /* background-color: red; */
+    padding: 0.2rem;
+    color: rgb(8, 0, 0);
+    margin-bottom: 0.2rem;
+    font-weight: bold;
+}
+
+.skill-image{
+    max-width: 7rem;
+    max-height: 6rem;
+    height: auto;
+    width: auto;
+    overflow: hidden;
+}
+
+.skill-image img{
+   max-width: 100%;
+   max-height: 100%;
+   width: auto;
+   height: auto ;
+   display: block;
+   margin: 0 auto;
+}
+
+.skill-wrapper{
+    /* height: 10rem; */
+    width: 100%;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.skill-title{
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.skill-category{
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.desc-title,.description{
+    font-size: 0.8rem;
+
+}
+
+.students-enrolled{
+    color: brown;
+}
+
+.add-slot{
+    margin-top: 1rem;
+    padding: 0.4rem;
+    background-color: rgb(38, 4, 70);
+    border: none ;
+    border-radius: 0.2rem;
+    color: white;
+    font-weight: bold;
+}
+
+.add-slot:hover{
+    background-color: rgb(4, 4, 119);
+    transition: 0.1s ease-in;
+}
+
+form{
+    /* background-color: blue; */
+}
+
+form p{
+    display: flex;
+    flex-direction: column;
+}
+
+form p input{
+        width: 100%;
+        border: 1px solid;
+        padding: 0.7rem;
+        border-radius: 0.5rem;
+        /* background-color: red; */
+}
+
+form p select{
+    width: 100%;
+    padding: 0.7rem;
+    
+    /* background-color: red; */
+}
+
+form p textarea{
+    
+    border: 1px solid;
+}

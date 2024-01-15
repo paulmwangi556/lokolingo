@@ -1,0 +1,169 @@
+{% extends 'main/base.html' %}
+
+{% block content%}
+
+<body class="bg-light container-fluid" style="padding: 0;">
+    <div class="w-100 container h-20 mb-4"></div>
+    <form class="input-group w-100 mt-4 ml-4 mr-4 container" method="GET" id="query-form">
+        <input type="text" class="form-control" name="query" placeholder="Search by tutor name,subject,skill"
+            aria-label="Search" aria-describedby="search-button">
+        <div class="input-group-append">
+            <!-- Search Button -->
+            <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
+        </div>
+    </form>
+
+    <div class="query-params mb-4 ml-3 pl-2 col-12">
+        <p class="search-result pl-2 ml-2">Search results for: <span class="query"> "{{request.GET.query}}"</span>
+            matched {{searched|length}} result(s)</p>
+        <div class="alt-links">
+            <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">All Tutors</a>
+            <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Top Rated</a>
+            <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Recent</a>
+            <a class="btn btn-outline-primary mt-4" href="{% url 'findTutors' query='all' %}">Favourites</a>
+        </div>
+        <hr class="hr">
+    </div>
+
+    <div class=" main-wrapper ">
+
+        <div class="find-tutors-container row">
+
+
+
+            {% if searched|length == 0 %}
+            <div class="container col-12">
+                You might be interested in:
+                <div class="row">
+                    {% for skill in skills %}
+                    <div class="col">
+                        <a class="btn btn-outline-primary mb-3"
+                            href="{% url 'findTutors' query=skill.title %}">{{skill.title}}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            {% for search in searched %}
+
+            {% if search.tutor.user %}
+
+           
+
+            <div class="row single-tutor-wrapper  mb-4">
+                <p class="tutor-name">{{search.tutor.first_name}} {{search.tutor.last_name}}</p>
+                <div class="col-lg-4 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6 col-sm-12">
+                            <div class="profile-image-wrapper">
+                                <a href="" style="text-decoration: none; color: #231f20">
+                                    <img src="{{search.tutor.tutordetails.profile_picture.url}}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-12">
+                            <p class="mt-4">Country: {{search.tutor.userdetails.country}}</p>
+                            <p class="mt-4">City: {{search.tutor.userdetails.city}}</p>
+                            {% if request.user.is_authenticated %}
+                            {% if request.user.groups.first.name == "student" %}
+                            <div class="mt-4 mb-4">
+                                <a href="{% url 'studentChat' tutor_id=search.tutor.id %}"
+                                    class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
+                            </div>
+                            {% else %}
+                            <a href="" class="btn btn-outline-primary">Message {{tutor.user.username}}</a>
+                            {% endif %}
+                            {% else %}
+                            <a href="{% url 'tutor_login'  %}"
+                                class="btn btn-outline-primary mb-4">Message {{tutor.user.username}}</a>
+
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-8 col-sm-12 mb-4">
+                            <a href="{% url 'tutor_profile' tutor_id=search.tutor.id %}">
+                                <button class=" btn text-black btn-primary view-profile p-2">View Profile</button>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <p>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                                <span><i class="fas fa-star fa-1x fa-fw" style="color: #f79737;"></i></span>
+                            </p>
+                            <p class="price">Ksh <span> {{search.tutor.tutordetails.hourly_rate}}</span>/hr </p>
+                        </div>
+                    </div>
+
+                    <!-- <small>{{i.0.product_name}}</small> -->
+                    <p class="tutor-description fs-7 text-black" style="font-size: 0.9rem;color: black;">
+                    <h5>Educational Details</h5>
+                    <div class="col-12">
+                        <p>Highiest Qualification: {{search.tutor.tutordetails.highiest_qualification}}</p>
+
+                        <h6>Areas of Specialization</h6>
+                        <p>{{search.tutor.tutordetails.specialization}}</p>
+
+                    </div>
+
+
+                    <h6>Teaching Style</h6>
+                    <p>{{search.tutor.tutordetails.teaching_style}}</p>
+                    </p>
+                    <hr>
+                    <p>
+                    <p class="text-primary">Subjects</p>
+                    <div class="row">
+                        {% for skill in all_skills %}
+                        {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                        {% for item in skill%}
+                        {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                        {% for element in item %}
+
+                        <div class="col ">
+                            <p class="">{{element.title}}</p>
+                        </div>
+
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor%}
+
+                        {% endif %}
+
+                        {% endfor %}
+
+
+                    </div>
+
+                    <!-- <hr> -->
+                </div>
+
+
+            </div>
+            {% else %}
+            <p>hello</p>
+            <p>{{search.tutor.tutor_details.specialization}}hmh</p>
+            {% endif %}
+
+            {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+
+
+    </div>
+
+
+
+    {% endblock %}

@@ -1,0 +1,24 @@
+.sessions-wrapper{
+    background-color: rgb(240, 238, 238);
+    padding: 2rem;
+    border-radius: 0.4rem;
+    border: 1px solid rgba(0, 0, 0, 0.126);
+    position: relative;
+}
+.session-title{
+    font-weight: bold;
+}
+
+.session-form{
+    background-color: rgb(255, 255, 255);
+    /* position: absolute; */
+    /* top: 1; */
+    /* left: 1; */
+    /* bottom: 0; */
+    /* right: 0; */
+    border: 1px solid black;
+    margin: 0.5rem;
+    padding: 1rem;
+    /* z-index: 4; */
+    display: none;
+}

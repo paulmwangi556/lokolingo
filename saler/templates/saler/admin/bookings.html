@@ -1,0 +1,104 @@
+{% extends 'saler/account_settings.html' %}
+{% load static %}
+
+{% block dashboard %}
+{% for booking in bookings %}
+<div class="bookings">
+  <div class="booking-data">
+    <div class="row">
+      <div class="col-lg-3 col-md-12 col-sm-12">
+       
+        <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <p>Date: {{booking.date}} @{{booking.time}}</p>
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <p>Duration: {{booking.duration}} </p>
+      </div>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <p>Cost: Ksh {{booking.cost}} </p>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+  <!-- <hr> -->
+  <div class="booking-message">
+    <p class="message-title">Student Message</p>
+    <p class="message-body">{{booking.student_message}}</p>
+  </div>
+  <hr>
+  <div class="booking-statvus">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}
+            {% if booking.payment_status == 'payment_not_initiated' %}
+            <button class="btn btn-primary ml-3 update_booking" 
+            data-index="{{ forloop.counter0 }}"
+            onclick="sayHello('{{forloop.counter0}}')">Change</button>
+            {% else %}
+
+            {% endif %}
+          </span>
+        </p>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        {% if booking.payment_status == 'payment_completed' %}
+        {% if booking.payment.session %}
+        <button class="btn btn-danger btn-disabled ml-3 " disabled>Session Already Created</button>
+        {% else %}
+        <a href="{% url 'createSession' booking_id=booking.id %}" class="btn btn-primary ml-3 ">Create a Session</a>
+        {% endif %}
+
+        {% else %}
+        <button class="btn btn-secondary btn-disabled ml-3 " disabled>Create a Session</button>
+        {% endif %}
+      </div>
+
+
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <p class="payment-status">Payment approval Status| <span>
+            {{booking.payment_status}}
+          </span> </p>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="bookings-form" style="height: max-content !important; ">
+    <form action="{% url 'update_booking_status' booking_id=booking.id%}" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-outline-primary" id="update-booking-btn">Update Status</button>
+    </form>
+  </div>
+
+</div>
+{% endfor %}
+
+
+<script>
+
+
+  function sayHello(message){
+    showBookingForxm(message)
+  }
+
+  function showBookingForxm(message){
+    var elementsWithClass = $(".bookings-form");
+    $(".bookings-form").eq(message).toggle();
+}
+
+
+</script>
+
+
+{% endblock %}

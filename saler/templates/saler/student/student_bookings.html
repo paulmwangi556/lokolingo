@@ -1,0 +1,60 @@
+{% extends 'saler/student_dashboard.html' %}
+{% load static %}
+
+{% block student %}
+
+<h4 class="h3">Bookings</h4>
+
+{% if bookings %}
+
+{% for booking in bookings %}
+    <div class="bookings">
+      <div class="booking-data">
+         
+        <div class="row">
+          <div class="col-lg-3 col-md-12 col-sm-12">
+            <p>Booking ID: {{booking.id}}</p>
+            <p>Tutor Name: {{booking.skill.tutor.first_name}} {{booking.skill.tutor.last_name}}</p>
+          </div>
+          <div class="col-lg-3 col-md-12 col-sm-12">
+            <p>Date: {{booking.date}} @{{booking.time}}</p>
+          </div>
+          <div class="col-lg-3 col-md-12 col-sm-12">
+            <p>Duration: {{booking.duration}} </p>
+          </div>
+          <div class="col-lg-3 col-md-12 col-sm-12">
+            <p>Cost: Ksh {{booking.cost}} </p>
+          </div>
+        </div>
+    
+        
+      
+      </div>
+      <!-- <hr> -->
+      <div class="booking-message">
+        <p class="message-title">Student Message</p>
+        <p class="message-body">{{booking.student_message}}</p>
+      </div>
+      <hr>
+      <div class="booking-status">
+        <p class="approval-status">Booking approval Status| <span>{{booking.booking_status}}</span> </p>
+        <p class="payment-status">Payment  Status <span>
+            <!-- <button class="payment-btn">{{booking.payment_status}}</button> -->
+
+
+            <a href="{% url 'submitOrder' booking_id=booking.id item='booking' user_type=request.user.groups.first.name %}" 
+            class="btn btn-outline-success{%if booking.booking_status != 'approved' %} disabled {% endif %}">{{booking.payment_status}}</a>
+            </span> </p>
+      </div>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    <div class="container bg-primary p-4 m-4">
+      <p>No Bookings Made So far</p>
+  </div>
+
+    {% endif %}
+{% endblock %}
+
+submitOrder

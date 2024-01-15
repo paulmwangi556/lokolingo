@@ -1,0 +1,23 @@
+@media screen and (max-width: 890px) {
+#corousel-item{
+    /* height: 500px; */
+    padding: 10rem;
+}
+.custom-logo{
+    height: 5rem;
+    width: 40vw;
+    background-color: red ;
+ }
+
+#query-input{
+    border: 1px  solid rgba(0, 0, 0, 0.316);
+    margin-bottom: 1rem;
+    /* background-color: rgb(60, 255, 0); */
+}
+
+#abt-container{
+    margin-top: 2rem;
+}
+
+}
+

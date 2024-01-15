@@ -1,0 +1,32 @@
+.transaction-history{
+
+}
+
+.transaction-wrapper{
+    /* height: 10rem; */
+    border-radius: 0.5rem;
+    width: 100%;
+    background-color: white;
+    box-shadow: 3px 3px 10px rgb(188, 188, 188);
+    margin-bottom: 1rem;
+}
+
+.transaction-top-section{
+    border-bottom: 1px solid rgba(128, 128, 128, 0.376);
+    border-left: 1px solid rgba(128, 128, 128, 0.376);
+    border-right: 1px solid rgba(128, 128, 128, 0.376);
+    /* height: 3rem; */
+    padding: 1rem;
+    
+}
+
+.complete-transaction-details{
+    padding: 1rem;
+}
+.cta-section{
+    border-top: 1px solid rgba(128, 128, 128, 0.376);
+    border-left: 1px solid rgba(128, 128, 128, 0.376);
+    border-right: 1px solid rgba(128, 128, 128, 0.376);
+    /* height: 3rem; */
+    padding: 1rem;
+}

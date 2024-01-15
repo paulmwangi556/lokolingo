@@ -1,0 +1,261 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+
+{% block content%}
+
+
+<!-- Carousel Start -->
+<div class="owl-carousel-item position-relative" id="carousel-item" style="height: 700px;  object-fit: fill;">
+    <img class="img-fluid" src="{% static 'main/images/laptop-mockup-graphics-tablet-2838921.jpg'%}" alt=""
+        style="width: 100%; height: 100%; object-fit: cover;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+        style="background: rgba(24, 29, 56, .7);">
+        <div class="container">
+            <form action="{% url 'home' %}" method="POST">
+                <div class="row justify-content-start">
+                    <div class="col-sm-10 col-lg-8">
+                        <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online Tutors</h5>
+                        <h1 class="display-3 text-white animated slideInDown">We’re not just an online hub for education
+                        </h1>
+                        <p class="fs-5 text-white mb-4 pb-2">we’re a vibrant community that connects students and tutors
+                            for language learning and a world of exciting extracurricular activities.</p>
+                        <div class="position-relative mx-auto">
+                            <input class="form-control  w-100 py-3 ps-4 pe-5" name="q" type="text"
+                                placeholder="Find Tutor..." id="query-input">
+                            <button type="submit"
+                                class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Carousel End -->
+
+
+<!-- Service Start -->
+<div class="container-xxl py-5" id="abt-container">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
+                        <h5 class="mb-3">Skilled Instructors</h5>
+                        <p>They pivotal, shaping the minds of future generations and influencing the trajectory of
+                            individual lives.
+                            These educational architects possess a unique blend of expertise, passion, and the ability
+                            to inspire.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                        <h5 class="mb-3">Experience</h5>
+                        <p>It has a user-friendly interface that’s easy to navigate.
+                            The dashboard typically displays your enrolled courses, progress bars, and notifications.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-school text-primary mb-4"></i>
+                        <h5 class="mb-3">Education</h5>
+                        <p>We offer various learning resources, including textbooks, lectures, workshops,
+                            and practical exercises, catering to different learning styles.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
+                        <h5 class="mb-3">Certificate</h5>
+                        <p>Just as our system keeps track of a learner’s progress and successful completion of modules,
+                            a certificate acts as tangible evidence that the individual has gained knowledge and skills
+                            relevant to a particular subject or course.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+
+
+<!-- About Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="img-fluid position-absolute w-100 h-100" src="{% static 'main/images/background1.jpg'%}"
+                        alt="" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
+                <h1 class="mb-4">Learn Skills in High Demand</h1>
+                <p class="mb-4">Whether you’re passionate about learning new languages, eager to excel in chess, or want
+                    to unlock the secrets of coding, Skuli welcomes you with open arms.</p>
+                <p class="mb-4">Education is not just about mastering subjects; it’s about exploring the world of
+                    possibilities. Let’s embark on this journey of learning, discovery, and growth together. Join us and
+                    let your language skills and passions flourish!</p>
+                <div class="row gy-2 gx-4 mb-4">
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certifications
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Learning at Your Own Pace</p>
+                    </div>
+                </div>
+                <a class="btn btn-primary py-3 px-5 mt-2" href="about.html">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+
+<!-- Categories Start -->
+<div class="container-xxl py-5 category">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Boost Your Career</h6>
+            <h1 class="mb-5">Why Choose Us</h1>
+        </div>
+        <!-- Service Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="service-item text-center pt-3">
+                            <div class="p-4">
+                                <i class="fa fa-3x fa-mobile text-primary mb-4"></i>
+                                <h5 class="mb-3">Convenience</h5>
+                                <p>Conveniences of online learning is the unparalleled flexibility, learners no longer
+                                    bound by rigid schedules or geographical constraints, students can tailor their
+                                    learning experiences to fit their lifestyles.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="service-item text-center pt-3">
+                            <div class="p-4">
+                                <i class="fa fa-3x fa-laptop text-primary mb-4"></i>
+                                <h5 class="mb-3">Learn Online at Your Own Pace</h5>
+                                <p>Users can progress through courses and modules at a speed that suits their individual
+                                    learning abilities.
+                                    This approach caters to various learning styles and preferences.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                        <div class="service-item text-center pt-3">
+                            <div class="p-4">
+                                <i class="fa fa-3x fa-certificate text-primary mb-4"></i>
+                                <h5 class="mb-3">Professional Certification</h5>
+                                <p>Certifications earned through Skuli are often recognized globally,
+                                    contributing to increased job prospects and career advancement opportunities across
+                                    various industries.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="service-item text-center pt-3">
+                            <div class="p-4">
+                                <i class="fa fa-3x fa-pen text-primary mb-4"></i>
+                                <h5 class="mb-3">Industry Leaders</h5>
+                                <p>Users can access learning materials and courses from any device with an internet
+                                    connection.
+                                    This accessibility enables both students and professionals to learn at their own
+                                    pace and convenience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
+    </div>
+</div>
+<!-- Categories End -->
+
+<!-- Testimonial Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center">
+            <h6 class="section-title bg-white text-center text-primary px-3">Reviews</h6>
+            <h1 class="mb-5">Students Reviews</h1>
+        </div>
+
+        <!-- Carousel wrapper -->
+        <div id="carouselMultiItemExample" class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
+
+            <!-- Inner -->
+            <div class="carousel-inner py-4">
+                <!-- Single item -->
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="row">
+
+                            {% for rating in ratings %}
+                            <div class="col-lg-4">
+                                <img class="rounded-circle shadow-1-strong mb-4"
+                                    src="https://images.unsplash.com/photo-1632765866070-3fadf25d3d5b?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="avatar"
+                                    style="width: 150px;" />
+                                <h5 class="mb-3">{{rating.student}}</h5>
+                                <!-- <p>UX Designer</p> -->
+                                <p class="text-muted">
+                                    <i class="fas fa-quote-left pe-2"></i>
+                                    {{rating.review}}
+                                </p>
+                                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                                    <li><i class="fas fa-star fa-sm"></i></li>
+                                    <li><i class="fas fa-star fa-sm"></i></li>
+                                    <li><i class="fas fa-star fa-sm"></i></li>
+                                    <li>
+                                        <i class="fas fa-star-half-alt fa-sm"></i>
+                                    </li>
+                                    <li><i class="far fa-star fa-sm"></i></li>
+                                </ul>
+                            </div>
+                                {% endfor %}
+                           
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single item -->
+                
+
+                <!-- Single item -->
+               
+            </div>
+            <!-- Inner -->
+        </div>
+        <!-- Carousel wrapper -->
+
+    </div>
+</div>
+<!-- Testimonial End -->
+
+{% endblock %}

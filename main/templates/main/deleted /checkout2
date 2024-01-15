@@ -1,0 +1,206 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block main_head %}
+{% load crispy_forms_tags %}
+<title>{{request.user.first_name}} Cart</title>
+<style type="text/css">
+    h3 {
+        color: #000;
+        font-size: 26px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: uppercase;
+        position: relative;
+    }
+
+    h3 b {
+        color: #be2714;
+    }
+
+    h3::after {
+        content: "";
+        width: 100px;
+        position: absolute;
+        margin: 0 auto;
+        height: 4px;
+        border-radius: 1px;
+        background: #be2714;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+    
+    }
+    #mpesaWindow{
+        visibility: hidden;
+        height: fit-content;
+        position:absolute; z-index: 1000;
+        border:  1px solid blue;
+        border-radius: 5%;
+        color: rgb(63, 3, 3); background-color: rgb(103, 133, 159);
+
+        
+    }
+    #lipaForm{
+        visibility: hidden;
+        position:absolute; z-index: 1000;
+        border: 2px solid brown;
+        background-color: rgb(231, 221, 221);
+        align-items: center;
+        
+
+       
+    }
+    .lnm{
+        position:relative;
+        align-items: center;      
+        align-self:center;
+        
+
+    }
+</style>
+<!-- <script src="mpesa.js" async></script> -->
+
+{% endblock main_head %}
+{% block main_body %}
+<div class="container">
+    <h3><b>Checkout</b></h3>
+    <div class="col my-4">
+        <div class="my-4">
+            <ul class="list-group">
+                {% for cprod, prod in allProds %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div><img src="{{prod.image1.url}}" style="height: 25px; width: 25px;"
+                            class="image-responsive mr-3">{{prod.product_name}}</div>
+                    <span class="badge badge-primary badge-pill">{{cprod.number}}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <b style="float: right;">Grand Total <i aria-hidden="true">Kshs. </i>{{total}} </b>.
+    </div>
+    <hr>
+
+    <div class="col my-4">
+        <h4 style="text-align: center;">Enter Address & Other Details:</h4>
+        <form method="post" action="#">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    {{u_form.first_name|as_crispy_field}}
+                </div>
+                <div class="form-group col-md-3">
+                    {{u_form.last_name|as_crispy_field}}
+                </div>
+                <div class="form-group col-md-3">
+                    <!-- {{address_form.mobile|as_crispy_field}} -->
+                </div>
+                <div class="form-group col-md-3">
+                    {{address_form.alternate_mobile|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    {{address_form.address|as_crispy_field}}
+                </div>
+                <div class="form-group col-md-3">
+                    {{address_form.landmark|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    {{address_form.locality|as_crispy_field}}
+                </div>
+                <div class="form-group col-md-3">
+                    {{address_form.city|as_crispy_field}}
+                </div>
+                <div class="form-group col-md-3">
+                    {{address_form.area|as_crispy_field}}
+                </div>
+
+            </div>
+            <h6 style="text-decoration: overline;">Mode Of Payment</h6 >
+            <ol>
+            
+
+
+                <li>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="pay_mode">
+                        <label class="custom-control-label" for="customSwitch1">Cash on Delivery</label>
+                      </div>
+                </li>
+
+                <li>
+                    <div class="">
+                        
+                        <span onclick="LipaFormOn()" style="font-weight: bolder; cursor:pointer;" href=""><h5><b>[]</b> Lipa na <span style="color: green;">M-Pesa</span></h5></span>
+        
+                        <div class="lnm" >
+                            <p >
+                                
+                               
+                           
+                              <span id="lipaForm">
+                              <a style="text-align: center; align-items: center;">
+                               
+                                <label  ><b>Enter <span style="color: green;">M-Pesa</span> Number:</label></b><br>
+                                <input  type="number"  value="254"><br><br>
+                            <span style=" border: 3px solid green; border-radius: 5px; margin: 2%; width: fit-content; background-color: #ffffff; font-weight: bolder; width: auto; cursor: pointer;" 
+                                onclick="mpesaDisplayOn()" href="">
+                                Pay
+                            </span>
+                        </a> 
+                            </span>
+
+                            <span id="mpesaWindow">
+                                <i style="padding: 5%;" >M-Pesa API Can't be Reached at the moment. Please use alternative payment above.</i> 
+                                <span style="font-weight: bolder; color: green; cursor:pointer; text-decoration: underline;" onclick="LipaFormOff()">
+                                    OK
+                                </span> 
+                                <br>
+                                <span style="margin: 5%;"> Click 
+                                    <a style="color: aliceblue;" target="_blank" href="https://developer.safaricom.co.ke/">here
+                                    </a> 
+                                    to Trouble shoot
+                                </span> 
+                             </span>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+
+              
+            </ol>
+           
+           
+            <button id="confirmPayment" type="submit" class="btn btn-danger" style="float: right; background-color: #be2714;">Confirm Payment</button>
+        </form>
+        <br>
+    </div>
+</div>
+
+
+<script>
+    function mpesaDisplayOn() {
+    document.getElementById("mpesaWindow").style.visibility = 'visible';
+    }
+    function mpesaDisplayOff() {
+    document.getElementById("mpesaWindow").style.visibility = 'hidden';
+
+  }
+  function LipaFormOn(){
+    document.getElementById('lipaForm').style.visibility = 'visible';
+  }
+  function LipaFormOff(){
+    document.getElementById('lipaForm').style.visibility = 'hidden';
+    document.getElementById("mpesaWindow").style.visibility = 'hidden';
+
+  }
+
+  if (document.getElementById('customSwitch1').checked = true) {
+    document.getElementById('confirmPayment').disabled = false;
+  }
+  else{
+    document.getElementById('confirmPayment').disabled = true;
+  }
+</script>
+{% endblock main_body %}

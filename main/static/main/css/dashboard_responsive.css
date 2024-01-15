@@ -1,0 +1,92 @@
+:root {
+	--background-color1: #fafaff;
+	--background-color2: #ffffff;
+	--background-color3: #ededed;
+	--background-color4: #cad7fda4;
+	--primary-color: #4b49ac;
+	--secondary-color: #060607;
+	--Border-color: #0cc0df;
+	--one-use-color: #3f0097;
+	--two-use-color: #0cc0df;
+	--primary: #0cdf95;
+	--secondary: #0cc0df;
+}
+
+
+
+/* Responsive CSS Here */
+@media screen and (max-width: 1070px) {
+    .nav-toggler{
+        display: none;
+        font-size: 2rem;
+    }
+
+    .user-name{
+        display: none;
+    }
+    .navcontainer{
+        display: none;
+        transition: 0.5s ease;
+        z-index: 500;
+        position: fixed;
+       
+    }
+    .top-nav{
+        display: flex;
+    }
+
+    .toggle-menu{
+        /* background-color: red; */
+        color: black !important;
+        gap: 1rem;
+        display: flex;
+        color: var(--secondary);
+    }
+
+    .toggle-menu a{
+        color: var(--secondary);
+    }
+
+    .toggle-menu a:hover{
+        color: #0cdf95;
+    }
+    
+/* 
+    .horizontal-nav{
+        height: 3rem;
+        width: 100%;
+        background-color: blue;
+    } */
+}
+@media screen and (max-width: 850px) {
+    .nav-toggler{
+        display: block;
+        font-size: 2rem;
+    }
+    
+    
+        .toggle-menu{
+
+           display: none;
+           flex-direction: column;
+
+        }
+        .toggle-menu a{
+            width: 100%;
+            background-color: red;
+        }
+   
+    }
+    
+@media screen and (max-width: 490px) {
+   
+}
+    
+@media screen and (max-width: 400px) {
+}
+@media screen and (max-width: 320px) {
+    
+}
+@media only screen and (max-width: 600px) {
+       
+}

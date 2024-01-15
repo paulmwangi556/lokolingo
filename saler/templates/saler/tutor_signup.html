@@ -1,0 +1,110 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+</head>
+
+<body>
+  <style>
+      input::before {
+      content: ' * ';
+      color: red;
+    }
+  </style>
+  <!-- <div class="header">
+  <h1 class="heading">Become a Tutor</h1>
+</header> -->
+<!-- {% include 'main/includes/navbar.html' %} -->
+
+
+  <!-- container div -->
+  <div class="auth-container-wrapper">
+    <h3 style="text-align: center;">Tutor Login</h3>
+
+    {% for message in messages %}
+		<small >  {{message}}</small>
+		{% endfor %}
+
+   
+  <div class="auth-container">
+   
+    <!-- upper button section to select
+    the login or signup form -->
+    <div class="slider" id="slider"></div>
+    <div class="slider-btn">
+      <button class="login-btn">Login</button>
+      <button class="signup-btn">Signup</button>
+    </div>
+
+    <!-- Form section that contains the
+    login and the signup form -->
+    <div class="form-section">
+
+     
+
+      <!-- login form -->
+      <form action="{% url 'tutor_login'  %}" method="post" class="login-form">
+        {% csrf_token %}
+        <div class="login-box">
+
+          <input type="text" name="username" class="email ele" placeholder="username">
+          <input type="password" name="password"  class="password ele" placeholder="password">
+          <button class="clkbtn" type="submit">Login</button>
+        </div>
+      </form>
+
+      <!-- signup form -->
+
+      <form action="{% url 'tutor_signup' %}" method="post">
+        {% csrf_token %}
+        <div class="signup-box">
+          <label for="First Name" class="required"></label>
+          <input type="text" name="firstname" class="name ele required" placeholder="Enter First Name">
+          <input type="text" class="name ele" name="lastname" placeholder="Enter Last Name">
+          <input type="email" name="email" class="email ele" placeholder="youremail@email.com">
+          <div class="mb-3 w-100 select-div">
+            <label for="" class="form-label">Account Type</label>
+            <input type="text" class="name ele" name="user_type" value="tutor" readonly >
+            <!-- <select 
+              class="form-select form-select-lg"
+              name="user_type"
+              id="user_type"
+            >
+              
+              <option value="tutor">Tutor</option>
+             <option value="student">Student</option> 
+             
+            </select> -->
+          </div>
+          
+          <input type="text" class="name ele" name="username" placeholder="Username">
+          <input type="password" class="password ele" name="password" placeholder="password">
+          <input type="password" class="password ele" placeholder="Confirm password">
+          <button class="clkbtn" type="submit" style="padding: 0.5rem;">Signup</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <script>
+    let signup = document.querySelector(".signup-btn");
+    let login = document.querySelector(".login-btn");
+    let slider = document.querySelector("#slider");
+    let formSection = document.querySelector(".form-section");
+
+    signup.addEventListener("click", () => {
+      slider.classList.add("moveslider");
+      formSection.classList.add("form-section-move");
+    });
+
+    login.addEventListener("click", () => {
+      slider.classList.remove("moveslider");
+      formSection.classList.remove("form-section-move");
+    });
+
+  </script>
+</body>
+{% endblock  %}

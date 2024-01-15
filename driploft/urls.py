@@ -1,0 +1,34 @@
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from saler.views import admin2
+
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('admin2', admin2, name = 'admin2'),
+    path('', include('main.urls')),
+    path('rooms/',include('room.urls')),
+# added
+    path('accounts/', include('allauth.urls')),
+    # added end
+    # path("/",include('main.urls')),
+    path('tutor/', include('saler.urls')),
+    # path("login/", auth_views.LoginView.as_view(template_name='main/login.html', redirect_authenticated_user=True), name="login"),
+    # path("logout/", auth_views.LogoutView.as_view(next_page='login'), name="logout"),
+    # path("password-reset/", auth_views.PasswordResetView.as_view(template_name='main/password_reset.html'), name="password_reset"),
+    # path("password-reset/done/", auth_views.PasswordResetDoneView.as_view(template_name='main/password_reset_done.html'), name="password_reset_done"),
+    # path("password-reset-confirm/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(template_name='main/password_reset_confirm.html'), name="password_reset_confirm"),
+    # path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view(template_name='main/password_reset_complete.html'), name="password_reset_complete"),
+    # path("discounts/",include('discounts.urls')),
+    
+]
+
+urlpatterns  +=  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
